@@ -23,9 +23,6 @@ twitter_username: username
 github_username: Feli-Prince
 minimal_mistakes_skin: dark
 search: true
-collections:
-  output: true
-  
 
 # Build settings
 markdown: kramdown
