@@ -85,8 +85,9 @@ defaults:
           comments: true
           share: true
           related: true
+    # typescripts
     - scope:
-          path: ""
+          path: "_typescripts"
           type: typescripts
       values:
           layout: single
