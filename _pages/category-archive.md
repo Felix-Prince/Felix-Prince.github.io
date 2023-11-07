@@ -1,6 +1,6 @@
 ---
-title: "Posts by Category"
-layout: categories
-permalink: /categories/
+title: "Posts by typescripts"
+layout: typescripts
+permalink: /typescript/
 author_profile: true
 ---
