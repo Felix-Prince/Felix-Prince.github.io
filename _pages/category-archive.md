@@ -1,6 +1,6 @@
 ---
 title: "Posts by Category"
-layout: categories
+layout: posts
 permalink: /typescript/
 author_profile: true
 ---
