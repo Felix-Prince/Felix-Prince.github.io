@@ -5,10 +5,15 @@
         <title>{{ page.title }}</title>
     </head>
     <body>
-        <div class="toc">
-          {{ toc }}
-        </div>
-        <h1>{{ page.title }} Felix.Zhu</h1>
-        <section>{{ content }}</section>
+        <ul>
+            {% for typescript in site.typescripts %}
+            <li>
+                <h2>
+                    <a href="{{ typescript.url }}">{{ typescript.title }}</a>
+                </h2>
+                <p>{{ typescript.description }}</p>
+            </li>
+            {% endfor %}
+        </ul>
     </body>
 </html>
