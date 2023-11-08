@@ -7,9 +7,8 @@
     <body>
         Felix.Zhu
         <ul>
-            {% for collection in site.collections %}
-            <li>{{ collection._posts }}</li>
-            <li>{{ collection }}</li>
+            {% for ts in site.typescripts %}
+            <li>{{ ts.title }}</li>
             {% endfor %}
         </ul>
     </body>
