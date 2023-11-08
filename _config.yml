@@ -90,7 +90,7 @@ defaults:
           path: "_typescripts"
           type: typescripts
       values:
-          layout: single
+          layout: typescript
           author_profile: true
           read_time: true
           comments: true
@@ -103,9 +103,9 @@ defaults:
       values:
           layout: single
           author_profile: true
-category_archive:
-    type: liquid
-    path: /categories/
-tag_archive:
-    type: liquid
-    path: /tags/
+# category_archive:
+#     type: liquid
+#     path: /categories/
+# tag_archive:
+#     type: liquid
+#     path: /tags/
