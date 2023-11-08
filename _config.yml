@@ -33,6 +33,7 @@ timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 collections:
     _typescripts:
         output: true
+        permalink: /_typescripts/:name/
 
 include:
     - _pages
