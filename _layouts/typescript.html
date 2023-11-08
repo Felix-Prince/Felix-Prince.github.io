@@ -1,3 +1,6 @@
+---
+layout: posts
+---
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,7 +11,7 @@
         Felix.Zhu
         <ul>
             {% for ts in site.typescripts %}
-            <a href="{{ ts.url }}">{{ ts.title }}</a>
+            <li><a href="{{ ts.url }}">{{ ts.title }}</a></li>
             {% endfor %}
         </ul>
     </body>
