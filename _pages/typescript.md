@@ -1,6 +1,6 @@
 ---
 title: "Posts by Typescript"
 layout: typescript
-permalink: /typescript/
+permalink: /_typescripts/
 author_profile: true
 ---
