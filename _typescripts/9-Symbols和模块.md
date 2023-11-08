@@ -1,12 +1,8 @@
 ---
-title: TypeScript--Symbols和模块
+title: Symbols和模块
+author: Felix
+date: 2019-10-21
 ---
-
-# TypeScript--Symbols 和模块
-
-作者：Felix
-
-日期：2019-10-21
 
 > Symbols 是不可改变且唯一的。
 
