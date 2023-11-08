@@ -57,6 +57,7 @@ plugins:
     - jekyll-feed
     - jemoji
     - jekyll-include-cache
+    - jekyll-toc
 
 author:
     name: "Felix.Zhu"
