@@ -8,7 +8,8 @@
         Felix.Zhu
         <ul>
             {% for ts in site.typescripts %}
-            <li>{{ ts.title }}</li>
+             <a href="{{ ts.url }}">{{ ts.title }}</a>
+            <li>{{ ts.title }} -- {{ts.url}}</li>
             {% endfor %}
         </ul>
     </body>
