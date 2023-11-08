@@ -5,7 +5,7 @@ main:
       url: /typescript/
     - title: "Tags"
       url: /tags/
-    - title: "Categories"
-      url: /category/
+  - title: "Categories"
+    url: /categories/
     # - title: "About"
     #   url: /about/
