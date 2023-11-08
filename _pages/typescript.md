@@ -1,6 +1,6 @@
 ---
 title: "Posts by Typescript"
-layout: categories
+layout: typescript
 permalink: /_typescripts/
 author_profile: true
 ---
