@@ -1,0 +1,7 @@
+{% assign all_posts = "" | split: "" %} 
+{% for typescript in site.typescripts %}
+{% assign all_posts = all_posts | push: typescript %} 
+{% endfor %} 
+{% for post in site.posts %}
+{% assign all_posts = all_posts | push: post %} 
+{% endfor %}
