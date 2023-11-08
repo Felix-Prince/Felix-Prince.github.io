@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-    </head>
-    <body>
-       {% for album in site.albums %}
-  <h2>{{ album.title }}</h2>
-  <p>Performed by {{ album.artist }}{% if album.director %}, directed by {{ album.director }}{% endif %}</p>
-  {% for work in album.works %}
-    <h3>{{ work.title }}</h3>
-    <p>Composed by {{ work.composer }}</p>
-    <ul>
-    {% for track in work.tracks %}
-      <li>{{ track.title }} ({{ track.duration }})</li>
-    {% endfor %}
-    </ul>
+---
+layout: default
+title: typescripts
+---
+
+<h1>{{ page.title }}</h1>
+
+<ul>
+  {% for typescript in site.typescripts %}
+    <li>
+      <h2><a href="{{ typescript.url }}">{{ typescript.title }}</a></h2>
+      <p>{{ typescript.description }}</p>
+    </li>
   {% endfor %}
-{% endfor %}
-    </body>
-</html>
+</ul>
