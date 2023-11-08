@@ -92,7 +92,7 @@ defaults:
           path: "typescripts"
           type: typescripts
       values:
-          layout: typescript
+          layout: single
           author_profile: true
           read_time: true
           comments: true
