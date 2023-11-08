@@ -2,7 +2,7 @@ main:
     - title: "Posts"
       url: /posts/
     - title: "Typescript"
-      url: /typescripts/
+      url: /_typescripts/
     #   - title: "Tags"
     #     url: /tags/
     # - title: "Categories"
