@@ -6,13 +6,8 @@
     </head>
     <body>
         <ul>
-            {% for typescript in site.typescripts %}
-            <li>
-                <h2>
-                    <a href="{{ typescript.url }}">{{ typescript.title }}</a>
-                </h2>
-                <p>{{ typescript.description }}</p>
-            </li>
+            {% for typescript in site._typescripts %}
+            <li>{{ typescript.title }}</li>
             {% endfor %}
         </ul>
     </body>
