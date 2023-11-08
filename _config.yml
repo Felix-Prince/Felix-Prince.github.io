@@ -87,7 +87,7 @@ defaults:
           related: true
     # typescripts
     - scope:
-          path: "_typescripts"
+          path: "typescripts"
           type: typescripts
       values:
           layout: typescript
