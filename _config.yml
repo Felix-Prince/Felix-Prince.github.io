@@ -89,7 +89,7 @@ defaults:
           related: true
     # typescripts
     - scope:
-          path: "typescripts"
+          path: ""
           type: typescripts
       values:
           layout: single
