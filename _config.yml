@@ -18,13 +18,12 @@ email: zhupengfei1995@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
     Felix.Zhu 的一个记录学习文档的地方.
 github_username: Felix.Zhu
-# minimal_mistakes_skin: dark
+minimal_mistakes_skin: neon
 search: true
 
 # Build settings
 markdown: kramdown
-# remote_theme: mmistakes/minimal-mistakes
-remote_theme: jekyll-theme-cayman
+remote_theme: mmistakes/minimal-mistakes
 # Outputting
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
