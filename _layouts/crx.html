@@ -1,0 +1,17 @@
+---
+layout: posts
+---
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ page.title }}</title>
+    </head>
+    <body>
+        <ul>
+            {% for crx in site.crxs %}
+            <li><a href="{{ crx.url }}">{{ crx.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
