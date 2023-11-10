@@ -1,6 +1,6 @@
 ---
 title: this is title
-date: xxxxx
+date: 2023-11-10
 ---
 
 - test
