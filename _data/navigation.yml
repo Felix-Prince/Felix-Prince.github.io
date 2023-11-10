@@ -3,6 +3,8 @@ main:
       url: /posts/
     - title: "Typescript"
       url: /typescripts/
+    - title: "Chrome Extension"
+      url: /crx/
     #   - title: "Tags"
     #     url: /tags/
     # - title: "Categories"
