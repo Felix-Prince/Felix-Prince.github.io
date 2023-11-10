@@ -34,6 +34,9 @@ collections:
     typescripts:
         output: true
         permalink: /typescripts/:name/
+    crxs:
+        output: true
+        permalink: /crx/:name/
 
 include:
     - _pages
@@ -91,6 +94,17 @@ defaults:
     - scope:
           path: ""
           type: typescripts
+      values:
+          layout: single
+          author_profile: true
+          read_time: true
+          comments: true
+          share: true
+          related: true
+    # crxs
+    - scope:
+          path: ""
+          type: crxs
       values:
           layout: single
           author_profile: true
