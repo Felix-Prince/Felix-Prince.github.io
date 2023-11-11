@@ -1,16 +1,20 @@
 ---
 layout: posts
 ---
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>{{ page.title }}</title>
+        <link rel="stylesheet" href="/css/main.css" />
     </head>
     <body>
         <ul>
             {% for ts in site.typescripts %}
-            <li><a href="{{ ts.url }}">{{ ts.title }}</a></li>
+            <li>
+                <a href="{{ ts.url }}"><span>{{ ts.title }}</span></a>
+            </li>
             {% endfor %}
         </ul>
     </body>
