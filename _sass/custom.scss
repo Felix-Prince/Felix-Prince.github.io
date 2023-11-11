@@ -1,4 +1,4 @@
-.article.page {
+article.page {
     padding-right: 0 !important;
 }
 
@@ -6,11 +6,12 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    padding: 0;
     .card {
         list-style: none;
         width: 200px;
         height: 300px;
-        margin-left: 36px;
+        margin-right: 36px;
         margin-bottom: 36px;
         background-color: yellowgreen;
         a {
