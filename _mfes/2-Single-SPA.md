@@ -3,7 +3,14 @@ title: 微前端 Micro-Frontends - Single-SPA
 date: 2021-01-17
 ---
 
-single-spa 包含两部分， 1. Applications ，每个应用都是一个完整的 SPA，每个应用需要知道怎么从 DOM 上 bootstrap(引导), mount(安装), and unmount(卸载)（这三个可以理解为 single-spa 的生命周期） 2. 一个配置文件 `single-spa-config ` ，可以理解为 HTML 页面和 single-spa 注册应用程序的 js 配置文件，注册应用需要的参数： 1. 一个应用的名字，不能重复 2. 一个加载应用代码的函数 3. 一个决定什么时候激活/灭活应用的函数 4. 自定义参数
+single-spa 包含两部分，
+
+1. Applications ，每个应用都是一个完整的 SPA，每个应用需要知道怎么从 DOM 上 bootstrap(引导), mount(安装), and unmount(卸载)（这三个可以理解为 single-spa 的生命周期）
+2. 一个配置文件 `single-spa-config ` ，可以理解为 HTML 页面和 single-spa 注册应用程序的 js 配置文件，注册应用需要的参数：
+    - 一个应用的名字，不能重复
+    - 一个加载应用代码的函数
+    - 一个决定什么时候激活/灭活应用的函数
+    - 自定义参数
 
 Single-SPA 提供了自己的一个脚手架 `create-single-spa`
 使用这个脚手架创建项目的时候可以附加参数
@@ -24,21 +31,20 @@ create-single-spa --framework vue
 create-single-spa --framework angular
 ```
 
-在 single-spa 中，有以下三种微前端类型： 1. [single-spa applications](https://zh-hans.single-spa.js.org/docs/building-applications) :为一组特定路由渲染组件的微前端。 - 有多个路由 - 声明式 API ———— `registerApplication` - 渲染 UI - single-spa 管理生命周期:负责管理 regist 注册后的应用 - 核心构建模块 2. [single-spa parcels](https://zh-hans.single-spa.js.org/docs/parcels-overview) : 不受路由控制，渲染组件的微前端。
+在 single-spa 中，有以下三种微前端类型：
+
+1. [single-spa applications](https://zh-hans.single-spa.js.org/docs/building-applications) :为一组特定路由渲染组件的微前端。 - 有多个路由 - 声明式 API ———— `registerApplication` - 渲染 UI - single-spa 管理生命周期:负责管理 regist 注册后的应用 - 核心构建模块
+2. [single-spa parcels](https://zh-hans.single-spa.js.org/docs/parcels-overview) : 不受路由控制，渲染组件的微前端。
 
 > 它们的存在主要是允许您在多个框架中编写应用程序时在应用程序之间重用 UI
 
-    	- 无路由
-    	- 命令式 API
-    	- 渲染 UI
-    	- 自定义生命周期：`mountParcel` `mountRootParcel` `unmount` 等方法来控制 parcels，[参考API](https://single-spa.js.org/docs/parcels-api)
-    	- 仅在多个框架中需要
-    4.  [utility modules](https://zh-hans.single-spa.js.org/docs/recommended-setup#utility-modules-styleguide-api-etc) : 非渲染组件，用于暴露共享javascript逻辑的微前端。
-    	- 无路由
-    	- 暴露接口
-    	- 可能渲染 UI
-    	- 外部模块：没有直接的单spa生命周期
-    	- 共享通用逻辑或创建服务很有用
+-   无路由
+-   命令式 API
+-   渲染 UI
+-   自定义生命周期：`mountParcel` `mountRootParcel` `unmount` 等方法来控制 parcels，[参考 API](https://single-spa.js.org/docs/parcels-api)
+-   仅在多个框架中需要
+
+4.  [utility modules](https://zh-hans.single-spa.js.org/docs/recommended-setup#utility-modules-styleguide-api-etc) : 非渲染组件，用于暴露共享 javascript 逻辑的微前端。 - 无路由 - 暴露接口 - 可能渲染 UI - 外部模块：没有直接的单 spa 生命周期 - 共享通用逻辑或创建服务很有用
 
 ## Single-SPA Config
 
