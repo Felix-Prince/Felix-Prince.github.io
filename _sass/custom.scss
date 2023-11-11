@@ -17,6 +17,10 @@
         background: url("/assets/ts/images/ts-logo.png") no-repeat;
         background-size: contain;
         background-color: rgb(49, 122, 200);
+        &:hover {
+            scale: 1.1;
+            transition: 0.5s;
+        }
         a {
             display: block;
             width: 100%;
