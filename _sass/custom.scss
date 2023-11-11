@@ -1,11 +1,12 @@
-.archive {
+.article.page {
     padding-right: 0 !important;
 }
-ul.ts-container {
+
+.ts-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    li {
+    .card {
         list-style: none;
         width: 200px;
         height: 300px;
