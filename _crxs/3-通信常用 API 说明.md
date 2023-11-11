@@ -1,4 +1,7 @@
-# 通信常用 API 说明
+---
+title: 通信常用 API 说明
+date: 2020-07-15
+---
 
 1. [chrome.runtime.sendMessage](https://crxdoc-zh.appspot.com/extensions/runtime#method-sendMessage)
 
@@ -15,7 +18,7 @@ chrome.runtime.sendMessage(string extensionId, any message, object options, func
 
 2. [chrome.runtime.onMessage](https://crxdoc-zh.appspot.com/extensions/runtime#event-onMessage)
 
-> 如果您在同一个文档中有一个以上的 onMessage 事件处理函数，只有其中一个可以发送响应。当事件处理函数返回时，该函数将失效，除非您在事件处理函数中返回 true，表示您希望通过异步方式发送响应（这样，与另一端之间的消息通道将会保持打开状态，直到调用了 sendResponse）。  
+> 如果您在同一个文档中有一个以上的 onMessage 事件处理函数，只有其中一个可以发送响应。当事件处理函数返回时，该函数将失效，除非您在事件处理函数中返回 true，表示您希望通过异步方式发送响应（这样，与另一端之间的消息通道将会保持打开状态，直到调用了 sendResponse）。
 
 ```js
 /**
@@ -30,7 +33,7 @@ chrome.runtime.onMessage.addListener(function callback(
 ) {
     // message 调用脚本发送的消息
     // sendResponse (response: any) => {} 当您产生响应时调用（最多一次）的函数，参数可以是任何可转化为 JSON 的对象。
-});
+})
 ```
 
 3. [chrome.runtime.onMessageExternal](https://crxdoc-zh.appspot.com/extensions/runtime#event-onMessageExternal)
@@ -48,12 +51,12 @@ chrome.runtime.onMessageExternal.addListener(function callback(
 ) {
     // message 调用脚本发送的消息
     // sendResponse (response: any) => {} 当您产生响应时调用（最多一次）的函数，参数可以是任何可转化为 JSON 的对象。
-});
+})
 ```
 
 4. [chrome.runtime.getBackgroundPage](https://crxdoc-zh.appspot.com/extensions/runtime#method-getBackgroundPage)
 
-> [chrome.extension.getBackgroundPage](https://crxdoc-zh.appspot.com/extensions/extension#method-getBackgroundPage)  
+> [chrome.extension.getBackgroundPage](https://crxdoc-zh.appspot.com/extensions/extension#method-getBackgroundPage)
 
 ```js
 /**
@@ -188,19 +191,19 @@ Window = {
     state: enum[("normal", "minimized", "maximized", "fullscreen")], // 浏览器窗口的状态。在某些情况下，例如当您使用 sessions 查询关闭的窗口时，窗口可能没有 state 属性。
     alwaysOnTop: boolean, // 窗口是否设置为前端显示
     sessionId: string, // 会话标识符，用于唯一标识由 sessions API 获取的窗口
-};
+}
 ```
 
 15. [chrome.storage](https://crxdoc-zh.appspot.com/apps/storage)
 
 这一 API 为扩展程序的存储需要而特别优化，它提供了与 localStorage API 相同的能力，但是具有如下几个重要的区别：
 
-* 用户数据可以通过 Chrome 浏览器的同步功能自动同步（使用 storage.sync）。
-* 您的应用的内容脚本可以直接访问用户数据，而不需要后台页面。
-* 即使使用分离式隐身行为，用户的扩展程序设置也会保留。
-* 它是异步的，并且能够进行大量的读写操作，因此比阻塞和串行化的 localStorage API 更快。
-* 用户数据可以存储为对象（localStorage API 以字符串方式存储数据）。
-* 可以读取管理员为扩展程序配置的企业策略（使用 storage.managed 和架构）。
+-   用户数据可以通过 Chrome 浏览器的同步功能自动同步（使用 storage.sync）。
+-   您的应用的内容脚本可以直接访问用户数据，而不需要后台页面。
+-   即使使用分离式隐身行为，用户的扩展程序设置也会保留。
+-   它是异步的，并且能够进行大量的读写操作，因此比阻塞和串行化的 localStorage API 更快。
+-   用户数据可以存储为对象（localStorage API 以字符串方式存储数据）。
+-   可以读取管理员为扩展程序配置的企业策略（使用 storage.managed 和架构）。
 
 如果要为您的应用储存用户数据，您可以使用 storage.sync 或 storage.local。使用 storage.sync 时，储存的数据将会自动在用户启用同步功能并已经登录的所有 Chrome 浏览器间同步。
 
@@ -251,19 +254,21 @@ StorageArea.clear(function callback)
 ```
 
 ## Port
+
 | 属性          |
-| ------------- |
-| name          | string |  |
-| disconnect    | function |  |
-| onDisconnect  | event |  |
-| onMessage     | event |  |
-| postMessage   | function |  |
-| MessageSender | sender | 只有当端口传递给 onConnect/onConnectExternal 监听器时才会存在该属性。 |
+| ------------- | -------- | --------------------------------------------------------------------- |
+| name          | string   |                                                                       |
+| disconnect    | function |                                                                       |
+| onDisconnect  | event    |                                                                       |
+| onMessage     | event    |                                                                       |
+| postMessage   | function |                                                                       |
+| MessageSender | sender   | 只有当端口传递给 onConnect/onConnectExternal 监听器时才会存在该属性。 |
 
 ## MessageSender
+
 | 属性     |
-| -------- |
-| tabs.Tab | （可选）tab | 打开连接的 tabs.Tab（标签页），如果有的话。只有当连接从标签页或内容脚本中打开，并且接收方是扩展程序而不是应用时才会存在这一属性。 |
-| string   | （可选）id | 打开连接的扩展程序或应用的标识符（如果有的话）。 |
-| string   | （可选）url | 从 Chrome 28 开始支持。打开连接的页面或框架 URL（如果有的话），只有当连接从标签页或内容脚本打开时才会存在这一属性。 |
-| string   | （可选）tlsChannelId | 从 Chrome 32 开始支持。如果扩展程序或应用请求该属性并且可用，则为打开连接的网页的 TLS 通道标识符。 |
+| -------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| tabs.Tab | （可选）tab          | 打开连接的 tabs.Tab（标签页），如果有的话。只有当连接从标签页或内容脚本中打开，并且接收方是扩展程序而不是应用时才会存在这一属性。 |
+| string   | （可选）id           | 打开连接的扩展程序或应用的标识符（如果有的话）。                                                                                  |
+| string   | （可选）url          | 从 Chrome 28 开始支持。打开连接的页面或框架 URL（如果有的话），只有当连接从标签页或内容脚本打开时才会存在这一属性。               |
+| string   | （可选）tlsChannelId | 从 Chrome 32 开始支持。如果扩展程序或应用请求该属性并且可用，则为打开连接的网页的 TLS 通道标识符。                                |
