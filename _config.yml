@@ -36,6 +36,9 @@ collections:
     crxs:
         output: true
         permalink: /crx/:name/
+    mfes:
+        output: true
+        permalink: /mfe/:name/
 
 include:
     - _pages
@@ -104,6 +107,17 @@ defaults:
     - scope:
           path: ""
           type: crxs
+      values:
+          layout: single
+          author_profile: true
+          read_time: true
+          comments: true
+          share: true
+          related: true
+    # mfes
+    - scope:
+          path: ""
+          type: mfes
       values:
           layout: single
           author_profile: true

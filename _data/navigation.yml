@@ -5,6 +5,8 @@ main:
       url: /typescripts/
     - title: "Chrome Extension"
       url: /crx/
+    - title: "微前端"
+      url: /mfe/
     #   - title: "Tags"
     #     url: /tags/
     # - title: "Categories"

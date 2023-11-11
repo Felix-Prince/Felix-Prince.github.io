@@ -1,0 +1,18 @@
+---
+layout: posts
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ page.title }}</title>
+    </head>
+    <body>
+        <ul>
+            {% for mfe in site.mfes %}
+            <li><a href="{{ mfe.url }}">{{ mfe.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
