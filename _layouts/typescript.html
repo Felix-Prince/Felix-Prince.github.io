@@ -10,15 +10,16 @@ layout: posts
         <link rel="stylesheet" href="/css/main.css" />
         <script src="https://unpkg.com/particle-bg/lib/particle-bg.umd.min.js"></script>
         <style>
-            #banner {
-                height: 200px;
-                widht: 100%;
-                background: linear-gradient(to right, #aa4b6b, #6b6b83, #3b8d99);
+           canvas {
+               position: absolute;
+               left:0;
+               right:0;
+               top:0;
+               bottom:0;
             }
         </style>
     </head>
     <body>
-        <div id="banner"></div>
         <ul class="ts-container">
             {% for ts in site.typescripts %}
             <li class="card">
@@ -28,8 +29,9 @@ layout: posts
         </ul>
 
         <script>
-            const ele = document.getElementById('banner')
-          particleBg(ele);
+          particleBg('body',{
+              zIndex:-1
+          });
         </script>
     </body>
 </html>
