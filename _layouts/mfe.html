@@ -7,6 +7,16 @@ layout: posts
     <head>
         <meta charset="utf-8" />
         <title>{{ page.title }}</title>
+        <script src="https://unpkg.com/particle-bg/lib/particle-bg.umd.min.js"></script>
+        <style>
+           canvas {
+               position: absolute;
+               left:0;
+               right:0;
+               top:0;
+               bottom:0;
+            }
+        </style>
     </head>
     <body>
         <ul>
@@ -14,5 +24,11 @@ layout: posts
             <li><a href="{{ mfe.url }}">{{ mfe.title }}</a></li>
             {% endfor %}
         </ul>
+
+        <script>
+          particleBg('body',{
+              zIndex:-1
+          });
+        </script>
     </body>
 </html>
