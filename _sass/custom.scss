@@ -55,7 +55,8 @@
         border-radius: 4px;
         background: url("/assets/mfes/images/icon_love.svg") no-repeat;
         background-size: contain;
-        background-color: rgb(49, 122, 200);
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 1px solid #fff;
         &:hover {
             scale: 1.1;
             transition: 0.5s;
