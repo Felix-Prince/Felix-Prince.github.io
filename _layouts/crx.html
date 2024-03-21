@@ -19,9 +19,11 @@ layout: posts
         </style>
     </head>
     <body>
-        <ul>
+        <ul class="crx-container">
             {% for crx in site.crxs %}
-            <li><a href="{{ crx.url }}">{{ crx.title }}</a></li>
+            <li class="card">
+                <a href="{{ crx.url }}"><span>{{ crx.title }}</span></a>
+            </li>
             {% endfor %}
         </ul>
 
