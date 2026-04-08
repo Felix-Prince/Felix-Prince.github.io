@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>颜色转盘</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+
+            h1 {
+                color: white;
+                margin-bottom: 20px;
+                font-size: 24px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            .wheel-container {
+                position: relative;
+                width: 300px;
+                height: 300px;
+                margin-bottom: 30px;
+            }
+
+            .wheel {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                transition: transform 4s cubic-bezier(0.23, 1, 0.32, 1);
+            }
+
+            .wheel-segment {
+                position: absolute;
+                width: 50%;
+                height: 50%;
+                transform-origin: 100% 100%;
+                left: 0;
+                top: 0;
+            }
+
+            .wheel-segment span {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                color: white;
+                font-weight: bold;
+                font-size: 14px;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                white-space: nowrap;
+            }
+
+            .pointer {
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 15px solid transparent;
+                border-right: 15px solid transparent;
+                border-top: 30px solid #333;
+                z-index: 10;
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            }
+
+            .center-btn {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: white;
+                border: none;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+                z-index: 20;
+                transition: all 0.3s ease;
+            }
+
+            .center-btn:hover {
+                transform: translate(-50%, -50%) scale(1.05);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .center-btn:active {
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+
+            .center-btn.spinning {
+                animation: pulse 0.5s ease infinite;
+            }
+
+            @keyframes pulse {
+                0%,
+                100% {
+                    transform: translate(-50%, -50%) scale(1);
+                }
+                50% {
+                    transform: translate(-50%, -50%) scale(1.1);
+                }
+            }
+
+            .config-panel {
+                background: white;
+                border-radius: 15px;
+                padding: 20px;
+                margin-top: 20px;
+                width: 100%;
+                max-width: 450px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .config-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                color: #333;
+            }
+
+            .color-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .color-item {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 5px 10px;
+                background: #f5f5f5;
+                border-radius: 20px;
+                font-size: 12px;
+            }
+
+            .color-dot {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+
+            .color-item button {
+                background: none;
+                border: none;
+                color: #999;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: 1;
+            }
+
+            .divider {
+                height: 1px;
+                background: #eee;
+                margin: 20px 0;
+            }
+
+            .available-colors {
+                margin-top: 10px;
+            }
+
+            .available-title {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 10px;
+            }
+
+            .available-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .available-color {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 12px;
+                background: #f8f8f8;
+                border-radius: 20px;
+                font-size: 12px;
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: all 0.2s;
+            }
+
+            .available-color:hover {
+                border-color: #667eea;
+                background: #f0f0ff;
+            }
+
+            .available-color .color-dot {
+                width: 14px;
+                height: 14px;
+            }
+
+            .refresh-btn {
+                margin-left: auto;
+                padding: 6px 12px;
+                background: #f0f0f0;
+                border: none;
+                border-radius: 15px;
+                font-size: 12px;
+                cursor: pointer;
+                color: #666;
+            }
+
+            .refresh-btn:hover {
+                background: #e0e0e0;
+            }
+
+            .panel-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            @media (max-width: 450px) {
+                .wheel-container {
+                    width: 280px;
+                    height: 280px;
+                }
+
+                h1 {
+                    font-size: 20px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🎨 颜色转盘</h1>
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="wheel" id="wheel"></div>
+            <button class="center-btn" id="spinBtn">↻</button>
+        </div>
+        <div class="config-panel">
+            <div class="panel-header">
+                <div class="config-title">⚙️ 转盘颜色</div>
+                <button class="refresh-btn" onclick="randomizeColors()">重新随机</button>
+            </div>
+            <div class="color-list" id="colorList"></div>
+
+            <div class="divider"></div>
+
+            <div class="available-colors">
+                <div class="available-title">🎨 备选颜色（点击添加）</div>
+                <div class="available-grid" id="availableColors"></div>
+            </div>
+        </div>
+        <script>
+            const allColors = [
+                { name: "樱桃红", color: "#FF6B6B" },
+                { name: "西瓜红", color: "#FF4757" },
+                { name: "珊瑚粉", color: "#FF7F50" },
+                { name: "蜜桃粉", color: "#FFABAB" },
+                { name: "玫瑰粉", color: "#FF6B9D" },
+                { name: "樱花粉", color: "#FFB7C5" },
+                { name: "亮橙色", color: "#FF9F43" },
+                { name: "太阳橙", color: "#FF8C00" },
+                { name: "芒果橙", color: "#FFA502" },
+                { name: "金黄", color: "#F9CA24" },
+                { name: "柠檬黄", color: "#F7DC6F" },
+                { name: "小鸡黄", color: "#FFF3CD" },
+                { name: "鸭蛋黄", color: "#FFEAA7" },
+                { name: "青柠绿", color: "#7bed9f" },
+                { name: "薄荷绿", color: "#A8E6CF" },
+                { name: "苹果绿", color: "#82E0AA" },
+                { name: "草绿", color: "#6DD55A" },
+                { name: "翠绿", color: "#2ECC71" },
+                { name: "森林绿", color: "#27AE60" },
+                { name: "青碧色", color: "#1ABC9C" },
+                { name: "水青色", color: "#00D2D3" },
+                { name: "天青蓝", color: "#48DBFB" },
+                { name: "天空蓝", color: "#74B9FF" },
+                { name: "海洋蓝", color: "#0984E3" },
+                { name: "宝石蓝", color: "#2E86DE" },
+                { name: "浅紫蓝", color: "#A29BFE" },
+                { name: "薰衣草", color: "#D6A2E8" },
+                { name: "紫罗兰", color: "#9B59B6" },
+                { name: "葡萄紫", color: "#A55EEA" },
+                { name: "梅子紫", color: "#BE2EDD" },
+                { name: "藕荷紫", color: "#E0BBE4" },
+                { name: "丁香紫", color: "#B8A9C9" },
+                { name: "香槟金", color: "#FFC312" },
+                { name: "铂金色", color: "#EAB543" },
+                { name: "桃心红", color: "#FD79A8" },
+                { name: "霓虹粉", color: "#F368E0" },
+            ]
+
+            let wheelColors = []
+            let availableColors = []
+            let isSpinning = false
+            let currentRotation = 0
+
+            const wheel = document.getElementById("wheel")
+            const spinBtn = document.getElementById("spinBtn")
+
+            function shuffleArray(arr) {
+                const newArr = [...arr]
+                for (let i = newArr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1))
+                    ;[newArr[i], newArr[j]] = [newArr[j], newArr[i]]
+                }
+                return newArr
+            }
+
+            function initColors() {
+                const shuffled = shuffleArray(allColors)
+                wheelColors = shuffled.slice(0, 8)
+                availableColors = shuffled.slice(8)
+                renderAll()
+            }
+
+            function randomizeColors() {
+                initColors()
+            }
+
+            function renderWheel() {
+                wheel.innerHTML = ""
+                const segmentAngle = 360 / wheelColors.length
+
+                wheelColors.forEach((item, index) => {
+                    const segment = document.createElement("div")
+                    segment.className = "wheel-segment"
+                    segment.style.background = item.color
+                    segment.style.transform = `rotate(${index * segmentAngle}deg) skew(${90 - segmentAngle}deg)`
+
+                    wheel.appendChild(segment)
+                })
+            }
+
+            function renderColorList() {
+                const list = document.getElementById("colorList")
+                list.innerHTML = ""
+                wheelColors.forEach((item, index) => {
+                    const div = document.createElement("div")
+                    div.className = "color-item"
+                    div.innerHTML = `<div class="color-dot" style="background: ${item.color}"></div> <span>${item.name}</span> <button onclick="removeWheelColor(${index})">×</button>`
+                    list.appendChild(div)
+                })
+            }
+
+            function renderAvailableColors() {
+                const grid = document.getElementById("availableColors")
+                grid.innerHTML = ""
+                availableColors.forEach((item, index) => {
+                    const div = document.createElement("div")
+                    div.className = "available-color"
+                    div.innerHTML = `<div class="color-dot" style="background: ${item.color}"></div> <span>${item.name}</span>`
+                    div.onclick = () => addToWheel(index)
+                    grid.appendChild(div)
+                })
+            }
+
+            function renderAll() {
+                renderWheel()
+                renderColorList()
+                renderAvailableColors()
+            }
+
+            function removeWheelColor(index) {
+                if (wheelColors.length <= 2) {
+                    alert("转盘至少需要保留2个颜色")
+                    return
+                }
+                const removed = wheelColors.splice(index, 1)[0]
+                availableColors.unshift(removed)
+                renderAll()
+            }
+
+            function addToWheel(index) {
+                if (wheelColors.length >= 12) {
+                    alert("转盘最多添加12个颜色")
+                    return
+                }
+                const added = availableColors.splice(index, 1)[0]
+                wheelColors.push(added)
+                renderAll()
+            }
+
+            function spin() {
+                if (isSpinning) return
+
+                isSpinning = true
+                spinBtn.classList.add("spinning")
+                spinBtn.textContent = "⏸"
+
+                const spins = 5 + Math.random() * 3
+                const randomAngle = Math.random() * 360
+                const totalRotation = currentRotation + spins * 360 + randomAngle
+
+                wheel.style.transform = `rotate(${totalRotation}deg)`
+                currentRotation = totalRotation
+            }
+
+            spinBtn.addEventListener("click", spin)
+
+            wheel.addEventListener("transitionend", () => {
+                if (isSpinning) {
+                    isSpinning = false
+                    spinBtn.classList.remove("spinning")
+                    spinBtn.textContent = "↻"
+                }
+            })
+
+            initColors()
+        </script>
+    </body>
+</html>
