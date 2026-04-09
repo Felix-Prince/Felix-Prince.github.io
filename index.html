@@ -3,69 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Felix's Portal</title>
+    <title>Felix Prince | Creative Developer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="bg-decoration"></div>
+    <div class="grain-overlay"></div>
+    <div class="gradient-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
     <div class="container">
-        <header>
+        <header class="header">
             <div class="hero">
-                <div class="avatar">F</div>
-                <h1>Felix Prince</h1>
-                <p class="tagline">探索代码与创意的交汇点</p>
-
-                <div class="social-links">
-                    <a href="https://github.com/Felix-Prince" class="social-link" target="_blank" rel="noopener">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                        </svg>
-                        GitHub
-                    </a>
+                <div class="avatar-wrapper">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar">F</div>
                 </div>
-            </div>
-        </header>
+                <div class="hero-text">
+                    <p class="greeting">Hello, I'm</p>
+                    <h1 class="name">Felix Prince</h1>
+                    <p class="tagline">
+                        <span class="tagline-line">探索代码与创意的交汇点</span>
+                    </p>
+                </div>
 
-        <main>
-            <section>
-                <h2 class="section-title">项目</h2>
-                <div class="projects-grid">
-                    <a href="ColorWalk/index.html" class="project-card">
-                        <div class="project-icon">🎨</div>
-                        <h3 class="project-title">ColorWalk</h3>
-                        <p class="project-description">一个优雅的色彩探索工具，帮助你发现和创造完美的配色方案。</p>
-                        <div class="project-meta">
-                            探索项目
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <nav class="social-links">
+                    <a href="https://github.com/Felix-Prince" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+                        <span class="link-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                            </svg>
+                        </span>
+                        <span class="link-text">GitHub</span>
+                        <span class="link-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                                 <polyline points="12 5 19 12 12 19"></polyline>
                             </svg>
+                        </span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <section class="projects-section">
+                <div class="section-header">
+                    <span class="section-number">01</span>
+                    <h2 class="section-title">精选项目</h2>
+                    <div class="section-line"></div>
+                </div>
+
+                <div class="projects-grid">
+                    <a href="ColorWalk/index.html" class="project-card" data-project="colorwalk">
+                        <div class="card-inner">
+                            <div class="project-visual">
+                                <div class="visual-gradient"></div>
+                                <span class="project-emoji">🎨</span>
+                            </div>
+                            <div class="project-content">
+                                <div class="project-type">Web App</div>
+                                <h3 class="project-title">ColorWalk</h3>
+                                <p class="project-description">一种色彩探索的出行方式，随机抽取颜色，用一天去寻找和记录城市里的色彩故事。</p>
+                                <div class="project-footer">
+                                    <span class="project-cta">探索项目</span>
+                                    <span class="project-arrow">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            <polyline points="12 5 19 12 12 19"></polyline>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </a>
 
-                    <div class="project-card placeholder-card">
-                        <div class="placeholder-content">
-                            <div class="placeholder-icon">✨</div>
-                            <div>更多项目即将推出</div>
+                    <div class="project-card placeholder-card" data-project="coming-soon-1">
+                        <div class="card-inner">
+                            <div class="placeholder-content">
+                                <div class="placeholder-glow"></div>
+                                <span class="placeholder-icon">✨</span>
+                                <p class="placeholder-text">更多项目<br>即将推出</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="project-card placeholder-card">
-                        <div class="placeholder-content">
-                            <div class="placeholder-icon">🚀</div>
-                            <div>敬请期待</div>
+                    <div class="project-card placeholder-card" data-project="coming-soon-2">
+                        <div class="card-inner">
+                            <div class="placeholder-content">
+                                <div class="placeholder-glow"></div>
+                                <span class="placeholder-icon">🚀</span>
+                                <p class="placeholder-text">敬请期待</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
 
-        <footer>
-            <p>© 2024 Felix Prince. 使用 ❤️ 构建</p>
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">
+                    <span class="footer-year">© 2024</span>
+                    <span class="footer-name">Felix Prince</span>
+                </p>
+                <p class="footer-motto">Crafted with precision and passion</p>
+            </div>
         </footer>
     </div>
 
