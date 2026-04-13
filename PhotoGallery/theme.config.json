@@ -1,0 +1,51 @@
+{
+  "site": {
+    "title": "Felix's Photography",
+    "subtitle": "捕捉瞬间，记录光影",
+    "logo": "",
+    "favicon": "",
+    "description": "个人摄影作品集"
+  },
+  "theme": {
+    "colors": {
+      "bg": "#0a0a0f",
+      "bgElevated": "rgba(255, 255, 255, 0.04)",
+      "bgElevatedHover": "rgba(255, 255, 255, 0.08)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "borderStrong": "rgba(255, 255, 255, 0.15)",
+      "textPrimary": "#fafafa",
+      "textSecondary": "rgba(255, 255, 255, 0.6)",
+      "textMuted": "rgba(255, 255, 255, 0.4)",
+      "accent": "#ff6b6b",
+      "accentSecondary": "#4ecdc4",
+      "accentTertiary": "#ffe66d",
+      "gradient1": "#ff6b6b",
+      "gradient2": "#feca57",
+      "gradient3": "#48dbfb",
+      "gradient4": "#ff9ff3"
+    },
+    "fonts": {
+      "heading": "Playfair Display, Georgia, serif",
+      "body": "Noto Sans SC, -apple-system, BlinkMacSystemFont, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "spacing": {
+      "unit": "8px",
+      "contentMaxWidth": "1400px"
+    }
+  },
+  "navigation": {
+    "backLink": {
+      "label": "返回首页",
+      "href": "../index.html"
+    },
+    "links": []
+  },
+  "gallery": {
+    "defaultView": "grid",
+    "itemsPerPage": 50,
+    "enableTimeline": true,
+    "enableSearch": true,
+    "enableDateFilter": true
+  }
+}
