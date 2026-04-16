@@ -1,14 +1,36 @@
 # Photography Gallery
 
-一个简约、可配置的个人摄影作品集网站，采用深色主题设计。
+一个高级暗调风格的个人摄影作品集网站 —— 沉浸式展示体验。
 
-## 设计风格
+## 设计美学
 
-- 🌙 **深色主题** - 与主站一致的深色背景 (#0a0a0f)
-- ✨ **渐变球体** - 动态漂浮的彩色渐变装饰
-- 🎨 **颗粒纹理** - 复古胶片质感的颗粒覆盖层
-- 🌌 **毛玻璃效果** - 半透明卡片与柔和阴影
-- 🎭 **渐变色系** - #ff6b6b, #feca57, #48dbfb, #ff9ff3
+**暗调沉浸式风格 (Dark Immersive Style)**
+
+- 🖤 **高级暗调** - #111111 深灰背景，营造沉浸式观影体验
+- ✨ **精致排版** - Playfair Display 标题字体 + Helvetica Neue 正文字体
+- 📖 **书页设计** - 摄影合集以翻开的书本形式展示
+- 🎠 **全屏轮播** - 自适应全屏 Hero 轮播，自动切换
+- 🔲 **极简灯箱** - 纯黑背景，专注作品本身
+
+## 设计细节
+
+### 排版
+- **标题**: Playfair Display (优雅的衬线字体)
+- **正文**: Helvetica Neue (简洁的无衬线字体)
+- **元数据**: JetBrains Mono (等宽字体，现代感)
+
+### 配色
+- **主背景**: 深灰 (#111111)
+- **次要背景**: 浅灰 (#1a1a1a)
+- **文字**: 浅灰渐变 (#dddddd → #f5f5f5)
+- **强调色**: 暖金 (#c9a76e) - 可配置
+
+### 交互
+- 顶部导航随滚动变化透明度
+- 悬停时图片去色还原 + 缩放效果
+- 平滑的轮播切换
+- 键盘导航支持 (← → ESC)
+- 触摸滑动支持
 
 ## GitHub Pages 兼容性
 
@@ -32,14 +54,12 @@
 ```json
 {
   "site": {
-    "title": "你的摄影集名称",
-    "subtitle": "副标题描述",
-    "logo": ""
+    "title": "Photography",
+    "subtitle": "Personal Works"
   },
   "theme": {
     "colors": {
-      "bg": "#0a0a0f",
-      "accent": "#ff6b6b"
+      "accent": "#c9a76e"
     }
   }
 }
@@ -54,14 +74,15 @@
   "photos": [
     {
       "id": "photo-001",
-      "title": "作品标题",
+      "title": "Work Title",
       "url": "https://example.com/photo.jpg",
       "thumbnail": "https://example.com/thumb.jpg",
-      "tags": ["街拍", "人文"],
+      "tags": ["street", "portrait"],
       "date": "2024-03-15",
       "camera": "Sony A7IV",
       "settings": "f/2.8, 1/250s, ISO 400",
-      "description": "作品描述..."
+      "description": "Work description...",
+      "collection": "Collection Name"
     }
   ]
 }
@@ -96,12 +117,7 @@ npx http-server
 |------|------|
 | `site.title` | 网站标题 |
 | `site.subtitle` | 网站副标题 |
-| `site.logo` | Logo 图片路径 |
-| `theme.colors.bg` | 背景色 |
-| `theme.colors.accent` | 主强调色 |
-| `theme.colors.gradient1-4` | 渐变球体颜色 |
-| `theme.fonts.heading` | 标题字体 |
-| `theme.fonts.body` | 正文字体 |
+| `theme.colors.accent` | 强调色 |
 | `navigation.backLink.href` | 返回首页链接 |
 | `navigation.backLink.label` | 返回链接文字 |
 
@@ -118,18 +134,18 @@ npx http-server
 | `camera` | 否 | 相机型号 |
 | `settings` | 否 | 拍摄参数 |
 | `description` | 否 | 作品描述 |
+| `collection` | 是 | 合集名称 |
 
 ## 功能特性
 
-- 🎨 **深色主题设计** - 符合摄影审美的深色界面
-- ✨ **视觉效果** - 渐变球体、颗粒纹理、毛玻璃卡片
-- 🏷️ **标签分类** - 支持多标签，灵活筛选
-- 🔍 **搜索功能** - 按标题、描述、标签搜索
-- 📅 **时间线视图** - 按时间顺序浏览作品
-- 🖼️ **灯箱查看** - 全屏查看照片详情
-- ⚡ **懒加载** - 图片懒加载，性能优化
+- 🖤 **高级暗调风格** - 沉浸式观影体验
+- 🎠 **全屏轮播** - 自适应全屏，自动切换
+- 📖 **书页合集** - 摄影作品以书本形式展示
+- 🔲 **极简灯箱** - 专注作品本身
+- ⌨️ **键盘导航** - 支持 ← → ESC 键
+- 📱 **触摸滑动** - 移动端友好
 - 📱 **响应式设计** - 完美适配手机、平板、桌面
-- 🎭 **主题配置** - 自定义颜色、字体、Logo
+- 🎭 **主题配置** - 自定义颜色、字体
 - 🚀 **GitHub Pages 就绪** - 直接部署，开箱即用
 
 ## 技术栈
@@ -137,7 +153,7 @@ npx http-server
 - 原生 HTML5 / CSS3 / JavaScript
 - 无第三方依赖
 - CSS 变量主题系统
-- Intersection Observer 懒加载
+- 响应式 Grid 布局
 
 ## 为其他摄影爱好者定制
 

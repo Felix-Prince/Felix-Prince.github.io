@@ -1,45 +1,38 @@
 const defaultConfig = {
   site: {
-    title: "Felix's Photography",
-    subtitle: "捕捉瞬间，记录光影",
+    title: "Photography",
+    subtitle: "Personal Works",
     logo: "",
     favicon: "",
-    description: "个人摄影作品集"
+    description: "Personal Photography Gallery"
   },
   theme: {
     colors: {
-      bg: "#0a0a0f",
-      bgElevated: "rgba(255, 255, 255, 0.04)",
-      bgElevatedHover: "rgba(255, 255, 255, 0.08)",
-      border: "rgba(255, 255, 255, 0.1)",
-      borderStrong: "rgba(255, 255, 255, 0.15)",
-      textPrimary: "#fafafa",
-      textSecondary: "rgba(255, 255, 255, 0.6)",
-      textMuted: "rgba(255, 255, 255, 0.4)",
-      accent: "#ff6b6b",
-      accentSecondary: "#4ecdc4",
-      accentTertiary: "#ffe66d",
-      gradient1: "#ff6b6b",
-      gradient2: "#feca57",
-      gradient3: "#48dbfb",
-      gradient4: "#ff9ff3"
+      white: "#ffffff",
+      offWhite: "#fafafa",
+      cream: "#f7f5f2",
+      gray100: "#f0f0f0",
+      gray200: "#e6e6e6",
+      gray300: "#d1d1d1",
+      gray500: "#8a8a8a",
+      gray600: "#6b6b6b",
+      gray700: "#4a4a4a",
+      gray900: "#1a1a1a",
+      black: "#000000",
+      accent: "#c9a76e",
+      accentHover: "#b8945a"
     },
     fonts: {
-      heading: "Playfair Display, Georgia, serif",
-      body: "Noto Sans SC, -apple-system, BlinkMacSystemFont, sans-serif",
+      display: "Playfair Display, Georgia, serif",
+      body: "Helvetica Neue, Arial, sans-serif",
       mono: "JetBrains Mono, monospace"
-    },
-    spacing: {
-      unit: "8px",
-      contentMaxWidth: "1400px"
     }
   },
   navigation: {
     backLink: {
-      label: "返回首页",
+      label: "Back to Home",
       href: "../index.html"
-    },
-    links: []
+    }
   },
   gallery: {
     defaultView: "grid",
@@ -62,7 +55,6 @@ async function loadConfig() {
     console.warn("Using default config:", error.message);
     currentConfig = { ...defaultConfig };
   }
-  applyTheme();
   return currentConfig;
 }
 
@@ -76,35 +68,6 @@ function deepMerge(target, source) {
     }
   }
   return result;
-}
-
-function applyTheme() {
-  if (!currentConfig) return;
-  const root = document.documentElement;
-  const colors = currentConfig.theme.colors;
-  const fonts = currentConfig.theme.fonts;
-
-  if (colors) {
-    for (const [key, value] of Object.entries(colors)) {
-      const cssVar = `--color-${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
-      root.style.setProperty(cssVar, value);
-    }
-  }
-
-  if (fonts) {
-    if (fonts.heading) root.style.setProperty("--font-heading", fonts.heading);
-    if (fonts.body) root.style.setProperty("--font-body", fonts.body);
-    if (fonts.mono) root.style.setProperty("--font-mono", fonts.mono);
-  }
-
-  if (currentConfig.theme.spacing) {
-    if (currentConfig.theme.spacing.unit) {
-      root.style.setProperty("--spacing-unit", currentConfig.theme.spacing.unit);
-    }
-    if (currentConfig.theme.spacing.contentMaxWidth) {
-      root.style.setProperty("--content-max-width", currentConfig.theme.spacing.contentMaxWidth);
-    }
-  }
 }
 
 function getConfig() {

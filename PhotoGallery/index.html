@@ -6,158 +6,74 @@
   <title>Photography Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Helvetica+Neue:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/gallery.css">
 </head>
 <body>
-  <div class="grain-overlay"></div>
-  <div class="gradient-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-
   <header class="header">
-    <div class="container">
-      <div class="header-inner">
-        <div class="site-info">
-          <h1 class="site-title">Photography</h1>
-          <p class="site-subtitle">捕捉瞬间，记录光影</p>
-        </div>
-        <a href="../index.html" class="back-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <div class="header-inner">
+      <div class="logo" id="logo-text">Photography</div>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link" id="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
           </svg>
-          <span class="back-link-text">返回首页</span>
+          <span id="back-link-text">Back to Home</span>
         </a>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <main class="main">
-    <div class="container">
-      <section class="filters-section">
-        <div class="filters-top">
-          <div class="search-box">
-            <input type="text" id="search-input" class="search-input" placeholder="搜索照片...">
-            <button id="search-clear" class="search-clear" type="button" aria-label="清除搜索">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-
-          <div class="view-toggle">
-            <button id="view-grid" class="view-btn active">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-              </svg>
-              网格
-            </button>
-            <button id="view-timeline" class="view-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12" y2="16"></line>
-                <circle cx="12" cy="12" r="10"></circle>
-              </svg>
-              时间线
-            </button>
-          </div>
-
-          <div class="date-filter">
-            <input type="date" id="date-start" class="date-input" placeholder="开始日期">
-            <span>至</span>
-            <input type="date" id="date-end" class="date-input" placeholder="结束日期">
-          </div>
-
-          <button id="reset-filters" class="reset-btn">
-            重置筛选
-          </button>
-        </div>
-
-        <div class="tags-section">
-          <div class="tags-label">
-            <span>标签</span>
-            <button id="clear-tags" class="reset-btn" style="padding:6px 12px;font-size:0.8rem;">清除标签</button>
-          </div>
-          <div id="tags-cloud" class="tags-cloud"></div>
-        </div>
-
-        <div class="results-info">
-          <p id="results-count" class="results-count">0 张照片</p>
-        </div>
-      </section>
-
-      <section class="gallery-section">
-        <div id="photo-grid" class="photo-grid"></div>
-
-        <div id="timeline-view" class="timeline-view"></div>
-
-        <div id="empty-state" class="empty-state" style="display:none;">
-          <div class="empty-icon">📷</div>
-          <h3 class="empty-title">没有找到照片</h3>
-          <p class="empty-text">尝试调整筛选条件或搜索关键词</p>
-        </div>
-      </section>
+  <section class="hero">
+    <div class="hero-slides">
     </div>
-  </main>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle" id="hero-subtitle">Personal Works</p>
+      <h1 class="hero-title" id="hero-title">Selected Photography</h1>
+    </div>
+    <div class="hero-nav">
+    </div>
+  </section>
 
-  <div id="lightbox" class="lightbox">
-    <div class="lightbox-content">
-      <div class="lightbox-image-wrapper">
-        <button id="lightbox-close" class="lightbox-close" aria-label="关闭">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        <button id="lightbox-prev" class="lightbox-nav prev" aria-label="上一张">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-        <button id="lightbox-next" class="lightbox-nav next" aria-label="下一张">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-        <img id="lightbox-image" class="lightbox-image" src="" alt="">
+  <section class="collections">
+    <div class="collections-inner">
+      <div class="section-header">
+        <p class="section-label" id="collections-label">Collections</p>
+        <h2 class="section-title" id="collections-title">Photo Books</h2>
       </div>
-      <div class="lightbox-info">
-        <h2 id="lightbox-title" class="lightbox-title"></h2>
-        <p id="lightbox-description" class="lightbox-description"></p>
-        <div class="lightbox-meta">
-          <div class="lightbox-meta-item">
-            <span class="lightbox-meta-label">拍摄日期</span>
-            <span id="lightbox-date" class="lightbox-meta-value"></span>
-          </div>
-          <div class="lightbox-meta-item">
-            <span class="lightbox-meta-label">相机</span>
-            <span id="lightbox-camera" class="lightbox-meta-value"></span>
-          </div>
-          <div class="lightbox-meta-item">
-            <span class="lightbox-meta-label">参数</span>
-            <span id="lightbox-settings" class="lightbox-meta-value"></span>
-          </div>
-        </div>
-        <div id="lightbox-tags" class="lightbox-tags"></div>
+      <div id="collections-container">
       </div>
     </div>
-  </div>
+  </section>
 
   <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <p>&copy; 2024 Photography Gallery</p>
-        <p>Crafted with precision and passion</p>
-      </div>
+    <div class="footer-inner">
+      <p class="footer-text">&copy; 2024 Photography</p>
+      <p class="footer-text">All Rights Reserved</p>
     </div>
   </footer>
+
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <button class="lightbox-nav prev" aria-label="Previous">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="lightbox-nav next" aria-label="Next">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <img class="lightbox-image" src="" alt="">
+  </div>
 
   <script src="js/config.js"></script>
   <script src="js/gallery.js"></script>
