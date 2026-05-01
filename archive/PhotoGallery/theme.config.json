@@ -1,0 +1,43 @@
+{
+  "site": {
+    "title": "Photography",
+    "subtitle": "Personal Works",
+    "heroTitle": "Selected Photography",
+    "heroSubtitle": "Personal Works",
+    "collectionsLabel": "Collections",
+    "collectionsTitle": "Photo Books",
+    "logo": "",
+    "favicon": "",
+    "description": "Personal Photography Gallery"
+  },
+  "theme": {
+    "colors": {
+      "bg": "#111111",
+      "bgElevated": "#1a1a1a",
+      "bgElevatedHover": "#222222",
+      "gray100": "#2a2a2a",
+      "gray200": "#333333",
+      "gray300": "#444444",
+      "gray400": "#555555",
+      "gray500": "#777777",
+      "gray600": "#999999",
+      "gray700": "#bbbbbb",
+      "gray800": "#dddddd",
+      "gray900": "#f5f5f5",
+      "white": "#ffffff",
+      "accent": "#c9a76e",
+      "accentHover": "#dbb87a"
+    },
+    "fonts": {
+      "display": "Playfair Display, Georgia, serif",
+      "body": "Helvetica Neue, Arial, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    }
+  },
+  "navigation": {
+    "backLink": {
+      "label": "Back to Home",
+      "href": "../index.html"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photography Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Helvetica+Neue:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo" id="logo-text">Photography</div>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link" id="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span id="back-link-text">Back to Home</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-slides">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle" id="hero-subtitle">Personal Works</p>
+      <h1 class="hero-title" id="hero-title">Selected Photography</h1>
+    </div>
+    <div class="hero-nav">
+    </div>
+  </section>
+
+  <section class="collections">
+    <div class="collections-inner">
+      <div class="section-header">
+        <p class="section-label" id="collections-label">Collections</p>
+        <h2 class="section-title" id="collections-title">Photo Books</h2>
+      </div>
+      <div id="collections-container">
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-text">&copy; 2024 Photography</p>
+      <p class="footer-text">All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <button class="lightbox-nav prev" aria-label="Previous">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="lightbox-nav next" aria-label="Next">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <img class="lightbox-image" src="" alt="">
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/gallery.js"></script>
+</body>
+</html>
