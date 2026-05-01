@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 interface ProjectCardProps {
@@ -27,6 +27,11 @@ export function ProjectCard({
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const targetTiltRef = useRef({ x: 0, y: 0 });
+  const currentTiltRef = useRef({ x: 0, y: 0 });
+  const animationFrameRef = useRef<number | null>(null);
+  const isHoveringRef = useRef(false);
 
   const handleClick = (e: React.MouseEvent) => {
     if (isPlaceholder) return;
@@ -45,14 +50,62 @@ export function ProjectCard({
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
-    setTilt({ x: rotateX, y: rotateY });
+    targetTiltRef.current = { x: (y - centerY) / 20, y: (centerX - x) / 20 };
+  };
+
+  const handleMouseEnter = () => {
+    if (isPlaceholder) return;
+    isHoveringRef.current = true;
+    if (innerRef.current) {
+      innerRef.current.style.borderColor = 'var(--color-border-strong)';
+      innerRef.current.style.boxShadow = 'var(--shadow-strong)';
+    }
   };
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
+    isHoveringRef.current = false;
+    targetTiltRef.current = { x: 0, y: 0 };
+    if (innerRef.current) {
+      innerRef.current.style.borderColor = 'var(--color-border)';
+      innerRef.current.style.boxShadow = '';
+    }
   };
+
+  useEffect(() => {
+    const animate = () => {
+      const current = currentTiltRef.current;
+      const target = targetTiltRef.current;
+
+      // Smooth interpolation
+      current.x += (target.x - current.x) * 0.15;
+      current.y += (target.y - current.y) * 0.15;
+
+      // Only update state if change is meaningful or returning to zero
+      const isReturningToZero = target.x === 0 && target.y === 0;
+      const hasChanged = Math.abs(current.x - tilt.x) > 0.1 || Math.abs(current.y - tilt.y) > 0.1;
+
+      if (isReturningToZero || hasChanged) {
+        setTilt({ ...current });
+      }
+
+      // Direct DOM update for hover lift
+      if (innerRef.current && isHoveringRef.current) {
+        innerRef.current.style.transform = `perspective(1000px) rotateX(${current.x + 2}deg) rotateY(${current.y}deg) translateY(-8px)`;
+      } else if (innerRef.current) {
+        innerRef.current.style.transform = `perspective(1000px) rotateX(${current.x}deg) rotateY(${current.y}deg)`;
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [tilt]);
 
   const CardContent = () => (
     <div
@@ -63,31 +116,21 @@ export function ProjectCard({
       ref={cardRef}
       onClick={handleClick}
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div
+        ref={innerRef}
         style={{
           position: 'relative',
           background: isPlaceholder ? 'transparent' : 'var(--color-bg-elevated)',
           border: isPlaceholder ? '1px dashed var(--color-border)' : '1px solid var(--color-border)',
           borderRadius: 'var(--radius-xl)',
           overflow: 'hidden',
-          transition: 'all 0.5s var(--transition-smooth)',
+          transition: 'border-color 0.3s, box-shadow 0.3s',
           transformStyle: 'preserve-3d',
-          transform: isPlaceholder ? undefined : `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          willChange: 'transform',
           minHeight: isPlaceholder ? '340px' : undefined
-        }}
-        onMouseEnter={(e) => {
-          if (isPlaceholder) return;
-          e.currentTarget.style.transform = `perspective(1000px) rotateX(${tilt.x + 2}deg) rotateY(${tilt.y}deg) translateY(-8px)`;
-          e.currentTarget.style.borderColor = 'var(--color-border-strong)';
-          e.currentTarget.style.boxShadow = 'var(--shadow-strong)';
-        }}
-        onMouseLeave={(e) => {
-          if (isPlaceholder) return;
-          e.currentTarget.style.transform = `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`;
-          e.currentTarget.style.borderColor = 'var(--color-border)';
-          e.currentTarget.style.boxShadow = '';
         }}
       >
         {ripples.map(ripple => (
