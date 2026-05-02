@@ -1,5 +1,6 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { GradientOrbs } from './components/layout/GradientOrbs';
+import { ChipBackground } from './components/layout/ChipBackground';
+// import SplineBackground from './components/layout/SplineBackground';
 import { Home } from './pages/Home';
 import { ColorWalk } from './pages/ColorWalk';
 import { PhotoGallery } from './pages/PhotoGallery';
@@ -11,7 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={
           <>
-            <GradientOrbs />
+            <ChipBackground />
+            {/* <SplineBackground /> */}
             <Home />
           </>
         } />
