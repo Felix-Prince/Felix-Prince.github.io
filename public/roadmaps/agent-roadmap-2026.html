@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的 Agent 工程学习路线图 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a2e;
+      --bg-card-hover: #222240;
+      --border: #2a2a4a;
+      --text-primary: #e8e8f0;
+      --text-secondary: #9898b8;
+      --text-muted: #6868888;
+      --accent-blue: #4f8fff;
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #22d3ee;
+      --accent-green: #34d399;
+      --accent-orange: #fb923c;
+      --accent-pink: #f472b6;
+      --accent-red: #ef4444;
+      --gradient-1: linear-gradient(135deg, #4f8fff, #8b5cf6);
+      --gradient-2: linear-gradient(135deg, #8b5cf6, #22d3ee);
+      --gradient-3: linear-gradient(135deg, #22d3ee, #34d399);
+      --gradient-4: linear-gradient(135deg, #34d399, #fb923c);
+      --gradient-5: linear-gradient(135deg, #fb923c, #f472b6);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(79, 143, 255, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 50%, rgba(34, 211, 238, 0.05) 0%, transparent 50%);
+      animation: heroFloat 20s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(2%, -2%) rotate(1deg); }
+      66% { transform: translate(-1%, 1%) rotate(-0.5deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background: rgba(79, 143, 255, 0.1);
+      border: 1px solid rgba(79, 143, 255, 0.3);
+      border-radius: 100px;
+      font-size: 14px;
+      color: var(--accent-blue);
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff 0%, #4f8fff 50%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto 40px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+
+    .meta-tag:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    .meta-tag .icon {
+      font-size: 16px;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-hint .arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    /* Profile Section */
+    .profile-section {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      margin-bottom: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 20px;
+      height: 2px;
+      background: var(--accent-blue);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .profile-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .profile-card:hover {
+      border-color: var(--accent-purple);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1);
+    }
+
+    .profile-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .profile-card .value {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .profile-card .note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 32px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple), var(--accent-cyan), var(--accent-green), var(--accent-orange));
+    }
+
+    .phase-block {
+      position: relative;
+      padding-left: 80px;
+      margin-bottom: 60px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.6s ease;
+    }
+
+    .phase-block.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .phase-dot {
+      position: absolute;
+      left: 20px;
+      top: 24px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 3px solid var(--bg-primary);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .phase-0 .phase-dot { background: var(--accent-blue); }
+    .phase-1 .phase-dot { background: var(--accent-purple); }
+    .phase-2 .phase-dot { background: var(--accent-cyan); }
+    .phase-3 .phase-dot { background: var(--accent-green); }
+    .phase-4 .phase-dot { background: var(--accent-orange); }
+    .phase-5 .phase-dot { background: var(--accent-pink); }
+
+    .phase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .phase-card:hover {
+      border-color: rgba(139, 92, 246, 0.4);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .phase-header {
+      padding: 32px 32px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .phase-0 .phase-header { background: linear-gradient(135deg, rgba(79, 143, 255, 0.08), transparent); }
+    .phase-1 .phase-header { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), transparent); }
+    .phase-2 .phase-header { background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), transparent); }
+    .phase-3 .phase-header { background: linear-gradient(135deg, rgba(52, 211, 153, 0.08), transparent); }
+    .phase-4 .phase-header { background: linear-gradient(135deg, rgba(251, 146, 60, 0.08), transparent); }
+    .phase-5 .phase-header { background: linear-gradient(135deg, rgba(244, 114, 182, 0.08), transparent); }
+
+    .phase-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .phase-0 .phase-tag { background: rgba(79, 143, 255, 0.15); color: var(--accent-blue); }
+    .phase-1 .phase-tag { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+    .phase-2 .phase-tag { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); }
+    .phase-3 .phase-tag { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); }
+    .phase-4 .phase-tag { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+    .phase-5 .phase-tag { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+
+    .phase-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .phase-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .phase-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .phase-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .phase-meta-item .label {
+      color: var(--text-muted);
+    }
+
+    .phase-body {
+      padding: 28px 32px;
+    }
+
+    .phase-body h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .phase-body h4:first-child {
+      margin-top: 0;
+    }
+
+    .phase-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .phase-body li {
+      position: relative;
+      padding: 8px 0 8px 24px;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .phase-body li::before {
+      content: '▸';
+      position: absolute;
+      left: 4px;
+      color: var(--text-muted);
+    }
+
+    .phase-body li strong {
+      color: var(--text-primary);
+    }
+
+    .resource-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .resource-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .resource-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .resource-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .phase-0 .resource-icon { background: rgba(79, 143, 255, 0.12); color: var(--accent-blue); }
+    .phase-1 .resource-icon { background: rgba(139, 92, 246, 0.12); color: var(--accent-purple); }
+    .phase-2 .resource-icon { background: rgba(34, 211, 238, 0.12); color: var(--accent-cyan); }
+    .phase-3 .resource-icon { background: rgba(52, 211, 153, 0.12); color: var(--accent-green); }
+    .phase-4 .resource-icon { background: rgba(251, 146, 60, 0.12); color: var(--accent-orange); }
+    .phase-5 .resource-icon { background: rgba(244, 114, 182, 0.12); color: var(--accent-pink); }
+
+    .resource-info {
+      flex: 1;
+    }
+
+    .resource-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .resource-name a {
+      color: var(--text-primary);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(79, 143, 255, 0.3);
+      transition: border-color 0.2s;
+    }
+
+    .resource-name a:hover {
+      border-color: var(--accent-blue);
+    }
+
+    .resource-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .deliverable-box {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(139, 92, 246, 0.05);
+      border: 1px dashed rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+    }
+
+    .deliverable-box h4 {
+      margin-top: 0;
+      color: var(--accent-purple);
+    }
+
+    .deliverable-box .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .deliverable-box .checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .focus-box {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(79, 143, 255, 0.05);
+      border-left: 3px solid var(--accent-blue);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .focus-box .focus-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-blue);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .focus-box p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .note-box {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(251, 146, 60, 0.06);
+      border-left: 3px solid var(--accent-orange);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .note-box .note-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-orange);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .note-box p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 32px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-cyan);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 80px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .cta-card {
+      padding: 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-1);
+    }
+
+    .cta-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .cta-card p {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .cta-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--gradient-1);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .cta-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(79, 143, 255, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .phase-block {
+        padding-left: 60px;
+      }
+
+      .timeline::before {
+        left: 22px;
+      }
+
+      .phase-dot {
+        left: 10px;
+        width: 22px;
+        height: 22px;
+        font-size: 10px;
+      }
+
+      .phase-header, .phase-body {
+        padding: 20px;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Progress bar animation */
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    .phase-0 .progress-fill { background: var(--accent-blue); }
+    .phase-1 .progress-fill { background: var(--accent-purple); }
+    .phase-2 .progress-fill { background: var(--accent-cyan); }
+    .phase-3 .progress-fill { background: var(--accent-green); }
+    .phase-4 .progress-fill { background: var(--accent-orange); }
+    .phase-5 .progress-fill { background: var(--accent-pink); }
+
+    /* Adjustments specific to this profile */
+    .ts-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(34, 211, 238, 0.12);
+      color: var(--accent-cyan);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .swap-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      background: rgba(251, 146, 60, 0.1);
+      border: 1px solid rgba(251, 146, 60, 0.2);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--accent-orange);
+    }
+
+    /* Collapsible */
+    .collapsible-header {
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .collapsible-header .toggle-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: var(--text-muted);
+    }
+
+    .collapsible-header.open .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .collapsible-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+
+    .collapsible-body.open {
+      max-height: 5000px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Personalized for You
+      </div>
+      <h1>Agent 工程<br>学习路线图 2026</h1>
+      <p>基于你的背景、时间和目标定制的 42 周学习路线。从零开始，逐步构建可用于创业产品的 Agent 系统能力。</p>
+      <div class="hero-meta">
+        <span class="meta-tag"><span class="icon">&#9201;</span> 42 周</span>
+        <span class="meta-tag"><span class="icon">&#128187;</span> TypeScript / Node.js</span>
+        <span class="meta-tag"><span class="icon">&#129302;</span> Claude / Anthropic</span>
+        <span class="meta-tag"><span class="icon">&#128640;</span> 兴趣探索 → 创业方向</span>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>向下探索</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- Profile Section -->
+  <section class="profile-section">
+    <div class="section-label">你的画像</div>
+    <h2 class="section-title">个性化参数</h2>
+    <p class="section-desc">路线图根据以下信息进行了定制调整，确保节奏和内容匹配你的实际情况。</p>
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="label">当前水平</div>
+        <div class="value">&#127775; 零基础起步</div>
+        <div class="note">从未构建过 Agent，需要从头建立心智模型</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">每周时间</div>
+        <div class="value">&#128339; ~11.5 小时/周</div>
+        <div class="note">工作日 1.5h + 周末 4h，标准周期 ×2.5</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">技术栈</div>
+        <div class="value">&#128296; Node.js / TypeScript</div>
+        <div class="note">Phase 2 用 Mastra 替代 LangGraph Python</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">模型提供商</div>
+        <div class="value">&#129302; Anthropic (Claude)</div>
+        <div class="note">Claude Agent SDK 原生支持 TS 绑定</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">学习目标</div>
+        <div class="value">&#127919; 兴趣 → 创业</div>
+        <div class="note">前期自由探索，后期聚焦产品化和成本控制</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">预估总时长</div>
+        <div class="value">&#128197; 42 周</div>
+        <div class="note">标准 17 周 × 2.5 倍（11.5h/周节奏）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="timeline-section">
+    <div class="section-label">学习路线</div>
+    <h2 class="section-title">六个阶段，42 周旅程</h2>
+    <p class="section-desc">每个阶段都有明确的里程碑和实践项目，确保学习可衡量、可验证。</p>
+
+    <div class="timeline">
+
+      <!-- Phase 0 -->
+      <div class="phase-block phase-0">
+        <div class="phase-dot">0</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">NORMAL</div>
+                <div class="phase-title">心智模型建立</div>
+                <div class="phase-subtitle">理解 Agent 是什么、Harness 的核心概念、上下文工程</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>5 周</strong></div>
+                  <div class="phase-meta-item"><span class="label">强度</span> 正常节奏</div>
+                </div>
+              </div>
+              <span class="toggle-icon">&#9660;</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="note-box">
+                <div class="note-label">前置建议</div>
+                <p>由于你是零基础，建议先完成 <a href="https://huggingface.co/learn/llm-course" style="color: var(--accent-blue)">HuggingFace LLM Course</a> 的前几章，建立对 LLM 工作原理的基本理解，再进入本阶段。</p>
+              </div>
+
+              <h4>&#128218; 核心学习内容</h4>
+              <ul>
+                <li><strong>Agent 心智模型</strong> — Agent = 循环（LLM → 工具 → LM → ...）+ 上下文管理 + 持久化。理解这个核心抽象</li>
+                <li><strong>Harness 分解</strong> — 循环控制、工具调度、上下文管理、持久化、子 Agent 编排、Hooks、可观测性</li>
+                <li><strong>上下文工程</strong> — 系统提示组装、历史压缩、工具响应卸载、Prompt 缓存边界</li>
+                <li><strong>Tool Use 模式</strong> — 工具设计原则：何时用工具 vs 何时让模型直接推理</li>
+              </ul>
+
+              <h4>&#128214; 推荐资源</h4>
+              <div class="resource-list">
+                <div class="resource-item">
+                  <div class="resource-icon">1</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/research/building-effective-agents" target="_blank">Building Effective Agents (Anthropic)</a></div>
+                    <div class="resource-desc">Agent 设计模式最清晰的入门文档，必读</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">2</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/effective-context-engineering" target="_blank">Effective Context Engineering for AI Agents (Anthropic)</a></div>
+                    <div class="resource-desc">上下文工程的核心参考，2025年9月发布</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">3</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use" target="_blank">Claude Tool Use 文档</a></div>
+                    <div class="resource-desc">工具定义、JSON Schema、最佳实践</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">4</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/context-engineering-for-agents/" target="_blank">Context Engineering for Agents (LangChain)</a></div>
+                    <div class="resource-desc">Write/Select/Compress/Isolate 框架，补充视角</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">5</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://huggingface.co/learn/llm-course" target="_blank">HuggingFace LLM Course</a></div>
+                    <div class="resource-desc">零基础前置课程，先看前3章建立 LLM 基础认知</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="deliverable-box">
+                <h4>&#9989; 阶段交付物</h4>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>写一篇 2 页的「Agent 心智模型」文档 — 用自己的话解释 Agent、Harness、上下文工程的关系</span>
+                </div>
+              </div>
+
+              <div class="focus-box">
+                <div class="focus-label">重点聚焦</div>
+                <p>不要急于写代码。这个阶段的输出是心智模型 — 你需要能用一句话解释 "Agent 和普通 API 调用有什么本质区别"。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 1 -->
+      <div class="phase-block phase-1">
+        <div class="phase-dot">1</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">NORMAL</div>
+                <div class="phase-title">第一个 Tool-Using Agent</div>
+                <div class="phase-subtitle">用 Claude Agent SDK 构建能调用工具的 Agent</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>8 周</strong></div>
+                  <div class="phase-meta-item"><span class="label">强度</span> 正常节奏</div>
+                  <div class="phase-meta-item"><span class="ts-badge">TS 原生</span></div>
+                </div>
+              </div>
+              <span class="toggle-icon">&#9660;</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <h4>&#128218; 核心学习内容</h4>
+              <ul>
+                <li><strong>Claude Agent SDK (TypeScript)</strong> — 循环、工具注册、子 Agent、Hooks、Skills</li>
+                <li><strong>工具设计原则</strong> — 如何设计让 Agent 能正确使用的工具</li>
+                <li><strong>MCP 协议</strong> — Model Context Protocol 基础，defer_loading 模式</li>
+                <li><strong>文件系统即记忆</strong> — 为什么不用向量数据库，用文件系统作为默认记忆层</li>
+                <li><strong>Sub-Agent 模式</strong> — 隔离上下文的子 Agent，压缩摘要返回</li>
+              </ul>
+
+              <h4>&#128214; 推荐资源</h4>
+              <div class="resource-list">
+                <div class="resource-item">
+                  <div class="resource-icon">1</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-agent-sdk" target="_blank">Claude Agent SDK 文档</a></div>
+                    <div class="resource-desc">官方 TS SDK，你的核心开发工具</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">2</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/claude-code-sandboxing" target="_blank">Beyond Permission Prompts (Anthropic)</a></div>
+                    <div class="resource-desc">沙箱化模式 — 安全又自主的 Agent 设计</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">3</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/code-execution-with-mcp" target="_blank">Code Execution with MCP (Anthropic)</a></div>
+                    <div class="resource-desc">150K → 2K token 优化，MCP 正确用法</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">4</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://modelcontextprotocol.io" target="_blank">MCP 官方文档</a></div>
+                    <div class="resource-desc">Model Context Protocol 规范和实现指南</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">5</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://github.com/affaan-m/everything-claude-code" target="_blank">everything-claude-code (GitHub)</a></div>
+                    <div class="resource-desc">Anthropic Hackathon 获奖项目，Claude Code 全面参考</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="deliverable-box">
+                <h4>&#9989; 阶段交付物</h4>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>构建一个使用 Claude Agent SDK 的 Tool-Using Agent（至少 1 个 Skill + 1 个 Hook + 1 个子 Agent）</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>用 Claude Code SDK 重新实现其核心循环，理解 Harness 内部机制</span>
+                </div>
+              </div>
+
+              <div class="focus-box">
+                <div class="focus-label">重点聚焦</div>
+                <p>Claude Agent SDK 有完整的 TypeScript 绑定，你不需要切换到 Python。重点理解循环、工具注册、和 Hooks 机制。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-block phase-2">
+        <div class="phase-dot">2</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">NORMAL</div>
+                <div class="phase-title">Deep Agent & 多步骤编排</div>
+                <div class="phase-subtitle">构建研究分析师 Agent — 规划、并行子 Agent、持久化</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>8 周</strong></div>
+                  <div class="phase-meta-item"><span class="label">强度</span> 正常节奏</div>
+                  <div class="phase-meta-item"><span class="swap-note">&#128260; LangGraph → Mastra</span></div>
+                </div>
+              </div>
+              <span class="toggle-icon">&#9660;</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="note-box">
+                <div class="note-label">TypeScript 适配</div>
+                <p>路线图原版使用 LangGraph (Python)，但你使用 TypeScript。Phase 2 的多步骤编排部分使用 <a href="https://mastra.ai" style="color: var(--accent-cyan)">Mastra</a> 作为 TS 原生替代。Mastra 是 YC W25 项目，由 Gatsby 团队构建，专为 TypeScript 生态设计。Claude Agent SDK 继续使用（有 TS 绑定）。</p>
+              </div>
+
+              <h4>&#128218; 核心学习内容</h4>
+              <ul>
+                <li><strong>Mastra 框架</strong> — TypeScript 原生的 Agent 编排框架，状态图 + 中间件模式</li>
+                <li><strong>持久化与检查点</strong> — 进程中断后恢复执行，检查点策略</li>
+                <li><strong>Human-in-the-loop</strong> — 在关键决策点暂停等待人类确认</li>
+                <li><strong>并行子 Agent</strong> — 隔离上下文的子 Agent 并行执行，压缩摘要返回父 Agent</li>
+                <li><strong>上下文压缩策略</strong> — 文件系统卸载、历史压缩、隔离上下文</li>
+                <li><strong>记忆选择</strong> — 线程级（检查点）、用户级（Mem0）、自管理（文件系统），为什么不用向量数据库</li>
+              </ul>
+
+              <h4>&#128214; 推荐资源</h4>
+              <div class="resource-list">
+                <div class="resource-item">
+                  <div class="resource-icon">1</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://mastra.ai" target="_blank">Mastra 官方文档</a></div>
+                    <div class="resource-desc">TypeScript 原生 Agent 框架，LangGraph 的 TS 替代</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">2</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/advanced-tool-use" target="_blank">Advanced Tool Use (Anthropic)</a></div>
+                    <div class="resource-desc">defer_loading 优化，85% token 削减</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">3</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/managed-agents" target="_blank">Scaling Managed Agents (Anthropic)</a></div>
+                    <div class="resource-desc">Session、Harness、Sandbox 分离架构</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">4</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://letta.com" target="_blank">Letta MemFS Benchmark</a></div>
+                    <div class="resource-desc">文件系统记忆 74% LoCoMo，超越定制记忆工具</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">5</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://composio.dev" target="_blank">Composio 文档</a></div>
+                    <div class="resource-desc">200+ SaaS 集成，MCP 网关，凭证代理</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="deliverable-box">
+                <h4>&#9989; 阶段交付物</h4>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>构建「研究分析师」Deep Agent：输入研究问题 → 规划 → 并行子 Agent 搜索 → 引用验证 → Markdown 报告</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>实现持久化：进程中断后可从检查点恢复</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>Human-in-the-loop：token 消费超 $1 时暂停确认</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>提交一次完整运行的 LangSmith Trace URL</span>
+                </div>
+              </div>
+
+              <div class="focus-box">
+                <div class="focus-label">重点聚焦</div>
+                <p>子 Agent 的上下文隔离是关键 — 子 Agent 永远不要把原始搜索结果返回给父 Agent，只返回压缩摘要。README 中说明你的上下文压缩策略和持久化方案。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-block phase-3">
+        <div class="phase-dot">3</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">NORMAL</div>
+                <div class="phase-title">构建你自己的 Harness</div>
+                <div class="phase-subtitle">从零写一个 1500 行的迷你 Harness，理解底层机制</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>8 周</strong></div>
+                  <div class="phase-meta-item"><span class="label">强度</span> 正常节奏 · 最高杠杆阶段</div>
+                </div>
+              </div>
+              <span class="toggle-icon">&#9660;</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <h4>&#128218; 核心学习内容</h4>
+              <ul>
+                <li><strong>Harness 十大组件</strong> — 循环控制、工具调度、上下文管理、持久化、子 Agent、Skills、Hooks、可观测性、沙箱、凭证代理</li>
+                <li><strong>收益优先级</strong> — 循环和工具调度 → 子 Agent → 持久化 → 可观测性（按此顺序实现）</li>
+                <li><strong>上下文管理</strong> — 系统提示加载、85% 窗口自动压缩、20K token 工具响应卸载、Prompt 缓存</li>
+                <li><strong>持久化执行</strong> — Inngest 或 Temporal，每步作为持久化步骤</li>
+                <li><strong>Harness 对比</strong> — 与 Claude Agent SDK、Deep Agents 的设计取舍对比</li>
+              </ul>
+
+              <h4>&#128214; 推荐资源</h4>
+              <div class="resource-list">
+                <div class="resource-item">
+                  <div class="resource-icon">1</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/the-anatomy-of-an-agent-harness/" target="_blank">Anatomy of an Agent Harness (LangChain)</a></div>
+                    <div class="resource-desc">最清晰的 Harness 分解，本阶段核心参考</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">2</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/improving-deep-agents-with-harness-engineering/" target="_blank">Improving Deep Agents with Harness Engineering (LangChain)</a></div>
+                    <div class="resource-desc">排名 30→5，只改 Harness 不改模型</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">3</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/better-harness-a-recipe-for-harness-hill-climbing-with-evals/" target="_blank">Better Harness: Hill-Climbing with Evals (LangChain)</a></div>
+                    <div class="resource-desc">自验证 + 追踪 = 自主改进 Harness 的方法</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">4</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://ml6.eu/en/blog/inside-the-claude-agents-sdk" target="_blank">Inside the Claude Agents SDK (ML6)</a></div>
+                    <div class="resource-desc">78% vs 42% — 同模型不同 Harness 的巨大差距</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">5</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://github.com/langchain-ai/deepagents" target="_blank">deepagents 源码 (GitHub)</a></div>
+                    <div class="resource-desc">中间件文件是 Harness 模式的核心参考</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="deliverable-box">
+                <h4>&#9989; 阶段交付物</h4>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>1500 行迷你 Harness：循环 + 工具注册（装饰器）+ 系统提示加载 + 子 Agent + 文件卸载 + 自动压缩 + Hooks + OTEL 追踪 + SQLite 持久化</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>1000 字 Post-Mortem：你的 Harness vs Claude Agent SDK vs Deep Agents，哪里对了、哪里砍了、会怎么改</span>
+                </div>
+              </div>
+
+              <div class="focus-box">
+                <div class="focus-label">重点聚焦</div>
+                <p>Post-Mortem 才是真正的交付物，代码只是证据。这阶段的核心认知：同样模型，不同 Harness，78% vs 42% — 差距在 Harness，不在模型。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase-block phase-4">
+        <div class="phase-dot">4</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">NORMAL</div>
+                <div class="phase-title">评估与回归体系</div>
+                <div class="phase-subtitle">让你的 Agent 可衡量 — 没有评估，一切改进都是玄学</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>8 周</strong></div>
+                  <div class="phase-meta-item"><span class="label">强度</span> 正常节奏</div>
+                </div>
+              </div>
+              <span class="toggle-icon">&#9660;</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="note-box">
+                <div class="note-label">兴趣探索适配</div>
+                <p>由于你的目标是兴趣探索 → 创业，CI 门控要求降为"有则更好"而非必须。但构建评估体系的思维方式对创业产品至关重要 — 你需要能证明产品没有退步。</p>
+              </div>
+
+              <h4>&#128218; 核心学习内容</h4>
+              <ul>
+                <li><strong>四种评估类型</strong> — 单轮评估、轨迹评估、LLM-as-Judge、终态评估</li>
+                <li><strong>可观测性平台</strong> — LangSmith（LangGraph 生态）/ Braintrust（框架无关 CI 门控）/ Inspect（基准级评估）</li>
+                <li><strong>黄金数据集</strong> — 从生产失败中构建，而非合成数据，每季度增长 10-20%</li>
+                <li><strong>评估陷阱</strong> — 基准污染 5-33% 高估、模型能检测是否被评估、pass^k 比 pass@1 更有意义</li>
+                <li><strong>CI 门控</strong> — PR 触发全量评估，黄金集通过率下降 ≥3 分则阻断合并</li>
+              </ul>
+
+              <h4>&#128214; 推荐资源</h4>
+              <div class="resource-list">
+                <div class="resource-item">
+                  <div class="resource-icon">1</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/demystifying-evals-for-ai-agents" target="_blank">Demystifying Evals for AI Agents (Anthropic)</a></div>
+                    <div class="resource-desc">四种评估类型的最佳入门</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">2</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/agent-evaluation-readiness-checklist/" target="_blank">Agent Evaluation Readiness Checklist (LangChain)</a></div>
+                    <div class="resource-desc">17 分钟实操清单，打印出来贴显示器上</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">3</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://hamel.dev/notes/llm/evals/inspect.html" target="_blank">Inspect AI 笔记 (Hamel Husain)</a></div>
+                    <div class="resource-desc">实践者的 Inspect 使用心得，先读这篇再安装</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">4</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/infrastructure-noise" target="_blank">Infrastructure Noise in Agentic Coding Evals (Anthropic)</a></div>
+                    <div class="resource-desc">不稳定的沙箱和网络抖动就能让分数浮动几个点</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">5</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://github.com/UKGovernmentBEIS/inspect_evals" target="_blank">inspect_evals (GitHub)</a></div>
+                    <div class="resource-desc">200+ 标准评估包：GAIA、SWE-bench、Cybench、BFCL</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="deliverable-box">
+                <h4>&#9989; 阶段交付物</h4>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>30-50 个手工标注的研究问题（3 个难度级别）+ 确定性评分器 + LLM-as-Judge 5 维度评分</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>轨迹评估：Agent 是否规划 → 是否启动 ≥2 个子 Agent → 是否引用来源 → 是否在预算内完成</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>至少跑一个公开基准（GAIA Level 1 或 τ²-bench），对比公开排行榜</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>记录你自己 Agent 的失败模式文档 — 这才是本阶段的真正产出</span>
+                </div>
+              </div>
+
+              <div class="focus-box">
+                <div class="focus-label">重点聚焦</div>
+                <p>如果只能做一件事：构建 30 个问题的黄金数据集并建立确定性评分器。这会从根本上改变你对 Agent 质量的判断方式。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 5 -->
+      <div class="phase-block phase-5">
+        <div class="phase-dot">5</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">DEEP</div>
+                <div class="phase-title">生产级加固 & 产品化</div>
+                <div class="phase-subtitle">让 Agent 在真实用户、真实成本、真实故障中存活 — 创业产品必修</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>5+ 周 · 持续进行</strong></div>
+                  <div class="phase-meta-item"><span class="label">强度</span> 深度 · 创业核心</div>
+                </div>
+              </div>
+              <span class="toggle-icon">&#9660;</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="note-box">
+                <div class="note-label">创业适配</div>
+                <p>由于你的目标是创业/做产品，Phase 5 提升为 <strong>DEEP</strong> 级别。额外增加「成本纪律」作为独立交付物 — 对创业产品而言，成本控制是生死线。</p>
+              </div>
+
+              <h4>&#128218; 核心学习内容</h4>
+              <ul>
+                <li><strong>成本纪律</strong> — Prompt 缓存（最高 90% 节省）、按难度路由模型（Haiku/Sonnet/Opus）、Batch API 50% 折扣、多 Agent 约 15× token 消耗</li>
+                <li><strong>延迟优化</strong> — 并行工具调用、流式输出、子 Agent 扇出（60 步串行 → 10 步主 + 5 个并行 10 步子 Agent）</li>
+                <li><strong>安全与沙箱</strong> — Modal/E2B 代码执行沙箱、Composio 凭证代理、PreToolUse Hooks 阻断危险操作</li>
+                <li><strong>监控与漂移</strong> — 追踪采样策略、token 成本/请求、工具失败率、LLM-as-Judge 均分、p95 延迟</li>
+                <li><strong>韧性</strong> — 持久化执行非可选（>60s 的 Agent）、检查点、回退、分叉</li>
+                <li><strong>产品化思维</strong> — 从技术项目到可售卖产品的转化：定价模型、用户引导、错误体验</li>
+              </ul>
+
+              <h4>&#128214; 推荐资源</h4>
+              <div class="resource-list">
+                <div class="resource-item">
+                  <div class="resource-icon">1</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://modal.com/docs" target="_blank">Modal 文档</a></div>
+                    <div class="resource-desc">Python 代码执行的默认沙箱</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">2</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://anthropic.com/engineering/claude-code-auto-mode" target="_blank">Claude Code Auto Mode (Anthropic)</a></div>
+                    <div class="resource-desc">无人值守运行 Agent 的安全模式</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">3</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/production-agents-self-heal/" target="_blank">How My Agents Self-Heal in Production (LangChain)</a></div>
+                    <div class="resource-desc">自动检测回归、诊断原因、开修复 PR 的生产线</div>
+                  </div>
+                </div>
+                <div class="resource-item">
+                  <div class="resource-icon">4</div>
+                  <div class="resource-info">
+                    <div class="resource-name"><a href="https://blog.langchain.com/open-models-have-crossed-a-threshold/" target="_blank">Open Models Have Crossed a Threshold (LangChain)</a></div>
+                    <div class="resource-desc">GLM-5 / MiniMax M2.7 在核心 Agent 任务上匹配闭源前沿模型</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="deliverable-box">
+                <h4>&#9989; 阶段交付物</h4>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>Prompt 缓存已配置（系统提示 + CLAUDE.md + 工具定义）</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>模型路由层：按难度分配模型，硬性成本/任务预算 + 告警</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>沙箱执行 + 凭证代理：模型永远看不到它使用的凭证</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>Hooks 阻断危险操作 + 不可逆操作需人工审批</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>追踪采样 + 漂移告警 + 模型升级后重新基线化</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span>持久化执行层：进程崩溃是非事件</span>
+                </div>
+                <div class="checkbox-item">
+                  <div class="checkbox"></div>
+                  <span><strong>成本纪律文档</strong>（创业额外交付物）：每任务成本上限、缓存策略、路由规则、Batch vs 实时决策矩阵</span>
+                </div>
+              </div>
+
+              <div class="focus-box">
+                <div class="focus-label">重点聚焦</div>
+                <p>对创业产品而言，成本控制是生死线。多 Agent 系统约 15× 单 Agent 的 token 消耗 — 确保答案的价值能覆盖这个成本。先做 Prompt 缓存和模型路由，再考虑其他优化。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="section-label">时间线总览</div>
+    <h2 class="section-title">关键数字</h2>
+    <p class="section-desc">基于 11.5h/周 节奏调整后的预估。标准路线图 17 周 × 2.5 = 42.5 周。</p>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">42</div>
+        <div class="stat-label">总周数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">学习阶段</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~480</div>
+        <div class="stat-label">总投入小时</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5</div>
+        <div class="stat-label">实践项目</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2.5×</div>
+        <div class="stat-label">时间系数</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-card">
+      <h3>下一步：今天就开始</h3>
+      <p>先花 2 小时读完 <a href="https://anthropic.com/research/building-effective-agents" style="color: var(--accent-blue)">Building Effective Agents</a>，用自己的话写下：Agent 和普通 API 调用的本质区别是什么？</p>
+      <a href="https://anthropic.com/research/building-effective-agents" target="_blank" class="cta-action">
+        开始阅读 &#8594;
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>个性化自 <a href="https://github.com/codejunkie99/agent-roadmap-2026" target="_blank">Agent Engineering Roadmap 2026</a> &middot; 生成日期 2026-05-14</p>
+    <p style="margin-top: 8px;">Phase 0: 5wk + Phase 1: 8wk + Phase 2: 8wk + Phase 3: 8wk + Phase 4: 8wk + Phase 5: 5+wk = 42+ weeks (17wk &times; 2.5 at ~11.5h/week)</p>
+  </footer>
+
+  <script>
+    // Intersection Observer for fade-in animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.phase-block').forEach(block => {
+      observer.observe(block);
+    });
+
+    // Collapsible phase cards
+    function togglePhase(header) {
+      header.classList.toggle('open');
+      const body = header.closest('.phase-card').querySelector('.collapsible-body');
+      body.classList.toggle('open');
+    }
+
+    // Smooth scroll for hero
+    document.querySelector('.scroll-hint')?.addEventListener('click', () => {
+      document.querySelector('.profile-section')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
