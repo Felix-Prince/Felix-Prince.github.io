@@ -85,7 +85,7 @@
 
 | 功能 | 规格 |
 |------|------|
-| 导出当前 | 原图分辨率 JPG → 浏览器下载 |
+| 导出当前 | 原图分辨率 JPG → 浏览器下载（最大 6000px） |
 | 批量导出 | 遍历图片列表逐张导出 |
 | 导出逻辑 | Stage 设原图尺寸 → `toDataURL({pixelRatio:1})` → 恢复 → 下载 |
 | 文件名 | `cameravision-export-{timestamp}.jpg` |
@@ -143,7 +143,7 @@ src/components/cameravision/FrameWatermark/
 | 风险 | 缓解 |
 |------|------|
 | EXIF 被社交平台剥离 | 手动输入兜底 |
-| 大图内存溢出 | 限制最大 8000px |
+| 大图内存溢出 | 限制最大 6000px |
 | `react-konva` 包体积 | React.lazy 路由懒加载 |
 | LOGO 品牌版权 | 仅个人站展示，不商用 |
 

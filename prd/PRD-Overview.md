@@ -163,7 +163,9 @@ src/
 ├── data/
 │   ├── camera-logos.ts                # LOGO 品牌元数据
 │   ├── crop-presets.ts                # 平台裁切预设
-│   └── sensor-sizes.ts               # 传感器尺寸 + 弥散圆
+│   ├── sensor-sizes.ts               # 传感器尺寸 + 弥散圆
+│   ├── focal-length-guide.ts         # 焦段推荐映射表 + 距离矩阵
+│   └── fujinon-lenses.ts             # 富士原生 + 副厂镜头参考列表
 └── assets/
     └── logos/                          # 相机品牌 LOGO（26+ PNG）
 ```
@@ -174,8 +176,8 @@ src/
 |-------|------|---------|
 | 1 | 页面骨架 + Tab 1 边框水印 MVP | Overview + Tab1 |
 | 2 | Tab 2 EXIF 分析 + Tab 3 裁切预览 | Tab2 + Tab3 |
-| 3 | Tab 4 拍摄计算器 + Tab 1/2 高级功能 | Tab4 + Tab1/2 增强 |
-| 4 | 精细化：移动端、更多样式、联动 | 全部 |
+| 3 | Tab 4 拍摄计算器（富士 APS-C 优先）+ Tab 1/2 增强 | Tab4 + Tab1/2 增强 |
+| 4 | 精细化：月相、收藏、镜头库、联动 | 全部 |
 
 ## 十、非功能需求
 
@@ -196,6 +198,7 @@ src/
 | LOGO 品牌版权 | 仅个人站展示，不商用 |
 | 功能过于分散 | 优先打磨 Tab 1，其他 Tab 逐步完善 |
 | 移动端 Canvas 性能 | Phase 4 考虑降级方案 |
+| 镜头数据维护 | 首批覆盖富士主流原生，副厂社区贡献 |
 
 ---
 
