@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { roadmaps, type RoadmapMeta } from '../data/roadmaps';
 
 const statusConfig: Record<RoadmapMeta['status'], { label: string; color: string }> = {
-  active: { label: '进行中', color: '#4ecdc4' },
-  completed: { label: '已完成', color: '#a8e6cf' },
-  planned: { label: '已规划', color: '#d2fffe' },
+  active: { label: '进行中', color: '#4f8fff' },
+  completed: { label: '已完成', color: '#8b5cf6' },
+  planned: { label: '已规划', color: '#22d3ee' },
 };
 
 function RoadmapCard({ roadmap }: { roadmap: RoadmapMeta }) {
@@ -17,26 +17,25 @@ function RoadmapCard({ roadmap }: { roadmap: RoadmapMeta }) {
         display: 'block',
         textDecoration: 'none',
         color: 'inherit',
-        background: 'var(--color-bg-elevated)',
-        border: '1px solid var(--color-border)',
+        background:
+          'linear-gradient(135deg, rgba(79, 143, 255, 0.15) 0%, rgba(5, 8, 16, 0.95) 100%)',
+        border: '1px solid rgba(232, 232, 240, 0.2)',
         borderRadius: 'var(--radius-lg)',
         padding: '28px',
-        transition: 'all 0.4s var(--transition-ease)',
         cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
+        transition: 'all 0.4s var(--transition-ease)',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget;
-        el.style.background = 'var(--color-bg-elevated-hover)';
-        el.style.borderColor = 'var(--color-border-strong)';
+        el.style.borderColor = '#4f8fff';
         el.style.transform = 'translateY(-4px)';
-        el.style.boxShadow = 'var(--shadow-soft)';
+        el.style.boxShadow = '0 0 30px rgba(79, 143, 255, 0.4), 0 0 60px rgba(139, 92, 246, 0.15)';
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget;
-        el.style.background = 'var(--color-bg-elevated)';
-        el.style.borderColor = 'var(--color-border)';
+        el.style.borderColor = 'rgba(232, 232, 240, 0.2)';
         el.style.transform = 'translateY(0)';
         el.style.boxShadow = 'none';
       }}
@@ -118,6 +117,7 @@ function RoadmapCard({ roadmap }: { roadmap: RoadmapMeta }) {
           display: 'flex',
           flexWrap: 'wrap',
           gap: '6px',
+          marginBottom: '20px',
         }}
       >
         {roadmap.tags.map((tag) => (
@@ -126,9 +126,9 @@ function RoadmapCard({ roadmap }: { roadmap: RoadmapMeta }) {
             style={{
               fontSize: '11px',
               fontWeight: 500,
-              color: 'var(--color-accent-secondary)',
-              background: 'rgba(78, 205, 196, 0.1)',
-              border: '1px solid rgba(78, 205, 196, 0.2)',
+              color: '#4f8fff',
+              background: 'rgba(79, 143, 255, 0.1)',
+              border: '1px solid rgba(79, 143, 255, 0.25)',
               borderRadius: '4px',
               padding: '2px 8px',
               fontFamily: "'JetBrains Mono', monospace",
@@ -137,6 +137,44 @@ function RoadmapCard({ roadmap }: { roadmap: RoadmapMeta }) {
             {tag}
           </span>
         ))}
+      </div>
+
+      <div
+        style={{
+          paddingTop: '16px',
+          borderTop: '1px solid rgba(232, 232, 240, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '13px',
+            fontWeight: 500,
+            background:
+              'linear-gradient(135deg, #ffffff 0%, #4f8fff 50%, #8b5cf6 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'transparent',
+          }}
+        >
+          查看路线
+        </span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#4f8fff"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
       </div>
     </a>
   );

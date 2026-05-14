@@ -320,11 +320,10 @@ export function ColorWalk() {
           </section>
 
           <section style={{
-            background: 'var(--color-bg-elevated)',
+            background: 'rgba(8, 10, 18, 0.85)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-xl)',
             padding: '24px',
-            backdropFilter: 'blur(20px)',
             animation: 'fade-in-up 0.8s var(--transition-ease) 0.2s both'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>

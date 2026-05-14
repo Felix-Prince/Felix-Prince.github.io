@@ -63,7 +63,7 @@ export function Home() {
               fontWeight: 600,
               letterSpacing: '-0.03em',
               marginBottom: '16px',
-              background: 'linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #4f8fff 50%, #8b5cf6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               animation: 'fade-in-up 0.8s var(--transition-ease) 0.1s both'
