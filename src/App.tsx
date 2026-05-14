@@ -4,6 +4,7 @@ import { ChipBackground } from './components/layout/ChipBackground';
 import { Home } from './pages/Home';
 import { ColorWalk } from './pages/ColorWalk';
 import { PhotoGallery } from './pages/PhotoGallery';
+import { RoadmapHub } from './pages/RoadmapHub';
 import './styles/globals.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         } />
         <Route path="/colorwalk" element={<ColorWalk />} />
         <Route path="/photogallery" element={<PhotoGallery />} />
+        <Route path="/roadmaps" element={<RoadmapHub />} />
       </Routes>
     </Router>
   );

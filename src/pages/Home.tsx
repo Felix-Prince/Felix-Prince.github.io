@@ -145,11 +145,12 @@ export function Home() {
               ctaText="浏览作品"
             />
             <ProjectCard
-              isPlaceholder
-              type=""
-              title=""
-              description="更多项目\n即将推出"
-              emoji="✨"
+              to="/roadmaps"
+              type="Learning"
+              title="学习路线"
+              description="Agent 工程系统学习路线，从零基础到创业方向的全面指南。"
+              emoji="🧭"
+              ctaText="查看路线"
             />
           </div>
         </section>
