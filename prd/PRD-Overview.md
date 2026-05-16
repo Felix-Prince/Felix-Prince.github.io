@@ -27,12 +27,12 @@
 
 Camera Vision 采用 **Tab 工具箱模式**，每个 Tab 对应独立 PRD：
 
-| Tab | 名称 | PRD 文档 | 优先级 | 依赖 |
-|-----|------|---------|--------|------|
-| Tab 1 | 边框水印 | [PRD-Tab1-FrameWatermark.md](PRD-Tab1-FrameWatermark.md) | P0 | konva, react-konva, exifr |
-| Tab 2 | EXIF 分析 | [PRD-Tab2-ExifAnalyzer.md](PRD-Tab2-ExifAnalyzer.md) | P1 | exifr |
-| Tab 3 | 裁切预览 | [PRD-Tab3-CropPreview.md](PRD-Tab3-CropPreview.md) | P1 | — |
-| Tab 4 | 拍摄计算器 | [PRD-Tab4-PhotoCalculator.md](PRD-Tab4-PhotoCalculator.md) | P1 | suncalc |
+| Tab | 名称 | PRD 文档 | 优先级 | 依赖 | 模式 |
+|-----|------|---------|--------|------|------|
+| Tab 1 | 边框水印 | [PRD-Tab1-FrameWatermark.md](PRD-Tab1-FrameWatermark.md) | P0 | konva, react-konva, exifr | Web UI + CLI 工具 |
+| Tab 2 | EXIF 分析 | [PRD-Tab2-ExifAnalyzer.md](PRD-Tab2-ExifAnalyzer.md) | P1 | exifr | Web UI |
+| Tab 3 | 裁切预览 | [PRD-Tab3-CropPreview.md](PRD-Tab3-CropPreview.md) | P1 | — | Web UI |
+| Tab 4 | 拍摄计算器 | [PRD-Tab4-PhotoCalculator.md](PRD-Tab4-PhotoCalculator.md) | P1 | suncalc | Web UI |
 
 ## 四、页面布局
 
@@ -157,7 +157,13 @@ src/
 │   ├── useExifParser.ts               # EXIF 解析 hook
 │   └── useImageConfig.ts              # 图片配置状态管理
 ├── utils/
-│   ├── canvas-render.ts               # Canvas 渲染核心
+│   ├── frame-renderer/                # 核心渲染引擎（Web + CLI 共享）
+│   │   ├── types.ts                   # RenderConfig 接口 + 布局类型
+│   │   ├── web-renderer.tsx           # Konva 组件包装（仅 Web）
+│   │   ├── node-renderer.ts           # node-canvas 渲染（仅 CLI）
+│   │   ├── logo-color.ts              # LOGO 像素级变色
+│   │   └── exif-formatter.ts          # EXIF 参数格式化
+│   ├── canvas-render.ts               # Canvas 渲染核心（备用层）
 │   ├── logo-color.ts                  # LOGO 像素级变色
 │   └── exif-formatter.ts              # EXIF 参数格式化
 ├── data/
@@ -166,8 +172,10 @@ src/
 │   ├── sensor-sizes.ts               # 传感器尺寸 + 弥散圆
 │   ├── focal-length-guide.ts         # 焦段推荐映射表 + 距离矩阵
 │   └── fujinon-lenses.ts             # 富士原生 + 副厂镜头参考列表
-└── assets/
-    └── logos/                          # 相机品牌 LOGO（26+ PNG）
+├── assets/
+│   └── logos/                          # 相机品牌 LOGO（26+ PNG）
+└── scripts/                            # CLI 工具
+    └── watermark-cli.js                # 命令行批量边框水印处理
 ```
 
 ## 九、迭代路线图
@@ -199,7 +207,9 @@ src/
 | 功能过于分散 | 优先打磨 Tab 1，其他 Tab 逐步完善 |
 | 移动端 Canvas 性能 | Phase 4 考虑降级方案 |
 | 镜头数据维护 | 首批覆盖富士主流原生，副厂社区贡献 |
+| CLI/Web 渲染差异 | 共享布局纯函数，差异仅绘图 API 层 |
+| node-canvas 原生编译 | optionalDependency 不阻塞 Web 端 |
 
 ---
 
-_文档版本：v1.0 | 最后更新：2026-05-03_
+_文档版本：v1.1 | 最后更新：2026-05-16_

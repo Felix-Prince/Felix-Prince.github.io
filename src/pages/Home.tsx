@@ -152,6 +152,14 @@ export function Home() {
               emoji="🧭"
               ctaText="查看路线"
             />
+            <ProjectCard
+              to="/cameravision"
+              type="Web Tool"
+              title="Camera Vision"
+              description="在线照片边框水印工具，自动读取 EXIF 拍摄参数，添加品牌 LOGO 与自定义水印。"
+              emoji="🖼"
+              ctaText="开始使用"
+            />
           </div>
         </section>
       </main>

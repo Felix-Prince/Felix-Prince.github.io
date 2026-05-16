@@ -55,6 +55,7 @@
 
 ### 沟通输出
 
+- **文档优先中文**：所有文档类输出（PRD、设计文档、任务列表、注释等）以中文为第一优先级，英文次之。代码标识符（变量名/函数名/文件名）保持英文不变。
 - 简洁明了，避免冗长描述；核心逻辑用 1-2 句话说明。
 - 文件引用使用标准格式：`[文件名](sslocal://flow/file_open?url=%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)`（如 `[src/components/Button.tsx](sslocal://flow/file_open?url=src%2Fcomponents%2FButton.tsx&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)`）。
 - 关键代码位置引用：`[文件名:行号](sslocal://flow/file_open?url=%E8%B7%AF%E5%BE%84%23L%E8%A1%8C%E5%8F%B7&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)`（如 `[src/App.tsx:10](sslocal://flow/file_open?url=src%2FApp.tsx%23L10&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)`）。
