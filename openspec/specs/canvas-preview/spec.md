@@ -14,8 +14,8 @@
 #### Scenario: 参数变更重绘
 
 - **WHEN** 用户调节任意参数（相框/水印）
-- **THEN** 系统在 16ms debounce 后重新渲染 Canvas
-- **THEN** 渲染流程：清空 Layer → 绘制虚化背景 → 绘制圆角照片(含阴影) → 绘制水印组
+- **THEN** 系统在 requestAnimationFrame 节流后重新渲染 Canvas（取消上一个未执行的帧）
+- **THEN** 渲染内容：虚化背景 → 圆角照片(含阴影) → 水印组
 
 ### Requirement: 画布自适应
 
@@ -25,7 +25,7 @@
 
 - **WHEN** 浏览器窗口宽度变化
 - **THEN** ResizeObserver 触发重新计算
-- **THEN** Stage 尺寸按容器等比例缩放
+- **THEN** 计算 stageScale 使图片适应容器（图片尺寸 > 容器 90% 时等比缩放）
 - **THEN** 照片保持原始宽高比居中显示
 
 #### Scenario: 面板展开/收起
@@ -41,4 +41,4 @@
 
 - **WHEN** 屏幕宽度 < 768px
 - **THEN** 预览区在上，设置面板在下的垂直布局
-- **THEN** 预估高度控制预览区高度不超过视口 60%
+- **THEN** 预览区高度为视口 50%

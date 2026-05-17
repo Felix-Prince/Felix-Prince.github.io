@@ -2,7 +2,7 @@
 
 ### Requirement: 相机 LOGO 选择
 
-系统 SHALL 提供 26+ 相机品牌 LOGO，用户可通过浮层选择。
+系统 SHALL 提供 8 个相机品牌 LOGO，用户可通过浮层选择。
 
 #### Scenario: 打开 LOGO 选择器
 
@@ -16,12 +16,12 @@
 - **THEN** 浮层关闭
 - **THEN** 所选品牌 LOGO 显示在水印位置
 
-#### Scenario: LOGO 变色
+#### Scenario: LOGO 加载
 
-- **WHEN** 所选的 LOGO 文件名不含 `_full`
-- **THEN** 系统自动将 LOGO 像素的色相/明度按当前字体色处理
-- **WHEN** 字体色改变
-- **THEN** LOGO 颜色自动同步更新
+- **WHEN** 选择的品牌有对应的 SVG/PNG 文件
+- **THEN** 系统直接加载原始文件并显示
+- **WHEN** 文件加载失败
+- **THEN** 不显示 LOGO（无文字回退）
 
 ### Requirement: 型号文字
 
@@ -45,12 +45,12 @@
 
 - **WHEN** 用户在字体 Select 中选择字体
 - **THEN** 水印文字立即切换为所选字体
-- **可选字体**: DingTalkSans、Arial、Times New Roman、Georgia、Courier New
+- **可选字体**: Arial、Times New Roman、Georgia、Courier New
 
 #### Scenario: 字体颜色
 
 - **WHEN** 用户在拾色器中选取颜色
-- **THEN** 水印文字和 LOGO 颜色同步更新
+- **THEN** 水印文字颜色更新
 - **THEN** 拾色器类型为 `<input type="color">`
 
 #### Scenario: 字号调节
@@ -60,13 +60,16 @@
 
 ### Requirement: 水印布局
 
-水印 SHALL 水平居中排列于照片底部：LOGO + 型号 + 分割线 + EXIF 参数。
+水印 SHALL 采用两行布局，整体水平居中显示在照片底部模糊背景区域。
 
 #### Scenario: 完整水印布局
 
 - **WHEN** LOGO、型号、EXIF 参数均存在
-- **THEN** 布局顺序为：[LOGO 图标] [型号文字] [竖线分割] [EXIF 参数文字]
-- **THEN** 整体水平居中于照片底部边缘
+- **THEN** 布局顺序为：
+  - 第一行：[LOGO 图标]（水平居中）
+  - 第二行：[型号文字] [间隔] [EXIF 参数文字]（水平居中）
+- **THEN** LOGO 与文字行之间有固定间距
+- **THEN** 整体水平居中于照片底部（水印位置 Y = 照片高度 × 0.925）
 
 #### Scenario: 部分元素缺失
 
@@ -74,6 +77,13 @@
 - **THEN** 剩余元素正常排列居中对齐
 - **WHEN** LOGO 未选择、型号和 EXIF 均为空
 - **THEN** 不渲染水印
+
+#### Scenario: 品牌 LOGO 尺寸
+
+- **WHEN** 品牌为 Leica 或 DJI
+- **THEN** LOGO 高度倍率为 1.8 倍字号（比其他品牌更突出）
+- **WHEN** 品牌为其他（Nikon、Canon、Sony、Fujifilm、Hasselblad、Ricoh）
+- **THEN** LOGO 高度倍率为 1.4 倍字号
 
 ### Requirement: CLI 配置
 

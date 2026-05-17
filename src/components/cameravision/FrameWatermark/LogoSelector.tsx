@@ -1,11 +1,9 @@
-import { logoToDataUrl } from '../../../utils/frame-renderer/logo-renderer';
+import { useState } from 'react';
+import { getLogoPath } from '../../../data/camera-logos';
 
 const LOGO_BRANDS = [
-  'Nikon', 'Nikon Full', 'Canon', 'Sony', 'Fujifilm',
-  'Hasselblad', 'Hasselblad-T', 'Leica', 'Leica Full', 'Leica Red Full',
-  'RED', 'RED Full', 'DJI', 'Insta360', 'Kodak',
-  'Lumix', 'Mamiya', 'Olympus', 'Panasonic', 'Pentax',
-  'Phase One', 'Ricoh', 'Rolleiflex', 'Sigma', 'Tamron', 'Zeiss Full',
+  'Nikon', 'Canon', 'Sony', 'Fujifilm',
+  'Hasselblad', 'Leica', 'DJI', 'Ricoh',
 ];
 
 interface LogoSelectorProps {
@@ -13,6 +11,24 @@ interface LogoSelectorProps {
   selectedLogo: string | null;
   onSelect: (logo: string | null) => void;
   onClose: () => void;
+}
+
+function LogoThumb({ brand }: { brand: string }) {
+  const [failed, setFailed] = useState(false);
+  const src = getLogoPath(brand);
+  if (!src || failed) return null;
+  return (
+    <img
+      src={src}
+      alt={brand}
+      onError={() => setFailed(true)}
+      style={{
+        width: '64px', height: '64px',
+        objectFit: 'contain', display: 'block',
+        borderRadius: '6px',
+      }}
+    />
+  );
 }
 
 export function LogoSelector({ isOpen, selectedLogo, onSelect, onClose }: LogoSelectorProps) {
@@ -81,16 +97,7 @@ export function LogoSelector({ isOpen, selectedLogo, onSelect, onClose }: LogoSe
                   transition: 'border-color 0.2s, background 0.2s',
                 }}
               >
-                <img
-                  src={logoToDataUrl(brand)}
-                  alt={brand}
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '6px',
-                    display: 'block',
-                  }}
-                />
+                <LogoThumb brand={brand} />
                 <span style={{
                   fontSize: '10px',
                   color: 'var(--color-text-secondary)',

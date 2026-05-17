@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState } from 'react';
-import { Stage, Layer, Image as KonvaImage, Group, Rect, Text } from 'react-konva';
-import type Konva from 'konva';
+import { useRef, useEffect, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
+import { Stage, Layer, Image as KonvaImage, Group, Text } from 'react-konva';
+import Konva from 'konva';
 import { calcLayout } from './layout';
-import { logoToDataUrl } from './logo-renderer';
-import type { RenderConfig, ImageSize, ImageTier } from './types';
+import { getLogoPath } from '../../data/camera-logos';
+import type { RenderConfig, ImageTier, LayoutResult } from './types';
 
 interface WebRendererProps {
   config: RenderConfig;
@@ -12,262 +12,244 @@ interface WebRendererProps {
   containerHeight: number;
 }
 
-export function WebRenderer({ config, imageTier, containerWidth, containerHeight }: WebRendererProps) {
-  const stageRef = useRef<Konva.Stage>(null);
-  const [previewImg, setPreviewImg] = useState<HTMLImageElement | null>(null);
-  const [blurImg, setBlurImg] = useState<HTMLImageElement | null>(null);
-  const [logoKonvaImg, setLogoKonvaImg] = useState<HTMLImageElement | null>(null);
+// Module-level logo cache — persists across re-renders
+const logoCache = new Map<string, HTMLImageElement>();
 
-  // Load logo image when brand changes
+function loadLogo(brand: string): Promise<HTMLImageElement | null> {
+  const cached = logoCache.get(brand);
+  if (cached) return Promise.resolve(cached);
+
+  const src = getLogoPath(brand);
+  if (!src) return Promise.resolve(null);
+
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      logoCache.set(brand, img);
+      resolve(img);
+    };
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+export interface WebRendererHandle {
+  exportImage: (pixelRatio?: number) => Promise<Blob | null>;
+}
+
+export const WebRenderer = forwardRef<WebRendererHandle, WebRendererProps>(
+  ({ config, imageTier, containerWidth, containerHeight }, ref) => {
+  const stageRef = useRef<Konva.Stage>(null);
+  const bgImgRef = useRef<Konva.Image>(null);
+  const [originalImg, setOriginalImg] = useState<HTMLImageElement | null>(null);
+  const [logoKonvaImg, setLogoKonvaImg] = useState<HTMLImageElement | null>(null);
+  const prevSrcRef = useRef<string>('');
+
+  // Load original image
+  useEffect(() => {
+    if (!imageTier) {
+      setOriginalImg(null);
+      return;
+    }
+    const src = imageTier.original;
+    if (src === prevSrcRef.current && originalImg) return;
+    prevSrcRef.current = src;
+
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => setOriginalImg(img);
+    img.src = src;
+  }, [imageTier]);
+
+  // Load logo image from cache/assets/SVG
   useEffect(() => {
     if (!config.frame.watermark.logo) {
       setLogoKonvaImg(null);
       return;
     }
-    const img = new window.Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => setLogoKonvaImg(img);
-    img.src = logoToDataUrl(config.frame.watermark.logo);
+
+    const brand = config.frame.watermark.logo;
+
+    // Check cache first
+    const cached = logoCache.get(brand);
+    if (cached) {
+      setLogoKonvaImg(cached);
+      return;
+    }
+
+    loadLogo(brand).then((img) => {
+      if (img) setLogoKonvaImg(img);
+    });
   }, [config.frame.watermark.logo]);
-  const blurCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const prevBlurKeyRef = useRef<string>('');
-  const prevSrcRef = useRef<string>('');
 
-  const viewportSize: ImageSize = {
-    width: containerWidth,
-    height: containerHeight,
-  };
-
-  // Load preview image when image tier changes
+  // Cache blur background when image changes or blur is enabled/disabled
   useEffect(() => {
-    if (!imageTier) {
-      setPreviewImg(null);
-      setBlurImg(null);
-      return;
+    const node = bgImgRef.current;
+    if (node && originalImg) {
+      node.cache();
     }
-    const src = imageTier.preview;
-    if (src === prevSrcRef.current) return;
-    prevSrcRef.current = src;
+  }, [originalImg, config.frame.blurRadius ? 1 : 0]);
 
-    const img = new window.Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      setPreviewImg(img);
-    };
-    img.src = src;
-  }, [imageTier]);
+  // Stage scale: fit image within 90 % of container
+  const stageScale = useMemo(() => {
+    if (!imageTier || containerWidth === 0 || containerHeight === 0) return 1;
+    const { width, height } = imageTier.size;
+    if (width <= containerWidth * 0.9 && height <= containerHeight * 0.9) return 1;
+    const sx = (containerWidth / width) * 0.9;
+    const sy = (containerHeight / height) * 0.9;
+    return Math.min(sx, sy);
+  }, [imageTier, containerWidth, containerHeight]);
 
-  // Generate blur background via offscreen canvas
-  useEffect(() => {
-    if (!imageTier || !previewImg || config.frame.blurRadius === 0) {
-      setBlurImg(null);
-      blurCanvasRef.current = null;
-      return;
-    }
+  const imgW = imageTier?.size.width ?? 0;
+  const imgH = imageTier?.size.height ?? 0;
+  const contentW = Math.round(imgW * stageScale);
+  const contentH = Math.round(imgH * stageScale);
 
-    const blurKey = `${imageTier.original}_${config.frame.blurRadius}`;
-    if (blurKey === prevBlurKeyRef.current && blurCanvasRef.current) {
-      return;
-    }
-    prevBlurKeyRef.current = blurKey;
+  // Store image dimensions in refs so exportImage can read them at call time
+  const imgSizeRef = useRef({ imgW, imgH, stageScale, contentW, contentH });
+  imgSizeRef.current = { imgW, imgH, stageScale, contentW, contentH };
 
-    const offscreen = document.createElement('canvas');
-    offscreen.width = containerWidth;
-    offscreen.height = containerHeight;
-    const ctx = offscreen.getContext('2d')!;
+  useImperativeHandle(ref, () => ({
+    exportImage: async (pixelRatio?: number) => {
+      bgImgRef.current?.cache();
+      await new Promise((r) => requestAnimationFrame(r));
+      const stage = stageRef.current;
+      if (!stage) return null;
+      const { imgW: w, imgH: h, contentW: cw, contentH: ch } = imgSizeRef.current;
+      if (cw <= 0 || ch <= 0) return null;
+      // Auto-calculate pixelRatio for near-native resolution (capped at 4x)
+      const pr = pixelRatio ?? Math.min(Math.ceil(Math.max(w / cw, h / ch)), 4);
+      const dataUrl = stage.toDataURL({
+        pixelRatio: pr,
+        mimeType: 'image/jpeg',
+        quality: 0.92,
+      } as unknown as Record<string, unknown>);
+      const res = await fetch(dataUrl);
+      return res.blob();
+    },
+  }), []);
 
-    // Scale image to cover canvas for blur
-    const scale = Math.max(
-      containerWidth / previewImg.width,
-      containerHeight / previewImg.height,
-    );
-    const drawW = Math.round(previewImg.width * scale);
-    const drawH = Math.round(previewImg.height * scale);
-    const drawX = Math.round((containerWidth - drawW) / 2);
-    const drawY = Math.round((containerHeight - drawH) / 2);
+  if (!imageTier || !originalImg) return null;
 
-    ctx.filter = `blur(${config.frame.blurRadius}px)`;
-    ctx.drawImage(previewImg, drawX, drawY, drawW, drawH);
-
-    const blurred = new window.Image();
-    blurred.onload = () => {
-      setBlurImg(blurred);
-      blurCanvasRef.current = offscreen;
-    };
-    blurred.src = offscreen.toDataURL();
-  }, [imageTier, previewImg, config.frame.blurRadius, containerWidth, containerHeight]);
-
-  if (!imageTier || !previewImg) {
-    return (
-      <Stage width={containerWidth} height={containerHeight}>
-        <Layer>
-          <Rect
-            x={0}
-            y={0}
-            width={containerWidth}
-            height={containerHeight}
-            fill="#050810"
-          />
-          <Text
-            x={containerWidth / 2 - 80}
-            y={containerHeight / 2 - 10}
-            text="请导入照片"
-            fontSize={16}
-            fill="rgba(210,255,254,0.4)"
-            fontFamily="'Noto Sans SC', sans-serif"
-          />
-        </Layer>
-      </Stage>
-    );
-  }
-
-  const layout = calcLayout(config, { width: previewImg.width, height: previewImg.height }, viewportSize);
+  const layout = calcLayout(config, imageTier.size);
 
   return (
-    <Stage ref={stageRef} width={containerWidth} height={containerHeight}>
-      {/* Blur background layer */}
+    <Stage ref={stageRef} width={contentW} height={contentH}>
       <Layer>
-        {blurImg ? (
+        <Group scaleX={stageScale} scaleY={stageScale}>
+          {/* Blur background — full image with Konva Blur filter */}
           <KonvaImage
-            image={blurImg}
-            x={0}
-            y={0}
-            width={containerWidth}
-            height={containerHeight}
+            ref={bgImgRef}
+            image={originalImg}
+            x={0} y={0}
+            width={imgW} height={imgH}
+            blurRadius={config.frame.blurRadius}
+            filters={config.frame.blurRadius > 0 ? [Konva.Filters.Blur] : undefined}
           />
-        ) : (
-          <Rect
-            x={0}
-            y={0}
-            width={containerWidth}
-            height={containerHeight}
-            fill="#050810"
-          />
-        )}
-      </Layer>
 
-      {/* Photo layer with shadow and rounded corners */}
-      <Layer>
-        <Group
-          x={layout.photoRect.x}
-          y={layout.photoRect.y}
-          clipFunc={(ctx) => {
-            ctx.beginPath();
-            ctx.roundRect(0, 0, layout.photoRect.width, layout.photoRect.height, layout.photoRect.cornerRadius);
-            ctx.closePath();
-          }}
-        >
-          {/* Shadow */}
-          <Rect
-            x={layout.shadowOffset.x}
-            y={layout.shadowOffset.y}
+          {/* Foreground photo — 80 % size, rounded corners + shadow */}
+          <KonvaImage
+            image={originalImg}
+            x={layout.photoRect.x}
+            y={layout.photoRect.y}
             width={layout.photoRect.width}
             height={layout.photoRect.height}
-            fill="rgba(0,0,0,0.3)"
             cornerRadius={layout.photoRect.cornerRadius}
+            shadowColor="rgba(0,0,0,0.35)"
+            shadowBlur={config.frame.shadowOffset}
+            shadowOffset={{ x: 0, y: Math.max(config.frame.shadowOffset, 1) }}
           />
-          {/* Photo */}
-          <KonvaImage
-            image={previewImg}
-            x={0}
-            y={0}
-            width={layout.photoRect.width}
-            height={layout.photoRect.height}
-          />
-        </Group>
-      </Layer>
 
-      {/* Watermark layer */}
-      <Layer>
-        <Group x={0} y={0}>
+          {/* Watermark — overlaid on blur background, no bar */}
           {renderWatermark(config, layout, logoKonvaImg)}
         </Group>
       </Layer>
     </Stage>
   );
-}
+});
 
-function renderWatermark(config: RenderConfig, layout: import('./types').LayoutResult, logoKonvaImg: HTMLImageElement | null) {
+function renderWatermark(
+  config: RenderConfig,
+  layout: LayoutResult,
+  logoKonvaImg: HTMLImageElement | null,
+) {
   const { watermark } = config.frame;
-  const { x: watermarkX } = layout.watermarkPosition;
-  const { width: viewportW, height: viewportH } = layout.blurRegion;
-  const hasLogo = !!watermark.logo;
+  const { x: centerX, y: centerY } = layout.watermarkPosition;
+  const hasLogo = !!watermark.logo && !!logoKonvaImg;
   const hasModel = watermark.model.trim().length > 0;
   const hasExif = watermark.exifText.trim().length > 0;
   if (!hasLogo && !hasModel && !hasExif) return null;
 
   const fontSize = Math.max(watermark.fontSize, 12);
-  const gap = 10;
-  const padX = 20;
-  const padY = 10;
-  const barHeight = fontSize + padY * 2;
-  const watermarkZoneCenter = viewportH - 30;
-  const barY = watermarkZoneCenter - barHeight / 2;
-
-  // Calculate total content width
-  let contentW = 0;
-  const items: { type: 'logo' | 'text'; width: number; text?: string }[] = [];
-
-  if (hasLogo) {
-    const w = fontSize;
-    items.push({ type: 'logo', width: w });
-    contentW += w + gap;
-  }
-  if (hasModel) {
-    const w = estimateTextWidth(watermark.model, fontSize, watermark.fontFamily);
-    items.push({ type: 'text', width: w, text: watermark.model });
-    contentW += w + gap;
-  }
-  if (hasModel && hasExif) {
-    items.push({ type: 'text', width: 12, text: '|' });
-    contentW += 12 + gap;
-  }
-  if (hasExif) {
-    const w = estimateTextWidth(watermark.exifText, fontSize, watermark.fontFamily);
-    items.push({ type: 'text', width: w, text: watermark.exifText });
-    contentW += w + gap;
-  }
-  contentW = Math.max(contentW - gap, 0);
-
-  // Content bar: centered at bottom of viewport
-  const barW = Math.min(contentW + padX * 2, viewportW - 40);
-  const barX = watermarkX - barW / 2;
-  const contentStartX = barX + padX;
-
-  let offsetX = 0;
   const children: React.ReactNode[] = [];
   let key = 0;
 
-  for (const item of items) {
-    const x = contentStartX + offsetX;
-    if (item.type === 'logo' && logoKonvaImg) {
-      children.push(
-        <KonvaImage key={key++} image={logoKonvaImg} x={x} y={barY + padY - fontSize * 0.1} width={fontSize} height={fontSize} />,
-      );
-    } else if (item.type === 'logo') {
-      children.push(
-        <Text key={key++} x={x} y={barY + padY} text={watermark.logo || ''} fontSize={fontSize * 0.5} fill={watermark.fontColor} fontFamily={watermark.fontFamily} />,
-      );
-    } else if (item.text === '|') {
-      children.push(
-        <Text key={key++} x={x} y={barY + padY} text="|" fontSize={fontSize} fill={watermark.fontColor} fontFamily={watermark.fontFamily} opacity={0.5} />,
-      );
-    } else if (item.text) {
-      children.push(
-        <Text key={key++} x={x} y={barY + padY} text={item.text} fontSize={fontSize} fill={watermark.fontColor} fontFamily={watermark.fontFamily} />,
-      );
-    }
-    offsetX += item.width + gap;
+  // Per-brand logo size multiplier
+  const brandScale: Record<string, number> = { Leica: 1.8, DJI: 1.8 };
+  const logoHeight = fontSize * (brandScale[watermark.logo ?? ''] ?? 1.4);
+  const logoWidth = logoKonvaImg
+    ? logoHeight * (logoKonvaImg.naturalWidth / logoKonvaImg.naturalHeight)
+    : 0;
+
+  const logoToParamsGap = fontSize * 0.8;
+  const paramsGap = fontSize * 1.2;
+  const paramsY = centerY - fontSize / 2;
+
+  // Logo — centered, above params if params exist
+  if (hasLogo) {
+    const logoY = (hasModel || hasExif)
+      ? paramsY - logoToParamsGap - logoHeight
+      : centerY - logoHeight / 2;
+    children.push(
+      <KonvaImage
+        key={key++}
+        image={logoKonvaImg!}
+        x={centerX - logoWidth / 2}
+        y={logoY}
+        width={logoWidth}
+        height={logoHeight}
+      />,
+    );
   }
 
-  return (
-    <Group x={0} y={0}>
-      <Rect x={barX} y={barY} width={barW} height={barHeight} fill="rgba(0,0,0,0.55)" cornerRadius={6} />
-      {children}
-    </Group>
-  );
+  // Params — Model + EXIF on the same line
+  if (hasModel || hasExif) {
+    const modelW = hasModel ? estimateTextWidth(watermark.model, fontSize) : 0;
+    const exifW = hasExif ? estimateTextWidth(watermark.exifText, fontSize) : 0;
+    const lineW = modelW + exifW + (hasModel && hasExif ? paramsGap : 0);
+    const lineX = centerX - lineW / 2;
+
+    if (hasModel) {
+      children.push(
+        <Text
+          key={key++}
+          x={lineX} y={paramsY}
+          text={watermark.model}
+          fontSize={fontSize}
+          fill={watermark.fontColor}
+          fontFamily={watermark.fontFamily}
+        />,
+      );
+    }
+    if (hasExif) {
+      children.push(
+        <Text
+          key={key++}
+          x={lineX + modelW + (hasModel ? paramsGap : 0)} y={paramsY}
+          text={watermark.exifText}
+          fontSize={fontSize}
+          fill={watermark.fontColor}
+          fontFamily={watermark.fontFamily}
+          opacity={0.8}
+        />,
+      );
+    }
+  }
+
+  return <>{children}</>;
 }
 
-function estimateTextWidth(text: string, fontSize: number, _fontFamily: string): number {
+function estimateTextWidth(text: string, fontSize: number): number {
   return text.length * fontSize * 0.6;
 }

@@ -7,8 +7,7 @@
 #### Scenario: 虚化背景渲染
 
 - **WHEN** 照片加载完成且虚化程度 > 0
-- **THEN** 系统创建离屏 Canvas 将原图缩放到预览尺寸
-- **THEN** 系统应用 `ctx.filter = 'blur(Npx)'` 模糊处理
+- **THEN** 系统使用 Konva Filters.Blur 滤镜应用高斯模糊
 - **THEN** 模糊后的图像作为 Konva 底层 Image 显示
 
 #### Scenario: 虚化程度调节
@@ -26,7 +25,7 @@
 
 - **WHEN** 照片渲染后
 - **THEN** 照片四角按「圆角半径」值裁切
-- **THEN** 裁切使用 Konva.Group + clipFunc 圆形矩形路径实现
+- **THEN** 裁切使用 Konva.Image 原生 `cornerRadius` 属性实现
 
 #### Scenario: 圆角半径调节
 
@@ -46,7 +45,7 @@
 
 - **WHEN** 照片渲染在画布上
 - **THEN** 照片下方显示阴影
-- **THEN** 阴影偏移量跟随「阴影偏移」参数
+- **THEN** 阴影使用 Konva.Image 原生 `shadowColor`、`shadowBlur`、`shadowOffset` 属性实现
 
 #### Scenario: 阴影偏移调节
 

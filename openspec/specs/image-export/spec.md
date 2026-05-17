@@ -2,16 +2,15 @@
 
 ### Requirement: 单图导出
 
-系统 SHALL 支持将当前编辑的照片以原图分辨率导出为 JPG。
+系统 SHALL 支持将当前编辑的照片以其原始宽高比导出为 JPG。
 
 #### Scenario: 导出当前照片
 
 - **WHEN** 用户点击「导出当前」按钮
-- **THEN** 系统创建临时 Konva Stage 设为原图分辨率
-- **THEN** 系统同步所有当前参数重新渲染（含相框和水印）
-- **THEN** 系统调用 `stage.toDataURL({ pixelRatio: 1, mimeType: 'image/jpeg' })`
+- **THEN** 系统使用当前 Stage 内容，通过 `stage.toDataURL()` 导出
+- **THEN** 系统自动计算最优 pixelRatio（最高 4x）以获得近原始分辨率的输出
 - **THEN** 系统创建 `<a download>` 元素触发浏览器下载
-- **THEN** 临时 Stage 销毁
+- **THEN** 系统使用 `mimeType: 'image/jpeg', quality: 0.92`
 
 #### Scenario: 导出时无照片
 
@@ -25,18 +24,17 @@
 #### Scenario: 默认文件名
 
 - **WHEN** 导出单张照片
-- **THEN** 文件名为 `cameravision-export-{timestamp}.jpg`
+- **THEN** 文件名为 `cameravision-{timestamp}.jpg`
 - **THEN** timestamp 为 UNIX 时间戳
 
 ### Requirement: 最大分辨率限制
 
-系统 SHALL 限制导出最大分辨率为 6000px 以避免内存溢出。
+系统 SHALL 在 CLI 端限制导出最大分辨率为 6000px 以避免内存溢出。
 
-#### Scenario: 原图超过限制
+#### Scenario: CLI 原图超过限制
 
-- **WHEN** 导入的照片最短边超过 6000px
+- **WHEN** CLI 导入的照片最短边超过 6000px
 - **THEN** 导出时将照片缩放至最短边 6000px
-- **THEN** 在 Canvas 提示栏显示「已缩至 6000px 导出」
 
 ### Requirement: CLI 批量导出
 

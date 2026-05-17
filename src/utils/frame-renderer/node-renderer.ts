@@ -61,14 +61,11 @@ export async function renderWatermarkNode(options: NodeRendererOptions): Promise
   }
 
   // --- Photo with rounded corners and shadow ---
-  // Fixed padding: 20px top/left/right, 60px bottom reserved for watermark
-  const usableW = renderW - 40;
-  const usableH = renderH - 80;
-  const scale = Math.min(usableW / imageSize.width, usableH / imageSize.height);
-  const photoW = Math.round(imageSize.width * scale);
-  const photoH = Math.round(imageSize.height * scale);
-  const photoX = Math.round(20 + (usableW - photoW) / 2);
-  const photoY = Math.round(20 + (usableH - photoH) / 2);
+  // Foreground: 80 % of canvas, centered horizontally, offset up (matches layout.ts)
+  const photoW = Math.round(renderW * 0.8);
+  const photoH = Math.round(renderH * 0.8);
+  const photoX = Math.round((renderW - photoW) / 2);
+  const photoY = Math.round((renderH - photoH) * 0.25);
 
   // Shadow
   if (config.frame.shadowOffset > 0) {
@@ -98,7 +95,7 @@ export async function renderWatermarkNode(options: NodeRendererOptions): Promise
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    const watermarkZoneCenter = renderH - 30;
+    const watermarkY = renderH * 0.925;
     let parts: string[] = [];
     if (watermark.logo) parts.push('[LOGO]');
     if (watermark.model) parts.push(watermark.model);
@@ -106,7 +103,7 @@ export async function renderWatermarkNode(options: NodeRendererOptions): Promise
     const watermarkText = parts.join(' | ');
 
     if (watermarkText) {
-      ctx.fillText(watermarkText, renderW / 2, watermarkZoneCenter);
+      ctx.fillText(watermarkText, renderW / 2, watermarkY);
     }
   }
 

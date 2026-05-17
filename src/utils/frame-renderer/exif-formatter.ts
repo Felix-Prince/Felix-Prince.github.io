@@ -22,5 +22,5 @@ export function formatExif(data: ExifData): string {
     ? formatShutterSpeed(data.exposureTime)
     : '--';
   const iso = data.isoSpeed != null ? `ISO${data.isoSpeed}` : 'ISO--';
-  return `${focal} ${aperture} 1/${shutter} ${iso}`;
+  return `${focal} ${aperture} ${shutter} ${iso}`;
 }

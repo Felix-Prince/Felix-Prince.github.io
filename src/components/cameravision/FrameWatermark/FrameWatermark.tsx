@@ -1,7 +1,8 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { CanvasPreview } from './CanvasPreview';
 import { SettingPanel } from './SettingPanel';
 import type { RenderConfig, ImageTier } from '../../../utils/frame-renderer/types';
+import type { WebRendererHandle } from '../../../utils/frame-renderer/web-renderer';
 import { formatExif } from '../../../utils/frame-renderer/exif-formatter';
 import { detectBrandFromExif } from '../../../utils/frame-renderer/exif-brand';
 
@@ -15,7 +16,7 @@ const DEFAULT_CONFIG: RenderConfig = {
       model: '',
       exifText: '',
       fontFamily: 'Arial',
-      fontSize: 40,
+      fontSize: 100,
       fontColor: '#ffffff',
     },
   },
@@ -70,7 +71,28 @@ export function FrameWatermark() {
   const [activeIndex, setActiveIndex] = useState<number>(-1);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const webRendererRef = useRef<WebRendererHandle>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile(e.matches);
+    handler(mq);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
   const [exifText, setExifText] = useState('');
+
+  const handleExport = useCallback(async () => {
+    const blob = await webRendererRef.current?.exportImage();
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `cameravision-${Date.now()}.jpg`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  }, []);
 
   // ResizeObserver for container size
   useEffect(() => {
@@ -163,8 +185,13 @@ export function FrameWatermark() {
     }));
   }, [exifText]);
 
+  const configRafRef = useRef<number>(0);
+
   const updateConfig = useCallback((partial: Partial<RenderConfig>) => {
-    setConfig((prev) => ({ ...prev, ...partial }));
+    cancelAnimationFrame(configRafRef.current);
+    configRafRef.current = requestAnimationFrame(() => {
+      setConfig((prev) => ({ ...prev, ...partial }));
+    });
   }, []);
 
   const activePhoto = activeIndex >= 0 ? photos[activeIndex] : null;
@@ -172,6 +199,7 @@ export function FrameWatermark() {
   return (
     <div style={{
       display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
       gap: '16px',
       height: '100%',
       minHeight: '500px',
@@ -179,22 +207,34 @@ export function FrameWatermark() {
     }}>
       {/* Canvas preview area — centered with capped size */}
       <div style={{
-        flex: 1,
+        flex: isMobile ? 'none' : 1,
+        height: isMobile ? '50%' : 'auto',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '400px',
+        minHeight: isMobile ? '200px' : '400px',
       }}>
         <div ref={containerRef} style={{
           width: '100%',
-          maxWidth: '680px',
-          aspectRatio: '3 / 2',
+          height: '100%',
           background: 'var(--color-bg)',
           borderRadius: '8px',
-          overflow: 'hidden',
           border: '1px solid var(--color-border)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          position: 'relative',
         }}>
+          {!activePhoto && (
+            <span style={{
+              fontSize: '16px',
+              color: 'rgba(210,255,254,0.4)',
+              fontFamily: "'Noto Sans SC', sans-serif",
+            }}>请导入照片</span>
+          )}
           <CanvasPreview
+            ref={webRendererRef}
             config={config}
             imageTier={activePhoto?.tier ?? null}
             containerWidth={containerSize.width}
@@ -209,10 +249,12 @@ export function FrameWatermark() {
         photos={photos}
         activeIndex={activeIndex}
         exifText={exifText}
+        isMobile={isMobile}
         onFiles={handleFiles}
         onSelectPhoto={handleSelectPhoto}
         onUpdateConfig={updateConfig}
         onExifTextChange={setExifText}
+        onExport={handleExport}
       />
     </div>
   );

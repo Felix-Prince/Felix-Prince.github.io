@@ -18,6 +18,8 @@ interface SettingPanelProps {
   onSelectPhoto: (index: number) => void;
   onUpdateConfig: (partial: Partial<RenderConfig>) => void;
   onExifTextChange: (text: string) => void;
+  onExport: () => void;
+  isMobile?: boolean;
 }
 
 export function SettingPanel({
@@ -29,6 +31,8 @@ export function SettingPanel({
   onSelectPhoto,
   onUpdateConfig,
   onExifTextChange,
+  onExport,
+  isMobile,
 }: SettingPanelProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [logoPickerOpen, setLogoPickerOpen] = useState(false);
@@ -87,9 +91,9 @@ export function SettingPanel({
   return (
     <div
       style={{
-        width: '280px',
-        minWidth: '280px',
-        maxWidth: '280px',
+        width: isMobile ? '100%' : '280px',
+        minWidth: isMobile ? 'auto' : '280px',
+        maxWidth: isMobile ? '100%' : '280px',
         display: 'flex',
         flexDirection: 'column',
         gap: '12px',
@@ -276,6 +280,7 @@ export function SettingPanel({
       <div style={{ display: 'flex', gap: '8px' }}>
         <button
           disabled={!photos[activeIndex]}
+          onClick={onExport}
           style={{
             flex: 1,
             padding: '10px',

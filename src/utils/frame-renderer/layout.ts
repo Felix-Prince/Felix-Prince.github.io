@@ -3,63 +3,31 @@ import type { RenderConfig, ImageSize, LayoutResult } from './types';
 export function calcLayout(
   config: RenderConfig,
   imageSize: ImageSize,
-  viewportSize: ImageSize,
 ): LayoutResult {
   const { frame } = config;
+  const { width, height } = imageSize;
 
-  // Fixed padding: 20px top/left/right, 60px bottom reserved for watermark
-  const paddingTop = 20;
-  const paddingBottom = 60;
-  const paddingLeft = 20;
-  const paddingRight = 20;
-  const usableW = viewportSize.width - paddingLeft - paddingRight;
-  const usableH = viewportSize.height - paddingTop - paddingBottom;
+  // Blur background covers entire image
+  const blurRegion = { x: 0, y: 0, width, height };
 
-  // Scale image to fit within the usable area while maintaining aspect ratio
-  const scale = Math.min(
-    usableW / imageSize.width,
-    usableH / imageSize.height,
-  );
-  const photoWidth = Math.round(imageSize.width * scale);
-  const photoHeight = Math.round(imageSize.height * scale);
+  // Foreground photo: 80% of original, centered horizontally, offset up
+  const pw = Math.round(width * 0.8);
+  const ph = Math.round(height * 0.8);
+  const px = Math.round((width - pw) / 2);
+  const py = Math.round((height - ph) * 0.25);
 
-  // Center photo within the usable area (not the full viewport)
-  const photoX = Math.round(paddingLeft + (usableW - photoWidth) / 2);
-  const photoY = Math.round(paddingTop + (usableH - photoHeight) / 2);
-
-  // Blur background covers entire viewport
-  const blurRegion = {
-    x: 0,
-    y: 0,
-    width: viewportSize.width,
-    height: viewportSize.height,
-  };
-
-  // Photo with rounded corners
   const photoRect = {
-    x: photoX,
-    y: photoY,
-    width: photoWidth,
-    height: photoHeight,
+    x: px, y: py, width: pw, height: ph,
     cornerRadius: frame.cornerRadius,
   };
 
-  // Shadow offset (downward direction)
-  const shadowOffset = {
-    x: 0,
-    y: frame.shadowOffset,
-  };
+  const shadowOffset = { x: 0, y: frame.shadowOffset };
 
-  // Watermark centered in the bottom 60px zone
+  // Watermark at 92.5 % of total image height (on blur background, below photo)
   const watermarkPosition = {
-    x: viewportSize.width / 2,
-    y: viewportSize.height - 30,
+    x: width / 2,
+    y: height * 0.925,
   };
 
-  return {
-    blurRegion,
-    photoRect,
-    shadowOffset,
-    watermarkPosition,
-  };
+  return { blurRegion, photoRect, shadowOffset, watermarkPosition };
 }

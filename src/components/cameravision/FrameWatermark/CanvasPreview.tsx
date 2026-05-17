@@ -1,5 +1,7 @@
+import { forwardRef } from 'react';
 import { WebRenderer } from '../../../utils/frame-renderer/web-renderer';
 import type { RenderConfig, ImageTier } from '../../../utils/frame-renderer/types';
+import type { WebRendererHandle } from '../../../utils/frame-renderer/web-renderer';
 
 interface CanvasPreviewProps {
   config: RenderConfig;
@@ -8,13 +10,16 @@ interface CanvasPreviewProps {
   containerHeight: number;
 }
 
-export function CanvasPreview({ config, imageTier, containerWidth, containerHeight }: CanvasPreviewProps) {
-  return (
-    <WebRenderer
-      config={config}
-      imageTier={imageTier}
-      containerWidth={containerWidth}
-      containerHeight={containerHeight}
-    />
-  );
-}
+export const CanvasPreview = forwardRef<WebRendererHandle, CanvasPreviewProps>(
+  ({ config, imageTier, containerWidth, containerHeight }, ref) => {
+    return (
+      <WebRenderer
+        ref={ref}
+        config={config}
+        imageTier={imageTier}
+        containerWidth={containerWidth}
+        containerHeight={containerHeight}
+      />
+    );
+  }
+);
