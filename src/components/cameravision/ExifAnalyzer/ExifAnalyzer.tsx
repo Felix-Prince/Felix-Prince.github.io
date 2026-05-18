@@ -155,9 +155,11 @@ export function ExifAnalyzer() {
       gap: '16px',
       flexWrap: 'wrap',
     }}>
+      <style>{`@keyframes exif-spin{to{transform:rotate(360deg)}}`}</style>
+
       {/* Left: Upload / Preview */}
       <div style={{
-        flex: '0 0 300px',
+        flex: '0 0 min(300px, 40%)',
         minWidth: '250px',
       }}>
         {state.phase === 'idle' ? (
@@ -216,6 +218,8 @@ export function ExifAnalyzer() {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        overflowY: 'auto',
+        maxHeight: 'calc(100vh - 200px)',
       }}>
         {state.phase === 'loading' || state.phase === 'parsed' || state.phase === 'analyzing' ? (
           <div style={{
@@ -262,8 +266,22 @@ export function ExifAnalyzer() {
                     fontFamily: "'Noto Sans SC', sans-serif",
                     cursor: exporting ? 'not-allowed' : 'pointer',
                     opacity: exporting ? 0.6 : 1,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
                   }}
                 >
+                  {exporting && (
+                    <span style={{
+                      display: 'inline-block',
+                      width: '12px',
+                      height: '12px',
+                      border: '2px solid var(--color-text-secondary)',
+                      borderTopColor: 'transparent',
+                      borderRadius: '50%',
+                      animation: 'exif-spin 0.6s linear infinite',
+                    }} />
+                  )}
                   {exporting ? '导出中...' : '擦除 EXIF 导出'}
                 </button>
               </div>

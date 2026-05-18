@@ -236,26 +236,33 @@ export function Histogram({ data, exposureWarning, imageUrl, imageWidth, imageHe
               }}
             />
           </div>
-          {hasExposureWarn && (
-            <div style={{
-              marginTop: '6px',
-              fontSize: '11px',
-              fontFamily: "'Noto Sans SC', sans-serif",
-              display: 'flex',
-              gap: '12px',
-            }}>
-              {exposureWarning!.overMask !== null && (
-                <span style={{ color: '#ff4444' }}>
-                  过曝 {exposureWarning!.overexposed}%
-                </span>
-              )}
-              {exposureWarning!.underMask !== null && (
-                <span style={{ color: '#4444ff' }}>
-                  欠曝 {exposureWarning!.underexposed}%
-                </span>
-              )}
-            </div>
-          )}
+          <div style={{
+            marginTop: '6px',
+            fontSize: '11px',
+            fontFamily: "'Noto Sans SC', sans-serif",
+            display: 'flex',
+            gap: '12px',
+            minHeight: '16px',
+          }}>
+            {hasExposureWarn ? (
+              <>
+                {exposureWarning!.overMask !== null && (
+                  <span style={{ color: '#ff4444' }}>
+                    过曝 {exposureWarning!.overexposed}%
+                  </span>
+                )}
+                {exposureWarning!.underMask !== null && (
+                  <span style={{ color: '#4444ff' }}>
+                    欠曝 {exposureWarning!.underexposed}%
+                  </span>
+                )}
+              </>
+            ) : (
+              <span style={{ color: 'var(--color-text-secondary)' }}>
+                {exposureWarning !== null ? '无过曝/欠曝区域' : ''}
+              </span>
+            )}
+          </div>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <canvas

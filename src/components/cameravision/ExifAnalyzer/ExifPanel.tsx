@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import type { GroupedExifData } from '../../../hooks/useExifParser';
 
 interface ExifPanelProps {
@@ -64,10 +64,14 @@ function ExifGroup({ title, items }: { title: string; items: { label: string; va
 }
 
 export function ExifPanel({ data, isEmpty }: ExifPanelProps) {
+  const [copied, setCopied] = useState(false);
+
   const handleCopyAll = useCallback(() => {
     if (!data) return;
     const text = formatGroupText(data);
     navigator.clipboard.writeText(text).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
   }, [data]);
 
   if (isEmpty) {
@@ -128,13 +132,14 @@ export function ExifPanel({ data, isEmpty }: ExifPanelProps) {
           background: 'var(--color-bg-elevated)',
           border: '1px solid var(--color-border)',
           borderRadius: '6px',
-          color: 'var(--color-text-secondary)',
+          color: copied ? 'var(--color-accent-secondary)' : 'var(--color-text-secondary)',
           fontSize: '12px',
           fontFamily: "'Noto Sans SC', sans-serif",
           cursor: 'pointer',
+          transition: 'color 0.2s',
         }}
       >
-        复制参数
+        {copied ? '已复制' : '复制参数'}
       </button>
 
       <ExifGroup title="相机信息" items={data.camera} />

@@ -1,6 +1,16 @@
 import { useState, useCallback } from 'react';
 import type { PhotoEntry } from '../../../utils/photo-entry-formatter';
 
+function highlightJson(json: string): string {
+  return json
+    .replace(/("(?:\\.|[^"\\])*")\s*:/g, '<span style="color:#569cd6">$1</span>:')
+    .replace(/:\s*("(?:\\.|[^"\\])*")/g, ': <span style="color:#ce9178">$1</span>')
+    .replace(/:\s*(true|false)/g, ': <span style="color:#569cd6">$1</span>')
+    .replace(/:\s*(\d+\.?\d*)/g, ': <span style="color:#b5cea8">$1</span>')
+    .replace(/:\s*(null)/g, ': <span style="color:#569cd6">$1</span>')
+    .replace(/(\[|\]|\{|\}|,)/g, '<span style="color:#d4d4d4">$1</span>');
+}
+
 interface PhotoEntryEditorProps {
   entry: PhotoEntry;
   onChange: (updated: PhotoEntry) => void;
@@ -98,7 +108,9 @@ function TagsInput({
 
 export function PhotoEntryEditor({ entry, onChange }: PhotoEntryEditorProps) {
   const [copied, setCopied] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
   const jsonStr = JSON.stringify(entry, null, 2);
+  const highlightedJson = highlightJson(jsonStr);
 
   const updateField = useCallback(
     (field: keyof PhotoEntry, value: string | string[]) => {
@@ -166,17 +178,20 @@ export function PhotoEntryEditor({ entry, onChange }: PhotoEntryEditorProps) {
             <input
               value={entry.title}
               onChange={(e) => updateField('title', e.target.value)}
+              onFocus={() => setFocusedField('title')}
+              onBlur={() => setFocusedField(null)}
               style={{
                 width: '100%',
                 padding: '4px 6px',
                 background: 'transparent',
                 border: 'none',
-                borderBottom: '1px solid var(--color-border)',
+                borderBottom: `1px solid ${focusedField === 'title' ? 'var(--color-accent)' : 'var(--color-border)'}`,
                 color: 'var(--color-text-primary)',
                 fontSize: '13px',
                 fontFamily: "'Noto Sans SC', sans-serif",
                 outline: 'none',
                 boxSizing: 'border-box',
+                transition: 'border-color 0.2s',
               }}
             />
           </div>
@@ -198,19 +213,22 @@ export function PhotoEntryEditor({ entry, onChange }: PhotoEntryEditorProps) {
             <textarea
               value={entry.description}
               onChange={(e) => updateField('description', e.target.value)}
+              onFocus={() => setFocusedField('description')}
+              onBlur={() => setFocusedField(null)}
               rows={2}
               style={{
                 width: '100%',
                 padding: '4px 6px',
                 background: 'transparent',
                 border: 'none',
-                borderBottom: '1px solid var(--color-border)',
+                borderBottom: `1px solid ${focusedField === 'description' ? 'var(--color-accent)' : 'var(--color-border)'}`,
                 color: 'var(--color-text-primary)',
                 fontSize: '12px',
                 fontFamily: "'Noto Sans SC', sans-serif",
                 outline: 'none',
                 resize: 'vertical',
                 boxSizing: 'border-box',
+                transition: 'border-color 0.2s',
               }}
             />
           </div>
@@ -222,17 +240,20 @@ export function PhotoEntryEditor({ entry, onChange }: PhotoEntryEditorProps) {
             <input
               value={entry.collection}
               onChange={(e) => updateField('collection', e.target.value)}
+              onFocus={() => setFocusedField('collection')}
+              onBlur={() => setFocusedField(null)}
               style={{
                 width: '100%',
                 padding: '4px 6px',
                 background: 'transparent',
                 border: 'none',
-                borderBottom: '1px solid var(--color-border)',
+                borderBottom: `1px solid ${focusedField === 'collection' ? 'var(--color-accent)' : 'var(--color-border)'}`,
                 color: 'var(--color-text-primary)',
                 fontSize: '12px',
                 fontFamily: "'Noto Sans SC', sans-serif",
                 outline: 'none',
                 boxSizing: 'border-box',
+                transition: 'border-color 0.2s',
               }}
             />
           </div>
@@ -290,13 +311,11 @@ export function PhotoEntryEditor({ entry, onChange }: PhotoEntryEditorProps) {
             borderRadius: '4px',
             fontSize: '11px',
             fontFamily: "'JetBrains Mono', monospace",
-            color: 'var(--color-text-primary)',
             overflow: 'auto',
             maxHeight: '200px',
             whiteSpace: 'pre',
-          }}>
-            {jsonStr}
-          </pre>
+          }}
+          dangerouslySetInnerHTML={{ __html: highlightedJson }} />
         </div>
       </div>
     </div>
