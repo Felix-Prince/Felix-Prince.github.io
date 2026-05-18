@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
+import { useRef, useEffect, useLayoutEffect, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { Stage, Layer, Image as KonvaImage, Group, Text } from 'react-konva';
 import Konva from 'konva';
 import { calcLayout } from './layout';
@@ -83,13 +83,18 @@ export const WebRenderer = forwardRef<WebRendererHandle, WebRendererProps>(
     });
   }, [config.frame.watermark.logo]);
 
-  // Cache blur background when image changes or blur is enabled/disabled
-  useEffect(() => {
+  // Cache blur background — useLayoutEffect so blur applies before first paint
+  useLayoutEffect(() => {
     const node = bgImgRef.current;
-    if (node && originalImg) {
+    if (!node || !originalImg) return;
+    node.clearCache();
+    if (config.frame.blurRadius > 0) {
       node.cache();
+      node.getLayer()?.draw(); // synchronous redraw avoids flash
+    } else {
+      node.getLayer()?.batchDraw();
     }
-  }, [originalImg, config.frame.blurRadius ? 1 : 0]);
+  }, [originalImg, config.frame.blurRadius]);
 
   // Stage scale: fit image within 90 % of container
   const stageScale = useMemo(() => {

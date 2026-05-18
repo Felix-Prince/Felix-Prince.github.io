@@ -19,6 +19,7 @@ interface SettingPanelProps {
   onUpdateConfig: (partial: Partial<RenderConfig>) => void;
   onExifTextChange: (text: string) => void;
   onExport: () => void;
+  exporting?: boolean;
   isMobile?: boolean;
 }
 
@@ -32,6 +33,7 @@ export function SettingPanel({
   onUpdateConfig,
   onExifTextChange,
   onExport,
+  exporting,
   isMobile,
 }: SettingPanelProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -279,23 +281,28 @@ export function SettingPanel({
       {/* Export */}
       <div style={{ display: 'flex', gap: '8px' }}>
         <button
-          disabled={!photos[activeIndex]}
+          disabled={!photos[activeIndex] || exporting}
           onClick={onExport}
           style={{
             flex: 1,
             padding: '10px',
             border: 'none',
             borderRadius: '8px',
-            background: photos[activeIndex]
-              ? 'var(--color-accent)'
-              : 'var(--color-border)',
+            background: !photos[activeIndex] || exporting
+              ? 'var(--color-border)'
+              : 'var(--color-accent)',
             color: '#fff',
-            cursor: photos[activeIndex] ? 'pointer' : 'not-allowed',
+            cursor: !photos[activeIndex] || exporting ? 'not-allowed' : 'pointer',
             fontSize: '14px',
             fontFamily: "'Noto Sans SC', sans-serif",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
           }}
         >
-          导出当前
+          {exporting && <span className="fw-export-spinner" />}
+          {exporting ? '导出中...' : '导出当前'}
         </button>
       </div>
 

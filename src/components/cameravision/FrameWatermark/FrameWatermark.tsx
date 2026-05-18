@@ -83,16 +83,22 @@ export function FrameWatermark() {
     return () => mq.removeEventListener('change', handler);
   }, []);
   const [exifText, setExifText] = useState('');
+  const [exporting, setExporting] = useState(false);
 
   const handleExport = useCallback(async () => {
-    const blob = await webRendererRef.current?.exportImage();
-    if (!blob) return;
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = `cameravision-${Date.now()}.jpg`;
-    link.href = url;
-    link.click();
-    URL.revokeObjectURL(url);
+    setExporting(true);
+    try {
+      const blob = await webRendererRef.current?.exportImage();
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = `cameravision-${Date.now()}.jpg`;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setExporting(false);
+    }
   }, []);
 
   // ResizeObserver for container size
@@ -122,20 +128,25 @@ export function FrameWatermark() {
     for (const file of imageFiles) {
       try {
         const tier = await createImageTier(file);
-        const exif = await parseExif(file, { pick: ['Make', 'FocalLength', 'FNumber', 'ExposureTime', 'ISOSpeedRatings'] });
+        const exif = await parseExif(file, { pick: ['Make', 'Model', 'FocalLength', 'FNumber', 'ExposureTime', 'ISOSpeedRatings'] });
         entries.push({ id: crypto.randomUUID(), tier, file, exif });
-        // Auto-detect brand from EXIF Make
+        // Auto-detect brand & model from EXIF
+        const wmUpdate: Record<string, string | null> = {};
         if (exif.Make) {
           const detectedBrand = detectBrandFromExif(exif.Make as string);
-          if (detectedBrand) {
-            setConfig((prev) => ({
-              ...prev,
-              frame: {
-                ...prev.frame,
-                watermark: { ...prev.frame.watermark, logo: detectedBrand },
-              },
-            }));
-          }
+          if (detectedBrand) wmUpdate.logo = detectedBrand;
+        }
+        if (exif.Model) {
+          wmUpdate.model = String(exif.Model);
+        }
+        if (Object.keys(wmUpdate).length > 0) {
+          setConfig((prev) => ({
+            ...prev,
+            frame: {
+              ...prev.frame,
+              watermark: { ...prev.frame.watermark, ...wmUpdate },
+            },
+          }));
         }
       } catch {
         entries.push({ id: crypto.randomUUID(), tier: await createImageTier(file), file });
@@ -254,6 +265,7 @@ export function FrameWatermark() {
         onUpdateConfig={updateConfig}
         onExifTextChange={setExifText}
         onExport={handleExport}
+        exporting={exporting}
       />
     </div>
   );
