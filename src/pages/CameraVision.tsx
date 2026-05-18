@@ -1,6 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, lazy, Suspense } from 'react';
 import { FrameWatermark } from '../components/cameravision/FrameWatermark/FrameWatermark';
 import { TabBar } from '../components/cameravision/shared/TabBar';
+
+const ExifAnalyzer = lazy(() =>
+  import('../components/cameravision/ExifAnalyzer/ExifAnalyzer').then((m) => ({ default: m.ExifAnalyzer }))
+);
 
 const TABS = [
   { id: 'frame-watermark', label: '边框水印' },
@@ -9,6 +13,22 @@ const TABS = [
   { id: 'photo-calculator', label: '拍摄计算器' },
 ];
 
+function LazyFallback() {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '400px',
+      color: 'var(--color-text-secondary)',
+      fontFamily: "'Noto Sans SC', sans-serif",
+      fontSize: '14px',
+    }}>
+      加载中...
+    </div>
+  );
+}
+
 export default function CameraVision() {
   const [activeTab, setActiveTab] = useState('frame-watermark');
 
@@ -16,6 +36,12 @@ export default function CameraVision() {
     switch (activeTab) {
       case 'frame-watermark':
         return <FrameWatermark />;
+      case 'exif-analyzer':
+        return (
+          <Suspense fallback={<LazyFallback />}>
+            <ExifAnalyzer />
+          </Suspense>
+        );
       default:
         return (
           <div style={{

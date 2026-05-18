@@ -1,10 +1,11 @@
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { CanvasPreview } from './CanvasPreview';
 import { SettingPanel } from './SettingPanel';
 import type { RenderConfig, ImageTier } from '../../../utils/frame-renderer/types';
 import type { WebRendererHandle } from '../../../utils/frame-renderer/web-renderer';
 import { formatExif } from '../../../utils/frame-renderer/exif-formatter';
 import { detectBrandFromExif } from '../../../utils/frame-renderer/exif-brand';
+import { parseExif } from '../../../utils/exif-parser';
 
 const DEFAULT_CONFIG: RenderConfig = {
   frame: {
@@ -117,16 +118,14 @@ export function FrameWatermark() {
     );
     if (imageFiles.length === 0) return;
 
-    const exifrMod = await import('exifr');
-
     const entries: PhotoEntry[] = [];
     for (const file of imageFiles) {
       try {
         const tier = await createImageTier(file);
-        const exif = await (exifrMod.default?.parse ?? exifrMod.parse)(file, { pick: ['Make', 'FocalLength', 'FNumber', 'ExposureTime', 'ISOSpeedRatings'] });
-        entries.push({ id: crypto.randomUUID(), tier, file, exif: exif ?? undefined });
+        const exif = await parseExif(file, { pick: ['Make', 'FocalLength', 'FNumber', 'ExposureTime', 'ISOSpeedRatings'] });
+        entries.push({ id: crypto.randomUUID(), tier, file, exif });
         // Auto-detect brand from EXIF Make
-        if (exif?.Make) {
+        if (exif.Make) {
           const detectedBrand = detectBrandFromExif(exif.Make as string);
           if (detectedBrand) {
             setConfig((prev) => ({
