@@ -10,11 +10,15 @@ const ShootingPlan = lazy(() =>
   import('../components/cameravision/ShootingPlan/ShootingPlan').then((m) => ({ default: m.ShootingPlan }))
 );
 
+const PoseReference = lazy(() =>
+  import('../components/cameravision/PoseReference/PoseReference').then((m) => ({ default: m.PoseReference }))
+);
+
 const TABS = [
   { id: 'frame-watermark', label: '边框水印' },
   { id: 'exif-analyzer', label: 'EXIF 分析' },
   { id: 'shooting-plan', label: '拍摄方案' },
-  { id: 'photo-calculator', label: '拍摄计算器' },
+  { id: 'pose-reference', label: '摆姿参考' },
 ];
 
 function LazyFallback() {
@@ -39,10 +43,26 @@ export default function CameraVision() {
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem(STORAGE_KEY) || 'frame-watermark';
   });
+  const [selectedPoseId, setSelectedPoseId] = useState<string | null>(
+    () => localStorage.getItem('cameravision-selected-pose') || null,
+  );
 
   const handleTabChange = useCallback((id: string) => {
     setActiveTab(id);
     localStorage.setItem(STORAGE_KEY, id);
+  }, []);
+
+  const handlePoseSelect = useCallback((poseId: string) => {
+    setSelectedPoseId(poseId);
+    localStorage.setItem('cameravision-selected-pose', poseId);
+    // 切换到摆姿参考 Tab
+    setActiveTab('pose-reference');
+    localStorage.setItem(STORAGE_KEY, 'pose-reference');
+  }, []);
+
+  const handleClearPoseId = useCallback(() => {
+    setSelectedPoseId(null);
+    localStorage.removeItem('cameravision-selected-pose');
   }, []);
 
   const renderTab = useCallback(() => {
@@ -58,7 +78,16 @@ export default function CameraVision() {
       case 'shooting-plan':
         return (
           <Suspense fallback={<LazyFallback />}>
-            <ShootingPlan />
+            <ShootingPlan onSelectPose={handlePoseSelect} />
+          </Suspense>
+        );
+      case 'pose-reference':
+        return (
+          <Suspense fallback={<LazyFallback />}>
+            <PoseReference
+              initialPoseId={selectedPoseId}
+              onClearPoseId={handleClearPoseId}
+            />
           </Suspense>
         );
       default:
@@ -76,7 +105,7 @@ export default function CameraVision() {
           </div>
         );
     }
-  }, [activeTab]);
+  }, [activeTab, selectedPoseId, handlePoseSelect, handleClearPoseId]);
 
   return (
     <div style={{

@@ -7,7 +7,7 @@
 
 ## 一、产品定位
 
-面向摄影爱好者的**在线工具箱**——覆盖从拍摄规划到社交分享的全流程：黄金时刻计算、景深/ND滤镜计算、EXIF 解析、照片边框水印、社交平台裁切预览，纯浏览器运行，零安装。
+面向摄影爱好者的**在线工具箱**——覆盖从拍摄前规划到后期分享的全流程：拍摄方案、摆姿参考、EXIF 解析、照片边框水印，纯浏览器运行，零安装。
 
 **差异化** = 全流程 + 零安装 + 免费 + 中国社交平台适配
 
@@ -32,7 +32,7 @@ Camera Vision 采用 **Tab 工具箱模式**，每个 Tab 对应独立 PRD：
 | Tab 1 | 边框水印 | [PRD-Tab1-FrameWatermark.md](PRD-Tab1-FrameWatermark.md) | P0 | konva, react-konva, exifr | Web UI + CLI 工具 |
 | Tab 2 | EXIF 分析 | [PRD-Tab2-ExifAnalyzer.md](PRD-Tab2-ExifAnalyzer.md) | P1 | exifr | Web UI |
 | Tab 3 | 拍摄方案 | [PRD-Tab3-ShootingPlan.md](PRD-Tab3-ShootingPlan.md) | P1 | — | Web UI |
-| Tab 4 | 拍摄计算器 | [PRD-Tab4-PhotoCalculator.md](PRD-Tab4-PhotoCalculator.md) | P1 | suncalc | Web UI |
+| Tab 4 | 摆姿参考 | [PRD-Tab4-PoseReference.md](PRD-Tab4-PoseReference.md) | P1 | — | Web UI |
 
 ## 四、页面布局
 
@@ -40,7 +40,7 @@ Camera Vision 采用 **Tab 工具箱模式**，每个 Tab 对应独立 PRD：
 ┌──────────────────────────────────────────────────────────────┐
 │  Header (fixed)  [Camera Vision]               [← Back Home] │
 ├──────────────────────────────────────────────────────────────┤
-│  [边框水印]  [EXIF 分析]  [拍摄方案]  [拍摄计算器]            │
+│  [边框水印]  [EXIF 分析]  [拍摄方案]  [摆姿参考]              │
 ├──────────────────────────────────────────────────────────────┤
 │              当前 Tab 对应的功能区（每个 Tab 独立布局）         │
 ├──────────────────────────────────────────────────────────────┤
@@ -118,9 +118,9 @@ Home.tsx 替换 placeholder 卡片：
 ## 七、跨 Tab 联动
 
 ```
-Tab 4 (计算器) ──→ Tab 3 (拍摄方案) ──→ 实际拍摄 ──→ Tab 2 (EXIF 分析) ──→ Tab 1 (边框水印)
-                      ↑                           ↑
-                拍摄前找灵感                  拍完复盘参考
+Tab 3 (拍摄方案) ──→ Tab 4 (摆姿参考) ──→ 实际拍摄 ──→ Tab 2 (EXIF 分析) ──→ Tab 1 (边框水印)
+      ↑                    ↑
+  拍摄思路             找摆姿参考
 ```
 
 **摄影集联动**：PhotoGallery lightbox 增加「Camera Vision 编辑」入口，通过路由 state 传递照片 URL + EXIF。
@@ -136,7 +136,7 @@ src/
 │       ├── FrameWatermark/             # Tab 1（见 Tab1 PRD）
 │       ├── ExifAnalyzer/              # Tab 2（见 Tab2 PRD）
 │       ├── ShootingPlan/               # Tab 3（见 Tab3 PRD）
-│       ├── PhotoCalculator/           # Tab 4（见 Tab4 PRD）
+│       ├── PoseReference/               # Tab 4（见 Tab4 PRD）
 │       └── shared/
 │           ├── ImageImporter.tsx       # 照片导入 + 拖拽上传
 │           └── TabBar.tsx             # Tab 切换栏
@@ -170,8 +170,8 @@ src/
 | Phase | 内容 | 对应 PRD |
 |-------|------|---------|
 | 1 | 页面骨架 + Tab 1 边框水印 MVP | Overview + Tab1 |
-| 2 | Tab 2 EXIF 分析 + Tab 3 裁切预览 | Tab2 + Tab3 |
-| 3 | Tab 4 拍摄计算器（富士 APS-C 优先）+ Tab 1/2 增强 | Tab4 + Tab1/2 增强 |
+| 2 | Tab 2 EXIF 分析 + Tab 3 拍摄方案 + Tab 4 摆姿参考 | Tab2 + Tab3 + Tab4 |
+| 3 | Tab 1/2/3/4 精细化增强 | 全部 |
 | 4 | 精细化：月相、收藏、镜头库、联动 | 全部 |
 
 ## 十、非功能需求

@@ -4,7 +4,7 @@ import { PlanFilters } from './PlanFilters';
 import { PlanCard } from './PlanCard';
 import { PlanDetail } from './PlanDetail';
 
-export function ShootingPlan() {
+export function ShootingPlan({ onSelectPose }: { onSelectPose?: (poseId: string) => void }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
@@ -42,6 +42,7 @@ export function ShootingPlan() {
       <PlanDetail
         plan={selectedPlan}
         onBack={() => setSelectedPlanId(null)}
+        onSelectPose={onSelectPose}
       />
     );
   }

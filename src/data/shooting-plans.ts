@@ -38,6 +38,8 @@ export interface ShootingPlan {
     }
     sections: ShootingPlanSection[]
     referenceImages?: ReferenceImage[]
+    /** 推荐摆姿 ID 列表，关联到 poses.ts */
+    recommendedPoses?: string[]
 }
 
 export const SHOOTING_CATEGORIES = [
@@ -92,6 +94,7 @@ export const shootingPlans: ShootingPlan[] = [
                 caption: "逆光发丝光效果",
             },
         ],
+        recommendedPoses: ["stand-natural", "stand-turn-back", "squat-touch"],
         sections: [
             {
                 type: "heading",

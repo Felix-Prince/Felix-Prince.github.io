@@ -1,9 +1,12 @@
 import type { ShootingPlan } from '../../../data/shooting-plans';
+import { poses } from '../../../data/poses';
 import { SectionRenderer } from './SectionRenderer';
+import { PoseImage } from '../PoseReference/PoseSvg';
 
 interface PlanDetailProps {
   plan: ShootingPlan;
   onBack: () => void;
+  onSelectPose?: (poseId: string) => void;
 }
 
 const CATEGORY_NAMES: Record<string, string> = {
@@ -21,7 +24,7 @@ const DIFFICULTY_LABELS: Record<string, { stars: string; label: string }> = {
   advanced: { stars: '⭐⭐⭐', label: '高阶' },
 };
 
-export function PlanDetail({ plan, onBack }: PlanDetailProps) {
+export function PlanDetail({ plan, onBack, onSelectPose }: PlanDetailProps) {
   return (
     <div>
       {/* Back button */}
@@ -296,6 +299,75 @@ export function PlanDetail({ plan, onBack }: PlanDetailProps) {
       {plan.sections.map((section, i) => (
         <SectionRenderer key={i} section={section} />
       ))}
+
+      {/* Recommended Poses */}
+      {plan.recommendedPoses && plan.recommendedPoses.length > 0 && (
+        <div
+          style={{
+            marginTop: '24px',
+            padding: '14px 16px',
+            background: 'var(--color-bg-elevated)',
+            borderRadius: '8px',
+            border: '1px solid var(--color-border)',
+          }}
+        >
+          <h3
+            style={{
+              margin: '0 0 12px',
+              fontFamily: "'Noto Sans SC', sans-serif",
+              fontSize: '14px',
+              fontWeight: 600,
+              color: 'var(--color-text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            🧘 推荐摆姿
+          </h3>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+              gap: '14px',
+            }}
+          >
+            {plan.recommendedPoses.map((poseId) => {
+              const pose = poses.find((p) => p.id === poseId);
+              if (!pose) return null;
+              return (
+                <button
+                  key={poseId}
+                  onClick={() => onSelectPose?.(poseId)}
+                  style={{
+                    background: 'var(--color-bg)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '8px',
+                    padding: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'border-color 0.2s',
+                  }}
+                >
+                  <PoseImage pose={pose} size={120} />
+                  <span
+                    style={{
+                      fontFamily: "'Noto Sans SC', sans-serif",
+                      fontSize: '11px',
+                      color: 'var(--color-text-secondary)',
+                    }}
+                  >
+                    {pose.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
