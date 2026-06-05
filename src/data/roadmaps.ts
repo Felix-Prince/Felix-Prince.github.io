@@ -23,4 +23,16 @@ export const roadmaps: RoadmapMeta[] = [
     tags: ['TypeScript', 'Node.js', 'Claude', 'Anthropic', 'Agent'],
     href: '/roadmaps/agent-roadmap-2026.html',
   },
+  {
+    id: 'dify-roadmap-2026',
+    title: 'Dify 学习路线图 2026',
+    description:
+      '为前端开发者量身定制的 Dify 学习路线。聚焦 API 集成、前端嵌入、自定义组件开发，零后端部署负担，从入门到全栈 LLM 应用实战。',
+    icon: '🔧',
+    status: 'active',
+    weeks: 28,
+    stages: 6,
+    tags: ['Dify', 'LLM', 'RAG', 'Agent', 'Workflow', '前端集成'],
+    href: '/roadmaps/dify-roadmap-2026.html',
+  },
 ];

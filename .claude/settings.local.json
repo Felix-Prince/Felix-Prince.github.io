@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(lark-cli wiki *)",
+      "Bash(lark-cli api *)"
     ]
   }
 }
