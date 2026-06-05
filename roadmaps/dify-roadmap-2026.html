@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的 Dify 学习路线图 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    :root {
+      --bg-primary: #0a0a0f; --bg-secondary: #12121a; --bg-card: #1a1a2e;
+      --bg-card-hover: #222240; --border: #2a2a4a; --text-primary: #e8e8f0;
+      --text-secondary: #9898b8; --text-muted: #686888;
+      --accent-blue: #4f8fff; --accent-purple: #8b5cf6; --accent-cyan: #22d3ee;
+      --accent-green: #34d399; --accent-orange: #fb923c; --accent-pink: #f472b6;
+      --accent-red: #ef4444;
+      --gradient-1: linear-gradient(135deg, #4f8fff, #8b5cf6);
+      --gradient-2: linear-gradient(135deg, #8b5cf6, #22d3ee);
+      --gradient-3: linear-gradient(135deg, #22d3ee, #34d399);
+      --gradient-4: linear-gradient(135deg, #34d399, #fb923c);
+      --gradient-5: linear-gradient(135deg, #fb923c, #f472b6);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary); color: var(--text-primary);
+      line-height: 1.7; overflow-x: hidden;
+    }
+    /* Hero */
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; text-align: center; padding: 60px 20px; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(22, 119, 255, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(82, 196, 26, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 50%, rgba(22, 211, 238, 0.05) 0%, transparent 50%);
+      animation: heroFloat 20s ease-in-out infinite;
+    }
+    @keyframes heroFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(2%, -2%) rotate(1deg); }
+      66% { transform: translate(-1%, 1%) rotate(-0.5deg); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px;
+      background: rgba(22, 119, 255, 0.1); border: 1px solid rgba(22, 119, 255, 0.3);
+      border-radius: 100px; font-size: 14px; color: var(--accent-blue); margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease;
+    }
+    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.15; margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff 0%, #1677ff 50%, #22d3ee 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+    .hero p {
+      font-size: 1.2rem; color: var(--text-secondary); max-width: 640px; margin: 0 auto 40px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;
+      animation: fadeInUp 0.8s ease 0.3s both;
+    }
+    .meta-tag {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      font-size: 13px; color: var(--text-secondary); transition: all 0.3s ease;
+    }
+    .meta-tag:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+    .meta-tag .icon { font-size: 16px; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--text-muted); font-size: 12px; animation: bounce 2s infinite;
+    }
+    .scroll-hint .arrow { width: 24px; height: 24px; border-right: 2px solid var(--text-muted); border-bottom: 2px solid var(--text-muted); transform: rotate(45deg); }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-10px); } 60% { transform: translateX(-50%) translateY(-5px); } }
+    /* Profile */
+    .profile-section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2px; color: var(--accent-blue); margin-bottom: 16px;
+    }
+    .section-label::before { content: ''; width: 20px; height: 2px; background: var(--accent-blue); }
+    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+    .section-desc { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin-bottom: 48px; }
+    .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .profile-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s ease; }
+    .profile-card:hover { border-color: var(--accent-purple); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1); }
+    .profile-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px; }
+    .profile-card .value { font-size: 1.3rem; font-weight: 600; }
+    .profile-card .note { font-size: 13px; color: var(--text-secondary); margin-top: 8px; }
+    /* Timeline */
+    .timeline-section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+    .timeline { position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 32px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple), var(--accent-cyan), var(--accent-green), var(--accent-orange), var(--accent-pink)); }
+    .phase-block { position: relative; padding-left: 80px; margin-bottom: 60px; opacity: 0; transform: translateX(-20px); transition: all 0.6s ease; }
+    .phase-block.visible { opacity: 1; transform: translateX(0); }
+    .phase-dot { position: absolute; left: 20px; top: 24px; width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--bg-primary); z-index: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+    .phase-0 .phase-dot { background: var(--accent-blue); }
+    .phase-1 .phase-dot { background: var(--accent-purple); }
+    .phase-2 .phase-dot { background: var(--accent-cyan); }
+    .phase-3 .phase-dot { background: var(--accent-green); }
+    .phase-4 .phase-dot { background: var(--accent-orange); }
+    .phase-5 .phase-dot { background: var(--accent-pink); }
+    .phase-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: all 0.3s ease; }
+    .phase-card:hover { border-color: rgba(22, 119, 255, 0.4); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); }
+    .phase-header { padding: 32px 32px 24px; border-bottom: 1px solid var(--border); }
+    .phase-0 .phase-header { background: linear-gradient(135deg, rgba(79, 143, 255, 0.08), transparent); }
+    .phase-1 .phase-header { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), transparent); }
+    .phase-2 .phase-header { background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), transparent); }
+    .phase-3 .phase-header { background: linear-gradient(135deg, rgba(52, 211, 153, 0.08), transparent); }
+    .phase-4 .phase-header { background: linear-gradient(135deg, rgba(251, 146, 60, 0.08), transparent); }
+    .phase-5 .phase-header { background: linear-gradient(135deg, rgba(244, 114, 182, 0.08), transparent); }
+    .phase-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .phase-0 .phase-tag { background: rgba(79, 143, 255, 0.15); color: var(--accent-blue); }
+    .phase-1 .phase-tag { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+    .phase-2 .phase-tag { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); }
+    .phase-3 .phase-tag { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); }
+    .phase-4 .phase-tag { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+    .phase-5 .phase-tag { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+    .phase-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+    .phase-subtitle { color: var(--text-secondary); font-size: 0.95rem; }
+    .phase-meta-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
+    .phase-meta-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); }
+    .phase-meta-item .label { color: var(--text-muted); }
+    .phase-body { padding: 28px 32px; }
+    .phase-body h4 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; }
+    .phase-body h4:first-child { margin-top: 0; }
+    .phase-body ul { list-style: none; padding: 0; }
+    .phase-body li { position: relative; padding: 8px 0 8px 24px; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
+    .phase-body li::before { content: '▸'; position: absolute; left: 4px; color: var(--text-muted); }
+    .phase-body li strong { color: var(--text-primary); }
+    /* Week blocks */
+    .week-block { margin-top: 24px; padding: 20px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 14px; }
+    .week-block:first-of-type { margin-top: 0; }
+    .week-label { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .week-number { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+    .phase-0 .week-number { background: rgba(79, 143, 255, 0.15); color: var(--accent-blue); }
+    .phase-1 .week-number { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+    .phase-2 .week-number { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); }
+    .phase-3 .week-number { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); }
+    .phase-4 .week-number { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+    .phase-5 .week-number { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+    .week-title { font-size: 1.05rem; font-weight: 600; color: var(--text-primary); }
+    .week-goal { font-size: 0.85rem; color: var(--text-muted); margin-left: auto; }
+    .daily-grid { display: grid; gap: 8px; }
+    .daily-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: rgba(255, 255, 255, 0.02); border-radius: 10px; transition: background 0.2s; }
+    .daily-item:hover { background: rgba(255, 255, 255, 0.04); }
+    .daily-day { flex-shrink: 0; width: 48px; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding-top: 2px; }
+    .daily-content { flex: 1; min-width: 0; }
+    .daily-topic { font-size: 0.9rem; font-weight: 500; color: var(--text-primary); }
+    .daily-goal { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+    .daily-icon { flex-shrink: 0; width: 20px; text-align: center; font-size: 14px; padding-top: 2px; }
+    .week-optional { margin-top: 10px; padding: 12px 14px; background: rgba(251, 146, 60, 0.06); border-left: 3px solid var(--accent-orange); border-radius: 0 10px 10px 0; font-size: 0.85rem; color: var(--text-secondary); }
+    .week-optional strong { color: var(--accent-orange); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .buffer-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: rgba(251, 146, 60, 0.1); border: 1px solid rgba(251, 146, 60, 0.2); border-radius: 6px; font-size: 12px; color: var(--accent-orange); }
+    .fe-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); border-radius: 6px; font-size: 12px; color: var(--accent-green); }
+    .deliverable-box { margin-top: 24px; padding: 20px; background: rgba(139, 92, 246, 0.05); border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 12px; }
+    .deliverable-box h4 { margin-top: 0; color: var(--accent-purple); }
+    .deliverable-box .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .deliverable-box .checkbox { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; }
+    .focus-box { margin-top: 16px; padding: 16px; background: rgba(79, 143, 255, 0.05); border-left: 3px solid var(--accent-blue); border-radius: 0 10px 10px 0; }
+    .focus-box .focus-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-blue); font-weight: 600; margin-bottom: 8px; }
+    .focus-box p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
+    /* Stats */
+    .stats-section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .stat-card { text-align: center; padding: 32px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; transition: all 0.3s ease; }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--accent-cyan); }
+    .stat-number { font-size: 2.5rem; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px; }
+    /* CTA */
+    .cta-section { padding: 80px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+    .cta-card { padding: 48px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; position: relative; overflow: hidden; }
+    .cta-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-1); }
+    .cta-card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+    .cta-card p { color: var(--text-secondary); margin-bottom: 24px; }
+    .cta-action { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--gradient-1); border: none; border-radius: 12px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+    .cta-action:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79, 143, 255, 0.3); }
+    footer { padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent-blue); text-decoration: none; }
+    @media (max-width: 768px) {
+      .phase-block { padding-left: 60px; }
+      .timeline::before { left: 22px; }
+      .phase-dot { left: 10px; width: 22px; height: 22px; font-size: 10px; }
+      .phase-header, .phase-body { padding: 20px; }
+      .profile-grid { grid-template-columns: 1fr; }
+      .week-goal { display: none; }
+      .daily-day { width: 36px; font-size: 11px; }
+    }
+    .collapsible-header { cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between; }
+    .collapsible-header .toggle-icon { font-size: 1.2rem; transition: transform 0.3s ease; color: var(--text-muted); }
+    .collapsible-header.open .toggle-icon { transform: rotate(180deg); }
+    .collapsible-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+    .collapsible-body.open { max-height: 5000px; }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> 前端开发者定制版</div>
+      <h1>Dify 学习<br>路线图 2026</h1>
+      <p>为前端开发者量身定制的 Dify 学习路线。聚焦 API 集成、前端嵌入、自定义组件开发，零后端部署负担。</p>
+      <div class="hero-meta">
+        <span class="meta-tag"><span class="icon">⏱</span> ~28 周</span>
+        <span class="meta-tag"><span class="icon">🎨</span> 前端集成重点</span>
+        <span class="meta-tag"><span class="icon">🔧</span> API + 自定义组件</span>
+        <span class="meta-tag"><span class="icon">🚀</span> 入门 → 实战</span>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>向下探索</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- Profile -->
+  <section class="profile-section">
+    <div class="section-label">你的画像</div>
+    <h2 class="section-title">个性化参数</h2>
+    <p class="section-desc">路线图为前端开发者定制，去除了后端部署运维内容，强化 API 集成、自定义组件和前端嵌入。</p>
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="label">当前角色</div>
+        <div class="value">💻 前端开发者</div>
+        <div class="note">熟悉 HTML/CSS/JS/React/Vue，API 调用经验丰富</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">每周时间</div>
+        <div class="value">⏱ ~9 小时/周</div>
+        <div class="note">工作日 1.5h × 5 天，周末浮动 0-4h</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">学习重点</div>
+        <div class="value">🎨 前端集成</div>
+        <div class="note">Chat Widget 定制、自定义 UI 组件、React/Vue 嵌入</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">核心方向</div>
+        <div class="value">🎯 全栈 LLM 应用</div>
+        <div class="note">RAG → Workflow → Agent → API → 前端集成，无后端运维</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">预估总时长</div>
+        <div class="value">📆 ~28 周</div>
+        <div class="note">22 周学习 + 6 周缓冲弹性</div>
+      </div>
+      <div class="profile-card">
+        <div class="label">学习方式</div>
+        <div class="value">💻 实操为主</div>
+        <div class="note">70% 动手操作 + 30% 理论阅读，每天有明确目标</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="timeline-section">
+    <div class="section-label">学习路线</div>
+    <h2 class="section-title">6 个阶段，28 周旅程</h2>
+    <p class="section-desc">每天 1.5h 深耕一个主题，周末弹性调节。每个阶段包含周计划、每日学习目标和阶段交付物。</p>
+    <div class="timeline">
+
+      <!-- ==================== Phase 0 ==================== -->
+      <div class="phase-block phase-0">
+        <div class="phase-dot">0</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">FOUNDATION</div>
+                <div class="phase-title">Dify 初识与基础认知</div>
+                <div class="phase-subtitle">理解 Dify 是什么、核心概念、创建第一个 AI 应用</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>4 周</strong>（含 1 周缓冲）</div>
+                  <div class="phase-meta-item"><span class="label">节奏</span> 轻松入门</div>
+                </div>
+              </div>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="focus-box">
+                <div class="focus-label">阶段目标</div>
+                <p>能独立使用 Dify Cloud 创建并发布一个完整的对话应用，理解平台的核心概念和基本操作流程。</p>
+              </div>
+              <!-- Week 1 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">1</span><span class="week-title">Dify 概念与平台概览</span><span class="week-goal">目标：注册 Dify Cloud</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📖</span><div class="daily-content"><div class="daily-topic">Dify 是什么？LLM 应用开发平台的核心价值</div><div class="daily-goal">✅ 能用一句话说清 Dify 解决什么问题</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">注册 Dify Cloud，完成新手引导</div><div class="daily-goal">✅ 成功登录控制台，完成 Hello World</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🗺️</span><div class="daily-content"><div class="daily-topic">控制台导览：应用、知识库、工具、扩展、日志</div><div class="daily-goal">✅ 走通每个模块入口页面</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🤖</span><div class="daily-content"><div class="daily-topic">模型提供商配置：支持的模型列表与接入方式</div><div class="daily-goal">✅ 配置至少 1 个模型供应商</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">创建第一个对话应用：从模板到自定义</div><div class="daily-goal">✅ 发布一个可公开访问的对话应用</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 阅读 <a href="https://docs.dify.ai" style="color: var(--accent-blue)">Dify 官方文档</a> 概览章节</div>
+              </div>
+              <!-- Week 2 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">2</span><span class="week-title">提示词工程与 LLM 调参</span><span class="week-goal">目标：掌握提示词设计</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">✍️</span><div class="daily-content"><div class="daily-topic">提示词基础：System Prompt、变量插值</div><div class="daily-goal">✅ 写一个带变量的 System Prompt</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">⚙️</span><div class="daily-content"><div class="daily-topic">LLM 参数详解：Temperature / TopP / Max Tokens</div><div class="daily-goal">✅ 测试不同参数下的输出差异</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">💬</span><div class="daily-content"><div class="daily-topic">多轮对话与记忆管理</div><div class="daily-goal">✅ 配置带 10 轮记忆的对话应用</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">应用发布方式对比：API / iframe / 独立页面</div><div class="daily-goal">✅ 用三种方式发布同一应用</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">实践：从模板创建"翻译助手"</div><div class="daily-goal">✅ 上线翻译助手，支持中英互译</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 探索 Dify GitHub 仓库和社区模板</div>
+              </div>
+              <!-- Week 3 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">3</span><span class="week-title">应用类型与设置</span><span class="week-goal">目标：掌握多种应用类型</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🗂️</span><div class="daily-content"><div class="daily-topic">对话型 vs 文本生成型 — 选型指南</div><div class="daily-goal">✅ 能根据场景判断应用类型</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔐</span><div class="daily-content"><div class="daily-topic">应用设置：身份验证、限流、访客权限</div><div class="daily-goal">✅ 配置 API 密钥和限流策略</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">文本生成应用实战：内容摘要、文案生成</div><div class="daily-goal">✅ 创建"文章摘要生成器"</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📊</span><div class="daily-content"><div class="daily-topic">日志与分析：会话日志、标注、数据导出</div><div class="daily-goal">✅ 查看对话日志，学会标注回复质量</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🏗️</span><div class="daily-content"><div class="daily-topic">综合练习：搭建"写作助手"</div><div class="daily-goal">✅ 从创建到发布全流程走通</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 对比 Dify 与 Coze 等竞品差异</div>
+              </div>
+              <!-- Week 4 Buffer -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">4</span><span class="week-title">缓冲与复盘</span><span class="buffer-badge">缓冲</span><span class="week-goal">目标：查漏补缺</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📋</span><div class="daily-content"><div class="daily-topic">回顾前三周核心概念</div><div class="daily-goal">✅ 自检清单：能否独立创建和发布应用？</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">补做未完成的练习</div><div class="daily-goal">✅ 所有动手练习已走通</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">自由探索：设计自己的应用场景</div><div class="daily-goal">✅ 发布一个自己设计的应用</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">整理学习笔记</div><div class="daily-goal">✅ 输出 Dify 基础概念脑图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎉</span><div class="daily-content"><div class="daily-topic">Phase 0 复盘</div><div class="daily-goal">✅ 确认掌握全部内容</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 休息或预习 Phase 1</div>
+              </div>
+              <div class="deliverable-box">
+                <h4>✅ 阶段交付物</h4>
+                <div class="checkbox-item"><div class="checkbox"></div><span>翻译助手对话应用（带变量提示词）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>文本生成应用（文章摘要生成器）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>一份 Dify 核心概念脑图/笔记</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== Phase 1 ==================== -->
+      <div class="phase-block phase-1">
+        <div class="phase-dot">1</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">CORE</div>
+                <div class="phase-title">知识库与 RAG 核心</div>
+                <div class="phase-subtitle">掌握知识库管理和 RAG 检索增强生成</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>5 周</strong>（含 1 周缓冲）</div>
+                  <div class="phase-meta-item"><span class="label">节奏</span> 稳步推进</div>
+                </div>
+              </div>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="focus-box">
+                <div class="focus-label">阶段目标</div>
+                <p>能独立搭建知识库系统，理解 RAG 全流程，掌握检索优化方法。</p>
+              </div>
+              <!-- Week 5 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">5</span><span class="week-title">知识库基础入门</span><span class="week-goal">目标：创建第一个知识库</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📚</span><div class="daily-content"><div class="daily-topic">知识库概念：什么是 RAG？Dify 知识库架构</div><div class="daily-goal">✅ 用自己的话解释 RAG 工作流程</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">📄</span><div class="daily-content"><div class="daily-topic">文档上传与预处理：支持格式、预处理规则</div><div class="daily-goal">✅ 上传 3 种不同格式的文档</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">✂️</span><div class="daily-content"><div class="daily-topic">分段策略：自动分段 vs 自定义分段</div><div class="daily-goal">✅ 对比不同分段策略效果</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🔤</span><div class="daily-content"><div class="daily-topic">嵌入模型选择与配置</div><div class="daily-goal">✅ 配置嵌入模型，完成向量化</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">实践：创建第一个知识库关联到应用</div><div class="daily-goal">✅ 应用能基于知识库回答问题</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 研究不同嵌入模型对比</div>
+              </div>
+              <!-- Week 6 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">6</span><span class="week-title">检索策略与调优</span><span class="week-goal">目标：掌握多种检索模式</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🔍</span><div class="daily-content"><div class="daily-topic">向量检索原理：余弦相似度、语义搜索</div><div class="daily-goal">✅ 用通俗语言解释向量检索</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">⚖️</span><div class="daily-content"><div class="daily-topic">检索模式：向量 vs 全文 vs 混合检索</div><div class="daily-goal">✅ 对比三种模式的结果差异</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🎚️</span><div class="daily-content"><div class="daily-topic">TopK 与 Score 阈值设置</div><div class="daily-goal">✅ 测试不同参数组合效果</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">检索测试与调试功能</div><div class="daily-goal">✅ 使用测试功能验证配置</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">📊</span><div class="daily-content"><div class="daily-topic">实践：搭建"产品文档 Q&A"知识库</div><div class="daily-goal">✅ 输出检索配置效果对比表</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 阅读 Dify 检索算法原理文档</div>
+              </div>
+              <!-- Week 7 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">7</span><span class="week-title">RAG 流程优化</span><span class="week-goal">目标：掌握 RAG 优化技术</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">RAG 完整流程回顾</div><div class="daily-goal">✅ 画出完整 RAG 流程图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">✏️</span><div class="daily-content"><div class="daily-topic">Query 重写：优化用户提问</div><div class="daily-goal">✅ 配置 Query 重写，对比效果</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">📈</span><div class="daily-content"><div class="daily-topic">Re-rank 重排序原理与配置</div><div class="daily-goal">✅ 配置 Re-rank，验证准确率提升</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🧩</span><div class="daily-content"><div class="daily-topic">在 Chatflow 中使用知识检索节点</div><div class="daily-goal">✅ 搭建带检索节点的 Chatflow</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🏪</span><div class="daily-content"><div class="daily-topic">实践：电商客服问答应用</div><div class="daily-goal">✅ 对比优化前后回答质量</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 学习 RAG 评估指标</div>
+              </div>
+              <!-- Week 8 (Project) -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">8</span><span class="week-title">综合项目：文档问答机器人</span><span class="week-goal">目标：完整 RAG 项目</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📋</span><div class="daily-content"><div class="daily-topic">项目规划：选定文档源，设计场景</div><div class="daily-goal">✅ 完成需求文档</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">📚</span><div class="daily-content"><div class="daily-topic">数据准备：文档收集、清洗、上传</div><div class="daily-goal">✅ 知识库搭建完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">⚙️</span><div class="daily-content"><div class="daily-topic">RAG 流程配置：检索 + Re-rank + 重写</div><div class="daily-goal">✅ Chatflow 完整流程</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">测试 20 个问题，分析质量</div><div class="daily-goal">✅ ≥80% 问题回答满意</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🚀</span><div class="daily-content"><div class="daily-topic">发布 + 项目总结</div><div class="daily-goal">✅ 记录踩坑和解决方案</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 邀请朋友测试，收集反馈</div>
+              </div>
+              <!-- Week 9 Buffer -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">9</span><span class="week-title">缓冲与复盘</span><span class="buffer-badge">缓冲</span><span class="week-goal">目标：巩固 RAG 知识</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">知识体系梳理</div><div class="daily-goal">✅ 输出知识脑图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">补做未完成的练习</div><div class="daily-goal">✅ 所有练习已完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔬</span><div class="daily-content"><div class="daily-topic">项目优化改进</div><div class="daily-goal">✅ 至少做一项优化</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📊</span><div class="daily-content"><div class="daily-topic">整理 RAG 最佳实践清单</div><div class="daily-goal">✅ 输出 ≥10 条检查清单</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">Phase 1 复盘</div><div class="daily-goal">✅ 准备进入 Phase 2</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 休息或预习 Chatflow</div>
+              </div>
+              <div class="deliverable-box">
+                <h4>✅ 阶段交付物</h4>
+                <div class="checkbox-item"><div class="checkbox"></div><span>产品文档 Q&A 知识库（对比 ≥3 种检索策略）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>"文档问答机器人"完整项目</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>RAG 优化最佳实践检查清单</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== Phase 2 ==================== -->
+      <div class="phase-block phase-2">
+        <div class="phase-dot">2</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">CORE</div>
+                <div class="phase-title">Chatflow / Workflow 与 Agent</div>
+                <div class="phase-subtitle">掌握可视化工作流编排和 Agent 构建</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>5 周</strong>（含 1 周缓冲）</div>
+                  <div class="phase-meta-item"><span class="label">节奏</span> 逐步深入</div>
+                </div>
+              </div>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="focus-box">
+                <div class="focus-label">阶段目标</div>
+                <p>掌握 Chatflow/Workflow 编排，能独立搭建带工具的 Agent 应用。</p>
+              </div>
+              <!-- Week 10 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">10</span><span class="week-title">Chatflow 基础</span><span class="week-goal">目标：创建第一个 Chatflow</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🔀</span><div class="daily-content"><div class="daily-topic">Chatflow vs Workflow 区别</div><div class="daily-goal">✅ 能用决策树判断选型</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🧩</span><div class="daily-content"><div class="daily-topic">节点类型总览：LLM / 检索 / 代码 / 条件</div><div class="daily-goal">✅ 体验每个节点配置面板</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔗</span><div class="daily-content"><div class="daily-topic">节点连线与变量传递</div><div class="daily-goal">✅ 实现多节点变量传递</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">LLM 节点配置详解</div><div class="daily-goal">✅ 引用前序节点输出</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">实践："客服升级"Chatflow</div><div class="daily-goal">✅ Chatflow 上线测试</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 浏览官方 Workflow 模板</div>
+              </div>
+              <!-- Week 11 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">11</span><span class="week-title">Workflow 深入</span><span class="week-goal">目标：掌握高级编排</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🌿</span><div class="daily-content"><div class="daily-topic">分支逻辑：IF/ELSE 条件节点</div><div class="daily-goal">✅ 构建带分支的流程</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">循环与迭代节点</div><div class="daily-goal">✅ 实现批量处理</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">💻</span><div class="daily-content"><div class="daily-topic">代码节点：Python/JS 脚本嵌入</div><div class="daily-goal">✅ 插入脚本处理数据</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🌐</span><div class="daily-content"><div class="daily-topic">HTTP 请求节点：对接外部 API</div><div class="daily-goal">✅ 调用外部 API 并处理结果</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🏗️</span><div class="daily-content"><div class="daily-topic">实践："多步骤审批工作流"</div><div class="daily-goal">✅ 完整流程跑通</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 研究 Workflow 设计模式</div>
+              </div>
+              <!-- Week 12 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">12</span><span class="week-title">Agent 与工具集成</span><span class="week-goal">目标：掌握 Agent 构建</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🤖</span><div class="daily-content"><div class="daily-topic">Agent 概念：ReAct 模式、Function Calling</div><div class="daily-goal">✅ 理解推理-行动循环</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">内置工具详解：搜索、计算器、绘图等</div><div class="daily-goal">✅ 逐个测试内置工具</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">📤</span><div class="daily-content"><div class="daily-topic">工具配置：密钥管理、参数设置</div><div class="daily-goal">✅ 启用 ≥3 个内置工具</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">Agent 提示词工程</div><div class="daily-goal">✅ 测试提示词对工具选择影响</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">实践："研究助手 Agent"</div><div class="daily-goal">✅ Agent 独立完成搜索→报告</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 分析 Agent 失败案例</div>
+              </div>
+              <!-- Week 13 (Project) -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">13</span><span class="week-title">综合项目：智能客服 Agent</span><span class="week-goal">目标：完整生产级项目</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📋</span><div class="daily-content"><div class="daily-topic">项目设计：场景 + 架构</div><div class="daily-goal">✅ 完成架构图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🏗️</span><div class="daily-content"><div class="daily-topic">Chatflow 核心流程搭建</div><div class="daily-goal">✅ 检索→意图识别→分支</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">集成 Agent 工具</div><div class="daily-goal">✅ Agent 调用 ≥2 个工具</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">测试 15+ 场景</div><div class="daily-goal">✅ 记录失败模式</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🚀</span><div class="daily-content"><div class="daily-topic">上线 + 文档</div><div class="daily-goal">✅ 架构+流程+踩坑记录</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 收集真实用户反馈</div>
+              </div>
+              <!-- Week 14 Buffer -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">14</span><span class="week-title">缓冲与复盘</span><span class="buffer-badge">缓冲</span><span class="week-goal">目标：巩固知识</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">知识体系整理</div><div class="daily-goal">✅ 三种模式对比表</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">补做未完成练习</div><div class="daily-goal">✅ 所有实操已走通</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">项目迭代优化</div><div class="daily-goal">✅ 至少修复 1 个问题</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📖</span><div class="daily-content"><div class="daily-topic">深入研究高级主题</div><div class="daily-goal">✅ 输出研究笔记</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">Phase 2 复盘</div><div class="daily-goal">✅ 准备进入下一阶段</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 休息或预习 API 知识</div>
+              </div>
+              <div class="deliverable-box">
+                <h4>✅ 阶段交付物</h4>
+                <div class="checkbox-item"><div class="checkbox"></div><span>"研究助手 Agent"：搜索+知识库+报告</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>"智能客服 Agent"完整项目</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>设计模式对比笔记</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== Phase 3 ==================== （前端核心强化）-->
+      <div class="phase-block phase-3">
+        <div class="phase-dot">3</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag"><span class="fe-badge" style="margin:0">⭐ 前端重点</span></div>
+                <div class="phase-title">API 集成与前端深度开发</div>
+                <div class="phase-subtitle">掌握 Dify API、自定义 Widget、前端框架集成，打造极致 LLM 应用体验</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>6 周</strong>（含 1 周缓冲）</div>
+                  <div class="phase-meta-item"><span class="label">节奏</span> 代码密集 · 前端核心</div>
+                </div>
+              </div>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="focus-box">
+                <div class="focus-label">阶段目标（前端开发者重点阶段）</div>
+                <p>作为前端开发者，这是你最擅长的领域。深入掌握 Dify API 全能力、自定义前端组件开发、框架无关的 SDK 设计，以及从零构建一个完整的 Dify 前端应用。</p>
+              </div>
+              <!-- Week 15 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">15</span><span class="week-title">Dify API 核心</span><span class="week-goal">目标：掌握 API 调用</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🔑</span><div class="daily-content"><div class="daily-topic">API 概览：认证、Base URL、版本</div><div class="daily-goal">✅ 生成密钥，完成认证测试</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">💬</span><div class="daily-content"><div class="daily-topic">对话消息 API：发送 + 流式响应</div><div class="daily-goal">✅ 用 curl 实现流式调用</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">💾</span><div class="daily-content"><div class="daily-topic">会话管理 API：增删查</div><div class="daily-goal">✅ 实现完整会话管理</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📤</span><div class="daily-content"><div class="daily-topic">文件上传与消息附件 API</div><div class="daily-goal">✅ 通过 API 上传文件</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">实践：用 Postman/curl 走通全流程</div><div class="daily-goal">✅ 整理 API 调用命令清单</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 阅读 Dify API 完整参考文档</div>
+              </div>
+              <!-- Week 16 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">16</span><span class="week-title">前端 Widget 深度定制</span><span class="week-goal">目标：精通 Chat Widget</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🌐</span><div class="daily-content"><div class="daily-topic">嵌入方式总览：iframe vs JS Widget vs 自定义</div><div class="daily-goal">✅ 用三种方式嵌入同一应用</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🎨</span><div class="daily-content"><div class="daily-topic">JS Widget 深度定制：位置、颜色、语言、按钮样式</div><div class="daily-goal">✅ 定制完全匹配品牌风格的 Widget</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🛠️</span><div class="daily-content"><div class="daily-topic">Widget API：事件监听、打开/关闭控制、消息注入</div><div class="daily-goal">✅ 通过 JS 控制 Widget 行为</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📱</span><div class="daily-content"><div class="daily-topic">响应式适配：移动端 Widget 最佳实践</div><div class="daily-goal">✅ Widget 在手机和电脑上都有好体验</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">实践：将智能客服 Widget 嵌入个人网站</div><div class="daily-goal">✅ 完整定制→嵌入流程</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 阅读 Dify Widget 源码了解原理</div>
+              </div>
+              <!-- Week 17（React/Vue 合并）-->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">17</span><span class="week-title">前端框架集成（React/Vue 通用）</span><span class="fe-badge">前端</span><span class="week-goal">目标：用你熟悉的框架集成 Dify</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">⚛️</span><div class="daily-content"><div class="daily-topic">API 调用层封装：框架无关的 Dify Client 核心</div><div class="daily-goal">✅ 抽离出纯 JS 的 API Client（fetch/axios）</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔌</span><div class="daily-content"><div class="daily-topic">框架适配层：React useDify Hook / Vue useDify Composable</div><div class="daily-goal">✅ 按你选择的框架实现状态绑定</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">💬</span><div class="daily-content"><div class="daily-topic">聊天组件开发：消息列表、输入框、流式文本渲染</div><div class="daily-goal">✅ 可复用的聊天 UI 组件（框架无关设计）</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🧠</span><div class="daily-content"><div class="daily-topic">状态管理：会话状态、加载态、错误处理、重试机制</div><div class="daily-goal">✅ 完整的前端状态管理方案</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">实践：用你选择的框架完成 Dify 集成 Demo</div><div class="daily-goal">✅ 完整的框架集成（React 或 Vue，任选）</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 探索高阶 UI：Markdown 渲染、代码高亮、流式打字效果</div>
+              </div>
+              <!-- Week 18（原 Week 19 内容前移）-->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">18</span><span class="week-title">高级前端集成</span><span class="fe-badge">前端</span><span class="week-goal">目标：掌握高级模式</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🎭</span><div class="daily-content"><div class="daily-topic">多应用聚合：在一个页面嵌入多个 Dify 应用</div><div class="daily-goal">✅ 实现应用之间切换和路由</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔐</span><div class="daily-content"><div class="daily-topic">前端鉴权方案：JWT、Token 管理、API Key 安全</div><div class="daily-goal">✅ 安全的前端鉴权方案</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">📊</span><div class="daily-content"><div class="daily-topic">对话日志与分析的前端展示</div><div class="daily-goal">✅ 用图表展示对话数据和指标</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🔌</span><div class="daily-content"><div class="daily-topic">WebSocket / SSE：实时消息推送最佳实践</div><div class="daily-goal">✅ 理解 Dify 流式响应的底层机制</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🏗️</span><div class="daily-content"><div class="daily-topic">实践：构建 Dify 前端管理面板（应用列表 + 会话管理）</div><div class="daily-goal">✅ 前端管理面板基础框架</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 探索 Dify 开源前端项目</div>
+              </div>
+              <!-- Week 19（新增：前端管理面板实战）-->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">19</span><span class="week-title">前端管理面板实战</span><span class="fe-badge">前端</span><span class="week-goal">目标：完成前端管理面板</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📊</span><div class="daily-content"><div class="daily-topic">数据看板：对话量、Token 消耗、活跃用户图表</div><div class="daily-goal">✅ 接入 Dify 日志 API 展示统计数据</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">📋</span><div class="daily-content"><div class="daily-topic">会话列表：历史会话搜索、筛选、详情查看</div><div class="daily-goal">✅ 会话管理系统完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🏷️</span><div class="daily-content"><div class="daily-topic">标注管理：优质/劣质回复标注与导出</div><div class="daily-goal">✅ 标注功能集成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">⚙️</span><div class="daily-content"><div class="daily-topic">应用设置界面：模型参数、提示词、发布配置</div><div class="daily-goal">✅ 可视化应用设置</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">实践：完整管理面板集成到毕业项目</div><div class="daily-goal">✅ 管理面板与毕业项目打通</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 调研 Dify 开源前端管理项目，借鉴设计</div>
+              </div>
+              <!-- Week 20 Buffer -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">20</span><span class="week-title">缓冲与复盘</span><span class="buffer-badge">缓冲</span><span class="week-goal">目标：巩固前端集成</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">前端集成知识梳理</div><div class="daily-goal">✅ 输出最佳实践清单</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">补做未完成的练习</div><div class="daily-goal">✅ 所有前端练习已走通</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">优化前端框架集成组件</div><div class="daily-goal">✅ 至少改进 1 个组件</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🔬</span><div class="daily-content"><div class="daily-topic">自由探索：选择一个集成场景深入</div><div class="daily-goal">✅ 完成小型 Demo</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">Phase 3 复盘</div><div class="daily-goal">✅ 准备进入下一阶段</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 休息或预习架构知识</div>
+              </div>
+              <div class="deliverable-box">
+                <h4>✅ 阶段交付物（前端开发者核心产出）</h4>
+                <div class="checkbox-item"><div class="checkbox"></div><span>自定义 Chat Widget 嵌入个人网站</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>框架无关的 Dify API Client + 你选择的框架集成 Demo</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>可复用的聊天 UI 组件（React 或 Vue）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>Dify 前端管理面板（数据看板 + 会话管理）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>前端集成最佳实践清单</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== Phase 4 ==================== （精简，去后端部署）-->
+      <div class="phase-block phase-4">
+        <div class="phase-dot">4</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">CONCEPT</div>
+                <div class="phase-title">Dify 架构认知与应用策略</div>
+                <div class="phase-subtitle">理解 Dify 整体架构、安全策略和发布策略（概念层，无需部署操作）</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>3 周</strong>（含 1 周缓冲）</div>
+                  <div class="phase-meta-item"><span class="label">节奏</span> 轻量认知</div>
+                  <div class="phase-meta-item"><span class="buffer-badge">无后端部署</span></div>
+                </div>
+              </div>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="focus-box">
+                <div class="focus-label">阶段目标</div>
+                <p>作为前端开发者，不需要掌握 Docker 部署，但需要理解 Dify 的整体架构、安全模型和发布策略，以便更好地设计前端集成方案。</p>
+              </div>
+              <!-- Week 21 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">21</span><span class="week-title">Dify 架构与设计理念</span><span class="week-goal">目标：理解架构原理</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🏛️</span><div class="daily-content"><div class="daily-topic">Dify 整体架构概览：前端、API、Worker、DB 角色</div><div class="daily-goal">✅ 画出 Dify 架构简图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔀</span><div class="daily-content"><div class="daily-topic">Dify Cloud vs 社区版：功能差异、选型建议</div><div class="daily-goal">✅ 了解两者差异，知道自己该用哪个</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">📡</span><div class="daily-content"><div class="daily-topic">API 与前端交互流程详解</div><div class="daily-goal">✅ 理解请求→处理→响应的完整链路</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🔌</span><div class="daily-content"><div class="daily-topic">Plugin 与扩展机制：如何扩展 Dify 能力</div><div class="daily-goal">✅ 了解插件架构，找到前端可扩展的点</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🗺️</span><div class="daily-content"><div class="daily-topic">Dify 生态全景：社区、Marketplace、企业版</div><div class="daily-goal">✅ 建立 Dify 生态认知</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 浏览 Dify GitHub 源码结构</div>
+              </div>
+              <!-- Week 22 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">22</span><span class="week-title">安全策略与成本意识</span><span class="week-goal">目标：安全与成本认知</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🔒</span><div class="daily-content"><div class="daily-topic">API 密钥管理最佳实践（前端侧）</div><div class="daily-goal">✅ 掌握前端安全的 API 调用方式</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🚦</span><div class="daily-content"><div class="daily-topic">限流策略：用户级、应用级、API 级</div><div class="daily-goal">✅ 了解限流并在前端做好用户体验</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">💰</span><div class="daily-content"><div class="daily-topic">Token 消耗与成本核算概念</div><div class="daily-goal">✅ 能估算一个对话的 Token 成本</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">👥</span><div class="daily-content"><div class="daily-topic">多租户与团队协作权限模型</div><div class="daily-goal">✅ 了解工作空间和权限模型</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">📋</span><div class="daily-content"><div class="daily-topic">实践：为你的应用制定安全与成本方案</div><div class="daily-goal">✅ 输出安全与成本检查清单</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 研究 Dify 企业版的安全特性</div>
+              </div>
+              <!-- Week 23 Buffer -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">23</span><span class="week-title">缓冲与复盘</span><span class="buffer-badge">缓冲</span><span class="week-goal">目标：巩固认知</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">架构认知梳理</div><div class="daily-goal">✅ 输出架构脑图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">补做未完成的练习</div><div class="daily-goal">✅ 所有内容复习完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔬</span><div class="daily-content"><div class="daily-topic">深度研究一个感兴趣的话题</div><div class="daily-goal">✅ 输出研究笔记</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📖</span><div class="daily-content"><div class="daily-topic">回顾前四阶段全部知识</div><div class="daily-goal">✅ 查漏补缺</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎯</span><div class="daily-content"><div class="daily-topic">Phase 4 复盘</div><div class="daily-goal">✅ 准备进入最终阶段</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 休息或为毕业项目做准备</div>
+              </div>
+              <div class="deliverable-box">
+                <h4>✅ 阶段交付物</h4>
+                <div class="checkbox-item"><div class="checkbox"></div><span>Dify 架构理解笔记 + 架构简图</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>安全与成本检查清单</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== Phase 5 ==================== -->
+      <div class="phase-block phase-5">
+        <div class="phase-dot">5</div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="collapsible-header" onclick="togglePhase(this)">
+              <div>
+                <div class="phase-tag">CAPSTONE</div>
+                <div class="phase-title">毕业项目：全栈 LLM 前端应用</div>
+                <div class="phase-subtitle">综合运用所有知识，构建一个完整的 LLM 前端应用产品</div>
+                <div class="phase-meta-row">
+                  <div class="phase-meta-item"><span class="label">时长</span> <strong>5 周</strong>（含 1 周缓冲）</div>
+                  <div class="phase-meta-item"><span class="label">节奏</span> 项目驱动 · 前端为主</div>
+                </div>
+              </div>
+              <span class="toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="collapsible-body open">
+            <div class="phase-body">
+              <div class="focus-box">
+                <div class="focus-label">阶段目标</div>
+                <p>从零开始，用 React/Vue + Dify API 构建一个完整的 LLM 前端应用，包含知识库问答、Agent 交互、自定义 UI 等能力。</p>
+              </div>
+              <!-- Week 24 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">24</span><span class="week-title">项目规划与设计</span><span class="week-goal">目标：完成设计方案</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">💡</span><div class="daily-content"><div class="daily-topic">头脑风暴：选题方向（推荐选题见下方）</div><div class="daily-goal">✅ 确定项目选题</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">📋</span><div class="daily-content"><div class="daily-topic">功能需求 + 用户故事</div><div class="daily-goal">✅ 输出需求文档</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🏗️</span><div class="daily-content"><div class="daily-topic">技术架构：前端框架 + Dify 配置 + API 设计</div><div class="daily-goal">✅ 完成架构图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📐</span><div class="daily-content"><div class="daily-topic">UI 原型设计</div><div class="daily-goal">✅ 画出页面原型 + 交互流程</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">📅</span><div class="daily-content"><div class="daily-topic">任务拆分 + 开发计划</div><div class="daily-goal">✅ 输出开发任务清单</div></div></div>
+                </div>
+                <div class="week-optional">
+                  <strong>🧘 周末弹性：</strong> 推荐选题方向：① AI 知识库文档助手 ② 智能周报生成器 ③ 个人 AI 学习助手 ④ 客服工单管理系统
+                </div>
+              </div>
+              <!-- Week 25 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">25</span><span class="week-title">Sprint 1：基础设施</span><span class="week-goal">目标：基础搭建</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">⚛️</span><div class="daily-content"><div class="daily-topic">前端项目初始化 + Dify 连接</div><div class="daily-goal">✅ 项目骨架搭建完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">📚</span><div class="daily-content"><div class="daily-topic">Dify 知识库 + Workflow 搭建</div><div class="daily-goal">✅ Dify 后端准备就绪</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔗</span><div class="daily-content"><div class="daily-topic">API 集成层：封装 Dify API 调用</div><div class="daily-goal">✅ API 调用函数完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🎨</span><div class="daily-content"><div class="daily-topic">UI 基础组件开发</div><div class="daily-goal">✅ 核心 UI 组件完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">核心交互流程联调</div><div class="daily-goal">✅ 用户→前端→Dify 链路跑通</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 代码重构、优化组件结构</div>
+              </div>
+              <!-- Week 26 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">26</span><span class="week-title">Sprint 2：核心功能</span><span class="week-goal">目标：功能完善</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">💬</span><div class="daily-content"><div class="daily-topic">对话功能：消息列表、流式渲染、Markdown 展示</div><div class="daily-goal">✅ 流畅的对话体验</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🤖</span><div class="daily-content"><div class="daily-topic">Agent 交互：工具调用可视化、中间步骤展示</div><div class="daily-goal">✅ Agent 思考过程在前端可视化</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔍</span><div class="daily-content"><div class="daily-topic">知识库搜索：搜索结果展示、引用高亮</div><div class="daily-goal">✅ 知识库回答带引用标注</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">👤</span><div class="daily-content"><div class="daily-topic">用户系统：会话管理、历史记录</div><div class="daily-goal">✅ 会话历史可回溯</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🧪</span><div class="daily-content"><div class="daily-topic">功能测试 + Bug 修复</div><div class="daily-goal">✅ 核心功能稳定可用</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 用户体验打磨、动画效果</div>
+              </div>
+              <!-- Week 27 -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">27</span><span class="week-title">上线发布与展示</span><span class="week-goal">目标：项目上线</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">⚡</span><div class="daily-content"><div class="daily-topic">性能优化：首屏加载、流式渲染、缓存策略</div><div class="daily-goal">✅ 性能指标达标</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">🔒</span><div class="daily-content"><div class="daily-topic">安全检查：密钥管理、XSS 防护、CORS</div><div class="daily-goal">✅ 安全审查通过</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🚀</span><div class="daily-content"><div class="daily-topic">部署上线（Vercel/Netlify/GitHub Pages）</div><div class="daily-goal">✅ 前端应用正式上线</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">项目文档 + README + 技术博客</div><div class="daily-goal">✅ 完整项目文档</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎉</span><div class="daily-content"><div class="daily-topic">项目展示 + 全路线总结</div><div class="daily-goal">✅ 回顾学习旅程，规划未来</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 将项目分享到技术社区</div>
+              </div>
+              <!-- Week 28 Buffer -->
+              <div class="week-block">
+                <div class="week-label"><span class="week-number">28</span><span class="week-title">结业缓冲 + 未来方向</span><span class="buffer-badge">缓冲</span><span class="week-goal">目标：完美收官</span></div>
+                <div class="daily-grid">
+                  <div class="daily-item"><span class="daily-day">周一</span><span class="daily-icon">🔄</span><div class="daily-content"><div class="daily-topic">补做未完成的功能</div><div class="daily-goal">✅ 所有计划功能完成</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周二</span><span class="daily-icon">📝</span><div class="daily-content"><div class="daily-topic">全阶段知识总复习</div><div class="daily-goal">✅ 输出完整 Dify 脑图</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周三</span><span class="daily-icon">🔧</span><div class="daily-content"><div class="daily-topic">项目打磨完善</div><div class="daily-goal">✅ 项目达到展示状态</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周四</span><span class="daily-icon">🗺️</span><div class="daily-content"><div class="daily-topic">未来学习方向规划</div><div class="daily-goal">✅ 制定后续成长计划</div></div></div>
+                  <div class="daily-item"><span class="daily-day">周五</span><span class="daily-icon">🎓</span><div class="daily-content"><div class="daily-topic">🎉 结业！</div><div class="daily-goal">✅ 庆祝完成全部学习路线</div></div></div>
+                </div>
+                <div class="week-optional"><strong>🧘 周末弹性：</strong> 好好庆祝！为下一段旅程充电</div>
+              </div>
+              <div class="deliverable-box">
+                <h4>✅ 阶段交付物</h4>
+                <div class="checkbox-item"><div class="checkbox"></div><span>完整的 LLM 前端应用（React/Vue + Dify）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>项目文档（架构图 + 使用说明 + 技术博客）</span></div>
+                <div class="checkbox-item"><div class="checkbox"></div><span>完整 Dify 知识体系脑图 + 后续学习计划</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section">
+    <div class="section-label">时间线总览</div>
+    <h2 class="section-title">关键数字</h2>
+    <p class="section-desc">基于前端开发者背景定制 · 工作日 ~1.5h/天 · 周末弹性</p>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-number">28</div><div class="stat-label">总周数</div></div>
+      <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">学习阶段</div></div>
+      <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">缓冲周</div></div>
+      <div class="stat-card"><div class="stat-number">~250</div><div class="stat-label">总投入小时</div></div>
+      <div class="stat-card"><div class="stat-number">4+</div><div class="stat-label">实践项目</div></div>
+    </div>
+
+    <div style="margin-top: 40px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;">
+      <h3 style="margin-bottom: 16px;">📅 前端开发者时间分配说明</h3>
+      <div style="display: grid; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 14px; color: var(--accent-blue); font-weight: 600; width: 100px;">工作日</span>
+          <div style="flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+            <div style="width: 47%; height: 100%; background: var(--accent-blue); border-radius: 4px;"></div>
+          </div>
+          <span style="font-size: 13px; color: var(--text-secondary);">~1.5h/天 × 5 天 = 7.5h</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 14px; color: var(--accent-orange); font-weight: 600; width: 100px;">周末</span>
+          <div style="flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+            <div style="width: 17%; height: 100%; background: var(--accent-orange); border-radius: 4px;"></div>
+          </div>
+          <span style="font-size: 13px; color: var(--text-secondary);">~0-4h 弹性（可能完全没空）</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 14px; color: var(--accent-green); font-weight: 600; width: 100px;">前端强化</span>
+          <div style="flex: 1; font-size: 13px; color: var(--text-secondary);">Phase 3 是前端重点（6 周）：React/Vue 集成、Widget 深度定制、前端 SDK</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 14px; color: var(--accent-purple); font-weight: 600; width: 100px;">无后端</span>
+          <div style="flex: 1; font-size: 13px; color: var(--text-secondary);">Phase 4 仅概念层学习，无 Docker/服务器/运维操作</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-card">
+      <h3>开始你的 Dify 学习之旅</h3>
+      <p>今天花 30 分钟注册 Dify Cloud，完成你的第一个 AI 对话应用。<br>作为前端开发者，你将发现 Dify 是你构建 AI 应用的最佳后端伙伴。</p>
+      <a href="https://cloud.dify.ai" target="_blank" class="cta-action">开始使用 Dify →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>前端开发者定制版 · 基于 <a href="https://github.com/langgenius/dify" target="_blank">Dify</a> 生态系统 · 生成日期 2026-05-31</p>
+    <p style="margin-top: 8px;">28 周（22 周学习 + 6 周缓冲）· 工作日 ~1.5h/天 · 周末弹性 · 无后端部署</p>
+    <p style="margin-top: 8px;">参照 <a href="/roadmaps/agent-roadmap-2026.html">🤖 Agent 工程学习路线 2026</a> 模板设计</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.phase-block').forEach(block => observer.observe(block));
+    function togglePhase(header) {
+      header.classList.toggle('open');
+      header.closest('.phase-card').querySelector('.collapsible-body').classList.toggle('open');
+    }
+    document.querySelector('.scroll-hint')?.addEventListener('click', () => {
+      document.querySelector('.profile-section')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
