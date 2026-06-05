@@ -31,7 +31,7 @@ Camera Vision 采用 **Tab 工具箱模式**，每个 Tab 对应独立 PRD：
 |-----|------|---------|--------|------|------|
 | Tab 1 | 边框水印 | [PRD-Tab1-FrameWatermark.md](PRD-Tab1-FrameWatermark.md) | P0 | konva, react-konva, exifr | Web UI + CLI 工具 |
 | Tab 2 | EXIF 分析 | [PRD-Tab2-ExifAnalyzer.md](PRD-Tab2-ExifAnalyzer.md) | P1 | exifr | Web UI |
-| Tab 3 | 裁切预览 | [PRD-Tab3-CropPreview.md](PRD-Tab3-CropPreview.md) | P1 | — | Web UI |
+| Tab 3 | 拍摄方案 | [PRD-Tab3-ShootingPlan.md](PRD-Tab3-ShootingPlan.md) | P1 | — | Web UI |
 | Tab 4 | 拍摄计算器 | [PRD-Tab4-PhotoCalculator.md](PRD-Tab4-PhotoCalculator.md) | P1 | suncalc | Web UI |
 
 ## 四、页面布局
@@ -40,7 +40,7 @@ Camera Vision 采用 **Tab 工具箱模式**，每个 Tab 对应独立 PRD：
 ┌──────────────────────────────────────────────────────────────┐
 │  Header (fixed)  [Camera Vision]               [← Back Home] │
 ├──────────────────────────────────────────────────────────────┤
-│  [边框水印]  [EXIF 分析]  [裁切预览]  [拍摄计算器]            │
+│  [边框水印]  [EXIF 分析]  [拍摄方案]  [拍摄计算器]            │
 ├──────────────────────────────────────────────────────────────┤
 │              当前 Tab 对应的功能区（每个 Tab 独立布局）         │
 ├──────────────────────────────────────────────────────────────┤
@@ -118,22 +118,9 @@ Home.tsx 替换 placeholder 卡片：
 ## 七、跨 Tab 联动
 
 ```
-Tab 4 (计算器) ── 计算好拍摄参数
-      │
-      ▼
-    实际拍摄
-      │
-      ▼
-Tab 2 (EXIF 分析) ── 确认参数和曝光
-      │
-      ▼
-Tab 1 (边框水印) ── 添加水印美化
-      │
-      ▼
-Tab 3 (裁切预览) ── 适配社交平台
-      │
-      ▼
-    分享发布
+Tab 4 (计算器) ──→ Tab 3 (拍摄方案) ──→ 实际拍摄 ──→ Tab 2 (EXIF 分析) ──→ Tab 1 (边框水印)
+                      ↑                           ↑
+                拍摄前找灵感                  拍完复盘参考
 ```
 
 **摄影集联动**：PhotoGallery lightbox 增加「Camera Vision 编辑」入口，通过路由 state 传递照片 URL + EXIF。
@@ -148,7 +135,7 @@ src/
 │   └── cameravision/
 │       ├── FrameWatermark/             # Tab 1（见 Tab1 PRD）
 │       ├── ExifAnalyzer/              # Tab 2（见 Tab2 PRD）
-│       ├── CropPreview/               # Tab 3（见 Tab3 PRD）
+│       ├── ShootingPlan/               # Tab 3（见 Tab3 PRD）
 │       ├── PhotoCalculator/           # Tab 4（见 Tab4 PRD）
 │       └── shared/
 │           ├── ImageImporter.tsx       # 照片导入 + 拖拽上传

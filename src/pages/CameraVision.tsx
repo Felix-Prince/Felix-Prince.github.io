@@ -6,10 +6,14 @@ const ExifAnalyzer = lazy(() =>
   import('../components/cameravision/ExifAnalyzer/ExifAnalyzer').then((m) => ({ default: m.ExifAnalyzer }))
 );
 
+const ShootingPlan = lazy(() =>
+  import('../components/cameravision/ShootingPlan/ShootingPlan').then((m) => ({ default: m.ShootingPlan }))
+);
+
 const TABS = [
   { id: 'frame-watermark', label: '边框水印' },
   { id: 'exif-analyzer', label: 'EXIF 分析' },
-  { id: 'crop-preview', label: '裁切预览' },
+  { id: 'shooting-plan', label: '拍摄方案' },
   { id: 'photo-calculator', label: '拍摄计算器' },
 ];
 
@@ -29,8 +33,17 @@ function LazyFallback() {
   );
 }
 
+const STORAGE_KEY = 'cameravision-active-tab';
+
 export default function CameraVision() {
-  const [activeTab, setActiveTab] = useState('frame-watermark');
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem(STORAGE_KEY) || 'frame-watermark';
+  });
+
+  const handleTabChange = useCallback((id: string) => {
+    setActiveTab(id);
+    localStorage.setItem(STORAGE_KEY, id);
+  }, []);
 
   const renderTab = useCallback(() => {
     switch (activeTab) {
@@ -40,6 +53,12 @@ export default function CameraVision() {
         return (
           <Suspense fallback={<LazyFallback />}>
             <ExifAnalyzer />
+          </Suspense>
+        );
+      case 'shooting-plan':
+        return (
+          <Suspense fallback={<LazyFallback />}>
+            <ShootingPlan />
           </Suspense>
         );
       default:
@@ -95,7 +114,7 @@ export default function CameraVision() {
         </a>
       </header>
 
-      <TabBar tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+      <TabBar tabs={TABS} activeTab={activeTab} onTabChange={handleTabChange} />
 
       <main style={{ flex: 1, padding: '16px' }}>
         {renderTab()}
